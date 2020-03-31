@@ -97,9 +97,7 @@ def buildCargoGraph(year):
 
 	if df.empty == False:
 		df_cargos = df.groupby('date').cargo.value_counts().unstack().fillna(0)
-
-	
-
+		
 		columns = df_cargos.columns
 		labels = columns.values.tolist()
 
@@ -127,33 +125,10 @@ def buildCargoGraph(year):
 	response.mimetype = 'image/png'
 	return response
 
-@app.route('/plot/cargo/1914')
-def plot_cargo1914():
-	return buildCargoGraph(1914)
+@app.route('/plot/cargo/<year>')
+def plot_cargo(year):
+	return buildCargoGraph(year)
 	
-@app.route('/plot/cargo/1915')
-def plot_cargo1915():
-	return buildCargoGraph(1915)
-
-@app.route('/plot/cargo/1916')
-def plot_cargo1916():
-	return buildCargoGraph(1916)
-
-@app.route('/plot/cargo/1917')
-def plot_cargo1917():
-	return buildCargoGraph(1917)
-
-@app.route('/plot/cargo/1918')
-def plot_cargo1918():
-	return buildCargoGraph(1918)
-
-@app.route('/plot/cargo/1919')
-def plot_cargo1919():
-	return buildCargoGraph(1919)
-
-@app.route('/plot/cargo/1920')
-def plot_cargo1920():
-	return buildCargoGraph(1920)
 
 if __name__ == '__main__':
 	config = configparser.ConfigParser()
