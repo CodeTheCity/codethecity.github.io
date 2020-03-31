@@ -19,6 +19,11 @@ app = Flask(__name__)
 dbname = 'harbour.db'
 db = database_driver.database(dbname)
 
+def getRecordCount():
+	rows = db.select('SELECT COUNT(date) FROM arrivals')
+	return rows[0][0]
+
+
 def getCargoData():
 	rows = db.select('SELECT DISTINCT cargo FROM arrivals ORDER BY cargo')
 	data = []
@@ -29,6 +34,14 @@ def getCargoData():
 
 def getVesselsData():
 	rows = db.select('SELECT DISTINCT vessel FROM arrivals ORDER BY vessel')
+	data = []
+	for row in rows:
+		data.append(row[0])
+
+	return data
+
+def getMastersData():
+	rows = db.select('SELECT DISTINCT master FROM arrivals ORDER BY master')
 	data = []
 	for row in rows:
 		data.append(row[0])
@@ -55,10 +68,13 @@ def getFromPortsData():
 # main route
 def index():
 
+	records_count = 0
 	cargo = []
 	vessels = []
 	registered_ports = []
 	from_ports = []
+	records_count = getRecordCount()
+
 	try:
 		cargo = getCargoData()
 	except Exception as e:
@@ -66,6 +82,11 @@ def index():
 
 	try:
 		vessels = getVesselsData()
+	except Exception as e:
+		print(e)
+
+	try:
+		masters = getMastersData()
 	except Exception as e:
 		print(e)
 
@@ -80,8 +101,10 @@ def index():
 		print(e)
 
 	templateData = {
+		'records_count' : records_count,
 		'cargo' : cargo,
 		'vessels' : vessels,
+		'masters' : masters,
 		'registered_ports' : registered_ports,
 		'from_ports' : from_ports
 	}
@@ -97,7 +120,7 @@ def buildCargoGraph(year):
 
 	if df.empty == False:
 		df_cargos = df.groupby('date').cargo.value_counts().unstack().fillna(0)
-		
+
 		columns = df_cargos.columns
 		labels = columns.values.tolist()
 
@@ -130,11 +153,45 @@ def plot_cargo(year):
 	return buildCargoGraph(year)
 	
 
+@app.route('/api/v1.0/arrivals.csv')
+def csv_get_arrivals():
+	con = db.create_connection()
+	df = pd.read_sql_query('SELECT * FROM arrivals ORDER BY date', con, parse_dates=['date'], index_col=['date'])
+	con.close()
+
+	response = make_response(df.to_csv())
+	response.headers["Content-Disposition"] = "attachment; filename=arrivals.csv"
+	response.headers["Content-Type"] = "text/csv"
+	return response
+
+@app.route('/api/v1.0/arrivals')
+def api_get_arrivals():
+	con = db.create_connection()
+	df = pd.read_sql_query('SELECT * FROM arrivals ORDER BY date', con, parse_dates=['date'], index_col=['date'])
+	con.close()
+
+	response = make_response(df.to_json(orient='table', index=False))
+	#response.headers["Content-Disposition"] = "attachment; filename=arrivals.json"
+	response.headers["Content-Type"] = "application/json"
+	return response
+
+@app.route('/api/v1.0/cargo')
+def api_get_cargo():
+	con = db.create_connection()
+	df = pd.read_sql_query('SELECT DISTINCT cargo FROM arrivals ORDER BY cargo', con)
+	con.close()
+
+	response = make_response(df.to_json(orient='table', index=False))
+	#response.headers["Content-Disposition"] = "attachment; filename=cargo.json"
+	response.headers["Content-Type"] = "application/json"
+	return response
+
 if __name__ == '__main__':
 	config = configparser.ConfigParser()
 
 	if not os.path.exists('config.ini'):
 		config['server'] = {'port': '80'}
 		config.write(open('config.ini', 'w'))
+
 	config.read('config.ini')
-	app.run(debug=False, port=config['server']['port'], host='0.0.0.0')
+	app.run(debug=True, port=config['server']['port'], host='0.0.0.0')

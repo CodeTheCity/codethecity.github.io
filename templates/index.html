@@ -5,19 +5,37 @@
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
 	<body>
-		<h1>Dashboard</h1>
-		<p>This is very much a work in progress playground for extracting and presenting the historical vessel arrival information.</p>
-		
-		<h2>Cargo</h2>
+		<h1>Harbour Arrival History Dashboard</h1>
+		<p>This dashboard is part of the <a href="https://codethecity.org/what-we-do/hack-weekends/code-the-city-19-history-data-innovation/" class="button">CodeTheCity 19: History + Date = Innovation</a> event.</p>
+
+		<p>This is very much a work in progress playground for extracting and presenting the historical vessel arrival information. The source code for this dashboard is available on <a href="https://github.com/CodeTheCity/historical_harbour_arrivals_api" class="button">GitHub</a>.</p>
+
+		<h2>{{ records_count }} records have been transcribed at the time of the most recent export</h2>
+
+		<p>
+    	<a href="/api/v1.0/arrivals.csv" class="button">Download all data as CSV</a>
+    </p>
+
+    <p>
+    	<a href="/api/v1.0/arrivals" class="button">Download all data as JSON</a>
+    </p>
+
+		<h2>Cargo ({{ cargo|length }} unique)</h2>
+		<p>
+    	<a href="/api/v1.0/cargo" class="button">Download cargo list as JSON</a>
+    </p>
 		{{ cargo|join(', ') }}
 
-		<h2>Vessels</h2>
+		<h2>Vessels ({{ vessels|length }} unique)</h2>
 		{{ vessels|join(', ') }}
 
-		<h2>Registered Ports</h2>
+		<h2>Masters ({{ masters|length }} unique)</h2>
+		{{ masters|join(', ') }}
+
+		<h2>Registered Ports ({{ registered_ports|length }} unique)</h2>
 		{{ registered_ports|join(', ') }}
 
-		<h2>From Ports</h2>
+		<h2>From Ports ({{ from_ports|length }} unique)</h2>
 		{{ from_ports|join(', ') }}
 
 
