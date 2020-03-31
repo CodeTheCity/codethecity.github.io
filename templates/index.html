@@ -5,6 +5,7 @@
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
 	<body>
+		<a href="/weather" class="button">Weather</a>
 		<h1>Harbour Arrival History Dashboard</h1>
 		<p>This dashboard is part of the <a href="https://codethecity.org/what-we-do/hack-weekends/code-the-city-19-history-data-innovation/" class="button">CodeTheCity 19: History + Date = Innovation</a> event.</p>
 
@@ -37,7 +38,6 @@
 
 		<h2>From Ports ({{ from_ports|length }} unique)</h2>
 		{{ from_ports|join(', ') }}
-
 
 		<h2>Cargo Arrivals</h2>
 		<img src="/plot/cargo/1914" alt="Image Placeholder">

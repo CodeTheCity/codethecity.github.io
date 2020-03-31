@@ -64,6 +64,11 @@ def getFromPortsData():
 
 	return data
 
+def getWeatherData():
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, weather FROM arrivals WHERE weather != "?" ORDER BY date')
+
+	return rows
+
 @app.route('/')
 # main route
 def index():
@@ -74,6 +79,7 @@ def index():
 	registered_ports = []
 	from_ports = []
 	records_count = getRecordCount()
+	weather = []
 
 	try:
 		cargo = getCargoData()
@@ -100,15 +106,29 @@ def index():
 	except Exception as e:
 		print(e)
 
+	weather = getWeatherData()
+
 	templateData = {
 		'records_count' : records_count,
 		'cargo' : cargo,
 		'vessels' : vessels,
 		'masters' : masters,
 		'registered_ports' : registered_ports,
-		'from_ports' : from_ports
+		'from_ports' : from_ports,
+		'weather' : weather
 	}
 	return render_template('index.html', **templateData)
+
+@app.route('/weather')
+def weather():
+
+	weather = []
+	weather = getWeatherData()
+
+	templateData = {
+		'weather' : weather
+	}
+	return render_template('weather.html', **templateData)
 
 def buildCargoGraph(year):
 	con = db.create_connection()
