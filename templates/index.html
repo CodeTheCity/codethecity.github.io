@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+	<head>
+			<title>Harbour Arrival History Dashboard</title>
+			<link rel="stylesheet" href="../static/style.css/">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<h1>Dashboard</h1>
+		<h2>Cargo</h2>
+		{{ cargo|join(', ') }}
+
+		<h2>Vessels</h2>
+		{{ vessels|join(', ') }}
+
+		<h2>Registered Ports</h2>
+		{{ registered_ports|join(', ') }}
+
+		<h2>From Ports</h2>
+		{{ from_ports|join(', ') }}
+	</body>
+</html>
