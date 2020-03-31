@@ -130,6 +130,10 @@ def weather():
 	}
 	return render_template('weather.html', **templateData)
 
+@app.route('/graphs_cargo')
+def graphs_cargo():
+	return render_template('graphs_cargo.html')
+
 def buildCargoGraph(year):
 	con = db.create_connection()
 	df = pd.read_sql_query('SELECT date, cargo FROM arrivals WHERE strftime(\'%Y\', date) = "{}" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
@@ -199,6 +203,17 @@ def api_get_arrivals():
 def api_get_cargo():
 	con = db.create_connection()
 	df = pd.read_sql_query('SELECT DISTINCT cargo FROM arrivals ORDER BY cargo', con)
+	con.close()
+
+	response = make_response(df.to_json(orient='table', index=False))
+	#response.headers["Content-Disposition"] = "attachment; filename=cargo.json"
+	response.headers["Content-Type"] = "application/json"
+	return response
+
+@app.route('/api/v1.0/weather')
+def api_get_weather():
+	con = db.create_connection()
+	df = pd.read_sql_query('SELECT date, weather FROM arrivals ORDER BY date', con)
 	con.close()
 
 	response = make_response(df.to_json(orient='table', index=False))
