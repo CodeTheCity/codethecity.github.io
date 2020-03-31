@@ -11,11 +11,16 @@ The dashboard currently contains a list of unqiue values for the following field
 * Registered Port
 * From Port
 
+There are separate pages for the following:
+
+* List of weather events ordered by date
+* Graphs showing the number of each cargo type per day. There is a graph for each year.
+
 There is also an API for downloading all the data as CSV or JSON. Also for downloading JSON of the following:
 
 * List of unique cargo entries
+* All weather entries
 
-It also includes a set of graphs showing the number of each cargo type for each day. There is a graph for each year.
 
 # Installation
 
