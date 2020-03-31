@@ -85,4 +85,10 @@ def index():
 	return render_template('index.html', **templateData)
 
 if __name__ == '__main__':
-	app.run(debug=True, port=81, host='0.0.0.0')
+	config = configparser.ConfigParser()
+
+	if not os.path.exists('config.ini'):
+		config['server'] = {'port': '80'}
+		config.write(open('config.ini', 'w'))
+	config.read('config.ini')
+	app.run(debug=True, port=config['server']['port'], host='0.0.0.0')
