@@ -19,17 +19,12 @@ if __name__ == '__main__':
 
 		df = df.rename(columns = {'Date of Arrival (dd-mmm-yyyy)':'date', 'Number':'number', 'Ship\'s Name':'vessel', 'Of What Port':'registered_port', 'Master':'master', 'Registered Tonnage':'registered_tonnage','Port From Whence':'from_port','Cargo':'cargo', 'Wind and Weather':'weather','Other Notes':'notes', 'Transcriber Notes':'transcriber_notes', 'Transcribed by':'transcriber', 'Checked by':'checker', 'Queries':'transcriber_queries'})
 
-		# Fix missing data issues
-		df['cargo'] = df['cargo'].fillna("?")
-		df['registered_port'] = df['registered_port'].fillna('?')
-		df['from_port'] = df['from_port'].fillna('?')
-		df["vessel"] = df["vessel"].fillna('?')
-		df["weather"] = df["weather"].fillna('?')
-		df["notes"] = df["notes"].fillna('?')
-		df["transcriber_notes"] = df["transcriber_notes"].fillna('?')
-		df["transcriber"] = df["transcriber"].fillna('?')
-		df["checker"] = df["checker"].fillna('?')
-		df["transcriber_queries"] = df["transcriber_queries"].fillna('?')
+		# Fix missing data issues and clean out whitespace
+		columns = ['cargo', 'registered_port', 'from_port', 'vessel', 'weather', 'notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
+
+		for column in columns:
+			df[column] = df[column].fillna("?").str.strip()
+
 
 		# Write to database
 		con = db.create_connection()
