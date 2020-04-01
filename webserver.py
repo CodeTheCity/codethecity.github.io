@@ -78,6 +78,22 @@ def getNotesData():
 
 	return rows
 
+def getTranscribersData():
+	rows = db.select('SELECT DISTINCT transcriber FROM arrivals ORDER BY transcriber')
+	data = []
+	for row in rows:
+		data.append(row[0])
+
+	return data
+
+def getCheckersData():
+	rows = db.select('SELECT DISTINCT checker FROM arrivals ORDER BY checker')
+	data = []
+	for row in rows:
+		data.append(row[0])
+
+	return data
+
 def getEntriesForVessel(vessel):
 	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE vessel LIKE :vessel ORDER BY date', {"vessel":'%'+vessel+'%'})
 
@@ -152,6 +168,30 @@ def index():
 		'from_ports' : from_ports
 	}
 	return render_template('index.html', **templateData)
+
+
+@app.route('/thanks')
+def thanks():
+	transcribers = []
+
+	try:
+		transcribers = getTranscribersData()
+	except Exception as e:
+		print(e)
+
+	checkers = []
+
+	try:
+		checkers = getCheckersData()
+	except Exception as e:
+		print(e)
+
+
+	templateData = {
+		'transcribers' : transcribers,
+		'checkers' : checkers
+	}
+	return render_template('thanks.html', **templateData)
 
 @app.route('/vessels')
 def vessels():

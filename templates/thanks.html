@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+	<head>
+			<title>Harbour Arrival History Thanks</title>
+			<link rel="stylesheet" href="../static/style.css/">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		{% include 'navigation.html' %}
+		<h1>Thank You</h1>
+
+		<p>A big thank you to the following people who have transcribed and checked the records:</p>
+		
+		<h2>Transcribers</h2>
+		<ul>
+		{% for person in transcribers %}
+			<li>{{ person }}</li>
+		{% endfor %}
+		</ul>
+
+		<h2>Checkers</h2>
+		<ul>
+		{% for person in checkers %}
+			<li>{{ person }}</li>
+		{% endfor %}
+		</ul>
+	</body>
+</html>
