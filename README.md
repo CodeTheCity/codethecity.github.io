@@ -3,16 +3,16 @@ This is a self contained web server that provides an API and dashboard for histo
 
 # Features
 
-The dashboard currently contains a list of unqiue values for the following fields:
-
-* Cargo
-* Vessel
-* Master
-* Registered Port
-* From Port
+The dashboard currently contains an indication of number of records transcribed and the last time the data was imported from the transcription spreadsheet.
 
 There are separate pages for the following:
 
+* List of entries for each year
+* List of unique vessel entries
+* List of unique register port entries
+* List of unique master entries
+* List of unique ports of origin entries
+* List of unique cargo entries
 * List of weather events ordered by date
 * Graphs showing the number of each cargo type per day. There is a graph for each year.
 
@@ -21,7 +21,6 @@ There is also an API for downloading all the data as CSV or JSON. Also for downl
 * List of unique cargo entries
 * All weather entries
 * All note entries
-
 
 # Installation
 
