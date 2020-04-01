@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import pandas as pd
 import database_driver
-from time import sleep
+import time
 
 dbname = 'harbour.db'
 db = database_driver.database(dbname)
