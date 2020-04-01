@@ -84,6 +84,11 @@ def getEntriesForMaster(master):
 
 	return rows
 
+def getEntriesForCargo(cargo):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE cargo LIKE :cargo ORDER BY date', {"cargo":'%'+cargo+'%'})
+
+	return rows
+
 @app.route('/')
 # main route
 def index():
@@ -161,6 +166,21 @@ def masters():
 	}
 	return render_template('masters.html', **templateData)
 
+@app.route('/cargos')
+def cargos():
+	cargos = []
+
+	try:
+		cargos = getCargoData()
+	except Exception as e:
+		print(e)
+
+
+	templateData = {
+		'cargos' : cargos
+	}
+	return render_template('cargos.html', **templateData)
+
 @app.route('/weather')
 def weather():
 
@@ -202,6 +222,17 @@ def master(master):
 	templateData = {
 		'entries' : entries,
 		'master' : master
+	}
+	return render_template('master.html', **templateData)
+	
+@app.route('/cargo/<cargo>')
+def cargo(cargo):
+
+	entries = getEntriesForCargo(cargo)
+
+	templateData = {
+		'entries' : entries,
+		'cargo' : cargo
 	}
 	return render_template('master.html', **templateData)
 	
