@@ -19,6 +19,10 @@ app = Flask(__name__)
 dbname = 'harbour.db'
 db = database_driver.database(dbname)
 
+def getLastImport():
+	rows = db.select('SELECT strftime("%H:%M %d-%m-%Y", timestamp) as formated_date, entries FROM imports ORDER BY timestamp DESC LIMIT 1')
+	return rows[0][0], rows[0][1]
+
 def getRecordCount():
 	rows = db.select('SELECT COUNT(date) FROM arrivals')
 	return rows[0][0]
@@ -109,7 +113,8 @@ def index():
 	vessels = []
 	registered_ports = []
 	from_ports = []
-	records_count = getRecordCount()
+	last_import, records_count = getLastImport()
+
 	weather = []
 
 	try:
@@ -139,6 +144,7 @@ def index():
 
 	templateData = {
 		'records_count' : records_count,
+		'last_import' : last_import,
 		'cargo' : cargo,
 		'vessels' : vessels,
 		'masters' : masters,

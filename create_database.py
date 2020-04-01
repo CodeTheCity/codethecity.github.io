@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import pandas as pd
 import database_driver
-import time
+import datetime
 
 dbname = 'harbour.db'
 db = database_driver.database(dbname)
@@ -41,4 +41,6 @@ if __name__ == '__main__':
 		con.close()
 
 		rows = db.select('SELECT COUNT(date) FROM arrivals')
-		db.execute_query("INSERT INTO imports values((?), (?))", (datetime('now'), rows[0][0]))
+
+		print('{} imported'.format(rows[0][0]))
+		db.execute_query("INSERT INTO imports values((?), (?))", (datetime.datetime.now(), rows[0][0]))
