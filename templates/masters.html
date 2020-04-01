@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+	<head>
+			<title>Harbour Arrival History Masters List</title>
+			<link rel="stylesheet" href="../static/style.css/">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		{% include 'navigation.html' %}
+		<h1>Harbour Arrival History Masters List</h1>
+
+		<p>Click on a masters name to see all the records that it appears in.</p>
+		
+
+		<h2>Master ({{ masters|length }} unique)</h2>
+		{% set ns = namespace(letter = ' ') %}
+		{% for master in masters %}
+			{% if master[0] != ns.letter %}
+				{% set ns.letter = master[0] %}
+				<h3>{{ ns.letter }}</h3>
+				
+			{% endif %}
+			<a href = {{ url_for('master', master=master)}} class="link">{{ master }}</a>, 
+		{% endfor %}
+	</body>
+</html>

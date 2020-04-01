@@ -41,7 +41,7 @@ def getVesselsData():
 	return data
 
 def getMastersData():
-	rows = db.select('SELECT DISTINCT master FROM arrivals ORDER BY master')
+	rows = db.select('SELECT DISTINCT master FROM arrivals WHERE master is not null ORDER BY master')
 	data = []
 	for row in rows:
 		data.append(row[0])
@@ -76,6 +76,11 @@ def getNotesData():
 
 def getEntriesForVessel(vessel):
 	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE vessel LIKE :vessel ORDER BY date', {"vessel":'%'+vessel+'%'})
+
+	return rows
+
+def getEntriesForMaster(master):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE master LIKE :master ORDER BY date', {"master":'%'+master+'%'})
 
 	return rows
 
@@ -141,6 +146,21 @@ def vessels():
 	}
 	return render_template('vessels.html', **templateData)
 
+@app.route('/masters')
+def masters():
+	masters = []
+
+	try:
+		masters = getMastersData()
+	except Exception as e:
+		print(e)
+
+
+	templateData = {
+		'masters' : masters
+	}
+	return render_template('masters.html', **templateData)
+
 @app.route('/weather')
 def weather():
 
@@ -173,6 +193,17 @@ def vessel(vessel):
 		'vessel' : vessel
 	}
 	return render_template('vessel.html', **templateData)
+	
+@app.route('/master/<master>')
+def master(master):
+
+	entries = getEntriesForMaster(master)
+
+	templateData = {
+		'entries' : entries,
+		'master' : master
+	}
+	return render_template('master.html', **templateData)
 	
 
 @app.route('/graphs_cargo')
