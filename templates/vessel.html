@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+	<head>
+			<title>Harbour Arrival History - Vessel</title>
+			<link rel="stylesheet" href="../static/style.css/">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		{% include 'navigation.html' %}
+		<h1>Entries that include "{{ vessel }}"</h1>
+
+		<table class="dataframe">
+			<tr>
+				<th>Date</th>
+				<th>Vessel</th>
+				<th>Registered Port</th>
+				<th>Master</th>
+				<th>Registered Tonnage</th>
+				<th>From Port</th>
+				<th>Cargo</th>
+			</tr>
+		{% for entry in entries %}
+			<tr>
+				<td nowrap>{{ entry[0] }}</td>
+				<td>{{ entry[1] }}</td>
+				<td>{{ entry[2] }}</td>
+				<td>{{ entry[3] }}</td>
+				<td>{{ entry[4] }}</td>
+				<td>{{ entry[5] }}</td>
+				<td>{{ entry[6] }}</td>
+			</tr>
+		{% endfor %}
+		</table>
+	
+	</body>
+</html>

@@ -74,6 +74,11 @@ def getNotesData():
 
 	return rows
 
+def getEntriesForVessel(vessel):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE vessel LIKE :vessel ORDER BY date', {"vessel":'%'+vessel+'%'})
+
+	return rows
+
 @app.route('/')
 # main route
 def index():
@@ -111,18 +116,30 @@ def index():
 	except Exception as e:
 		print(e)
 
-	weather = getWeatherData()
-
 	templateData = {
 		'records_count' : records_count,
 		'cargo' : cargo,
 		'vessels' : vessels,
 		'masters' : masters,
 		'registered_ports' : registered_ports,
-		'from_ports' : from_ports,
-		'weather' : weather
+		'from_ports' : from_ports
 	}
 	return render_template('index.html', **templateData)
+
+@app.route('/vessels')
+def vessels():
+	vessels = []
+
+	try:
+		vessels = getVesselsData()
+	except Exception as e:
+		print(e)
+
+
+	templateData = {
+		'vessels' : vessels
+	}
+	return render_template('vessels.html', **templateData)
 
 @app.route('/weather')
 def weather():
@@ -145,6 +162,18 @@ def notes():
 		'notes' : notes
 	}
 	return render_template('notes.html', **templateData)
+
+@app.route('/vessel/<vessel>')
+def vessel(vessel):
+
+	entries = getEntriesForVessel(vessel)
+
+	templateData = {
+		'entries' : entries,
+		'vessel' : vessel
+	}
+	return render_template('vessel.html', **templateData)
+	
 
 @app.route('/graphs_cargo')
 def graphs_cargo():

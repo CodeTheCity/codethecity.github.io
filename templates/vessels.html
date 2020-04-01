@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+	<head>
+			<title>Harbour Arrival History Vessels List</title>
+			<link rel="stylesheet" href="../static/style.css/">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		{% include 'navigation.html' %}
+		<h1>Harbour Arrival History Vessels List</h1>
+
+		<p>Click on a vessel name to see all the records that it appears in.</p>
+		
+
+		<h2>Vessels ({{ vessels|length }} unique)</h2>
+		{% set ns = namespace(letter = ' ') %}
+		{% for vessel in vessels %}
+			{% if vessel[0] != ns.letter %}
+				{% set ns.letter = vessel[0] %}
+				<h3>{{ ns.letter }}</h3>
+				
+			{% endif %}
+			<a href = {{ url_for('vessel', vessel=vessel)}} class="link">{{ vessel}}</a>, 
+		{% endfor %}
+	</body>
+</html>

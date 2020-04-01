@@ -15,6 +15,12 @@ body {
 	border-left: 1px solid #CCCCCC;
 }
 
+.link {
+	font: bold 15px Arial;
+	text-decoration: none;
+	color: #EEEEEE;
+}
+
 img{
 	display: display: inline-block
 }
