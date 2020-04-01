@@ -20,6 +20,7 @@ There is also an API for downloading all the data as CSV or JSON. Also for downl
 
 * List of unique cargo entries
 * All weather entries
+* All note entries
 
 
 # Installation

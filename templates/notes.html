@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 	<head>
-			<title>Harbour Arrival Weather History</title>
+			<title>Harbour Arrival Notes History</title>
 			<link rel="stylesheet" href="../static/style.css/">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
 	<body>
 		{% include 'navigation.html' %}
-		<h1>Harbour Arrival Weather History</h1>
+		<h1>Harbour Arrival Notes History</h1>
 
 		<h2>Weather</h2>
 		<table class="dataframe">
 			<tr>
 				<th>Date</th>
-				<th>Weather</th>
+				<th>Note</th>
 			</tr>
-		{% for entry in weather %}
+		{% for entry in notes %}
 			<tr>
 				<td nowrap>{{ entry[0] }}</td>
 				<td>{{ entry[1] }}</td>

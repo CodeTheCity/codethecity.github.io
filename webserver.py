@@ -69,6 +69,11 @@ def getWeatherData():
 
 	return rows
 
+def getNotesData():
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, notes FROM arrivals WHERE notes != "?" ORDER BY date')
+
+	return rows
+
 @app.route('/')
 # main route
 def index():
@@ -129,6 +134,17 @@ def weather():
 		'weather' : weather
 	}
 	return render_template('weather.html', **templateData)
+
+@app.route('/notes')
+def notes():
+
+	notes = []
+	notes = getNotesData()
+
+	templateData = {
+		'notes' : notes
+	}
+	return render_template('notes.html', **templateData)
 
 @app.route('/graphs_cargo')
 def graphs_cargo():
