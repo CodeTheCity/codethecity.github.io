@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
 import pandas as pd
 import database_driver
+from time import sleep
 
 dbname = 'harbour.db'
 db = database_driver.database(dbname)
  
 if __name__ == '__main__':
+
+		sql_create_imports_table = "CREATE TABLE IF NOT EXISTS imports (timestamp DATETIME, entries NUMERIC);"
+		
+		try:
+				db.create_table(sql_create_imports_table)
+		except Error as e:
+				print(e)
+
 		google_sheet_url = 'https://docs.google.com/spreadsheets/d/120KGS0oRFby5so-4_QVtaJWgAzuFEsnq86C1EgZW0-A/export#gid=0?format=csv'
 
 		dfname = pd.ExcelFile(google_sheet_url)
@@ -30,3 +39,6 @@ if __name__ == '__main__':
 		con = db.create_connection()
 		df.to_sql('arrivals', con, if_exists='replace', index = False)
 		con.close()
+
+		rows = db.select('SELECT COUNT(date) FROM arrivals')
+		db.execute_query("INSERT INTO imports values((?), (?))", (datetime('now'), rows[0][0]))
