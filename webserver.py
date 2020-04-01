@@ -234,7 +234,7 @@ def cargo(cargo):
 		'entries' : entries,
 		'cargo' : cargo
 	}
-	return render_template('master.html', **templateData)
+	return render_template('cargo.html', **templateData)
 	
 
 @app.route('/graphs_cargo')

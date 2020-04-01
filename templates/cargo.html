@@ -1,3 +1,5 @@
+{% from "macros.html" import entries_table with context %}
+
 <!DOCTYPE html>
 	<head>
 			<title>Harbour Arrival History - Cargo</title>
@@ -8,28 +10,6 @@
 		{% include 'navigation.html' %}
 		<h1>Entries with Cargo that include "{{ cargo }}"</h1>
 
-		<table class="dataframe">
-			<tr>
-				<th>Date</th>
-				<th>Vessel</th>
-				<th>Registered Port</th>
-				<th>Master</th>
-				<th>Registered Tonnage</th>
-				<th>From Port</th>
-				<th>Cargo</th>
-			</tr>
-		{% for entry in entries %}
-			<tr>
-				<td nowrap>{{ entry[0] }}</td>
-				<td>{{ entry[1] }}</td>
-				<td>{{ entry[2] }}</td>
-				<td>{{ entry[3] }}</td>
-				<td>{{ entry[4] }}</td>
-				<td>{{ entry[5] }}</td>
-				<td>{{ entry[6] }}</td>
-			</tr>
-		{% endfor %}
-		</table>
-	
+		{{ entries_table(entries) }}
 	</body>
 </html>
