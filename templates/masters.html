@@ -1,3 +1,5 @@
+{% from "macros.html" import grouped_entries with context %}
+
 <!DOCTYPE html>
 	<head>
 			<title>Harbour Arrival History Masters List</title>
@@ -10,16 +12,6 @@
 
 		<p>Click on a masters name to see all the records that it appears in.</p>
 		
-
-		<h2>Master ({{ masters|length }} unique)</h2>
-		{% set ns = namespace(letter = ' ') %}
-		{% for master in masters %}
-			{% if master[0] != ns.letter %}
-				{% set ns.letter = master[0] %}
-				<h3>{{ ns.letter }}</h3>
-				
-			{% endif %}
-			<a href = {{ url_for('master', master=master)}} class="link">{{ master }}</a>, 
-		{% endfor %}
+		{{ grouped_entries('Masters', 'master', masters) }}
 	</body>
 </html>

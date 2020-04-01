@@ -203,36 +203,36 @@ def notes():
 	}
 	return render_template('notes.html', **templateData)
 
-@app.route('/vessel/<vessel>')
-def vessel(vessel):
+@app.route('/vessel/<filter>')
+def vessel(filter):
 
-	entries = getEntriesForVessel(vessel)
+	entries = getEntriesForVessel(filter)
 
 	templateData = {
 		'entries' : entries,
-		'vessel' : vessel
+		'vessel' : filter
 	}
 	return render_template('vessel.html', **templateData)
 	
-@app.route('/master/<master>')
-def master(master):
+@app.route('/master/<filter>')
+def master(filter):
 
-	entries = getEntriesForMaster(master)
+	entries = getEntriesForMaster(filter)
 
 	templateData = {
 		'entries' : entries,
-		'master' : master
+		'master' : filter
 	}
 	return render_template('master.html', **templateData)
 	
-@app.route('/cargo/<cargo>')
-def cargo(cargo):
+@app.route('/cargo/<filter>')
+def cargo(filter):
 
-	entries = getEntriesForCargo(cargo)
+	entries = getEntriesForCargo(filter)
 
 	templateData = {
 		'entries' : entries,
-		'cargo' : cargo
+		'cargo' : filter
 	}
 	return render_template('cargo.html', **templateData)
 	
