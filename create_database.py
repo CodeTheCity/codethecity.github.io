@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import numpy as np
 import pandas as pd
 import database_driver
 import datetime
@@ -18,7 +19,6 @@ if __name__ == '__main__':
 		google_sheet_url = 'https://docs.google.com/spreadsheets/d/120KGS0oRFby5so-4_QVtaJWgAzuFEsnq86C1EgZW0-A/export#gid=0?format=csv'
 
 		dfname = pd.ExcelFile(google_sheet_url)
-		print(dfname.sheet_names)
 
 		df=pd.read_excel(google_sheet_url, dtype={6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0])
 
@@ -33,8 +33,8 @@ if __name__ == '__main__':
 
 		for column in columns:
 			df[column] = df[column].fillna("?").str.strip()
-
-
+			df.loc[(df[column] == '(blank)'), column] = ''
+			
 		# Write to database
 		con = db.create_connection()
 		df.to_sql('arrivals', con, if_exists='replace', index = False)

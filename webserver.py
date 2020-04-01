@@ -69,12 +69,12 @@ def getFromPortsData():
 	return data
 
 def getWeatherData():
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, weather FROM arrivals WHERE weather != "?" ORDER BY date')
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, weather FROM arrivals WHERE weather != "?" AND weather != "" ORDER BY date')
 
 	return rows
 
 def getNotesData():
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, notes FROM arrivals WHERE notes != "?" ORDER BY date')
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, notes FROM arrivals WHERE notes != "?" AND notes != "" ORDER BY date')
 
 	return rows
 
