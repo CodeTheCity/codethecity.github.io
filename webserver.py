@@ -357,8 +357,8 @@ def buildCargoGraph(year):
 	df = pd.read_sql_query('SELECT date, cargo FROM arrivals WHERE strftime(\'%Y\', date) = "{}" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
 	con.close()
 
-	fig = Figure()
-	axis = fig.add_subplot(1, 1, 1)
+	fig = Figure(figsize=(12,8))
+	axis = fig.subplots(1)
 
 	if df.empty == False:
 		df_cargos = df.groupby('date').cargo.value_counts().unstack().fillna(0)
@@ -378,10 +378,11 @@ def buildCargoGraph(year):
 	axis.xaxis_date()
 	axis.xaxis.set_major_formatter(date_format)
 	axis.set_title('Cargo arrival at Aberdeen {}'.format(year))
-	axis.legend(fontsize=10, ncol=4)
+	fig.legend(loc='center right', fancybox=True, shadow=True, fontsize=10, ncol=2)
 
 	fig.autofmt_xdate()
 	fig.tight_layout()
+	fig.subplots_adjust(right=0.75)
 
 	canvas = FigureCanvas(fig)
 	output = io.BytesIO()
