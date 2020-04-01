@@ -89,6 +89,17 @@ def getEntriesForCargo(cargo):
 
 	return rows
 
+def getEntriesForRegisteredPort(registered_port):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE registered_port LIKE :registered_port ORDER BY date', {"registered_port":'%'+registered_port+'%'})
+
+	return rows
+
+def getEntriesForFromPort(from_port):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE from_port LIKE :from_port ORDER BY date', {"from_port":'%'+from_port+'%'})
+
+	return rows
+
+
 @app.route('/')
 # main route
 def index():
@@ -181,6 +192,36 @@ def cargos():
 	}
 	return render_template('cargos.html', **templateData)
 
+@app.route('/registered_ports')
+def registered_ports():
+	registered_ports = []
+
+	try:
+		registered_ports = getRegisteredPortsData()
+	except Exception as e:
+		print(e)
+
+
+	templateData = {
+		'registered_ports' : registered_ports
+	}
+	return render_template('registered_ports.html', **templateData)
+
+@app.route('/from_ports')
+def from_ports():
+	from_ports = []
+
+	try:
+		from_ports = getFromPortsData()
+	except Exception as e:
+		print(e)
+
+
+	templateData = {
+		'from_ports' : from_ports
+	}
+	return render_template('from_ports.html', **templateData)
+
 @app.route('/weather')
 def weather():
 
@@ -235,6 +276,30 @@ def cargo(filter):
 		'cargo' : filter
 	}
 	return render_template('cargo.html', **templateData)
+	
+
+@app.route('/registered_port/<filter>')
+def registered_port(filter):
+
+	entries = getEntriesForRegisteredPort(filter)
+
+	templateData = {
+		'entries' : entries,
+		'registered_port' : filter
+	}
+	return render_template('registered_port.html', **templateData)
+
+@app.route('/from_port/<filter>')
+def from_port(filter):
+
+	entries = getEntriesForFromPort(filter)
+
+	templateData = {
+		'entries' : entries,
+		'from_port' : filter
+	}
+	return render_template('from_port.html', **templateData)
+	
 	
 
 @app.route('/graphs_cargo')

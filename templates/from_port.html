@@ -1,0 +1,14 @@
+{% from "macros.html" import entries_table with context %}
+<!DOCTYPE html>
+	<head>
+			<title>Harbour Arrival History - From Port</title>
+			<link rel="stylesheet" href="../static/style.css/">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		{% include 'navigation.html' %}
+		<h1>Entries with From Port that include "{{ from_port }}"</h1>
+
+		{{ entries_table(entries) }}
+	</body>
+</html>
