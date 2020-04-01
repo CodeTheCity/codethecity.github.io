@@ -1,0 +1,22 @@
+{% from "macros.html" import entries_table with context %}
+
+<!DOCTYPE html>
+	<head>
+			<title>Aberdeen Harbour Historic Arrival Records</title>
+			<link rel="stylesheet" href="../static/style.css/">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		{% include 'navigation.html' %}
+		<h1>Aberdeen Harbour Historic Arrival Records {{ year }}</h1>
+
+		<p>
+			{% for year in range(1914, 1921) %}
+				<a href="/arrivals/{{year}}" class="button">{{year}}</a>
+			{% endfor %}
+			<a href="/arrivals_after/1920" class="button">After 1920 - probably transcription errors</a>
+		</p>
+		
+		{{ entries_table(entries) }}
+	</body>
+</html>

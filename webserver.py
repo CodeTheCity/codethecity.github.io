@@ -119,6 +119,15 @@ def getEntriesForFromPort(from_port):
 
 	return rows
 
+def getEntriesForYear(year):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE strftime("%Y", date) = :year ORDER BY date', { "year":year})
+
+	return rows
+
+def getEntriesAfterYear(year):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE strftime("%Y", date) > :year ORDER BY date', { "year":year})
+
+	return rows
 
 @app.route('/')
 # main route
@@ -289,6 +298,30 @@ def notes():
 		'notes' : notes
 	}
 	return render_template('notes.html', **templateData)
+
+@app.route('/arrivals/<year>')
+def arrivals(year):
+
+	entries = []
+	entries = getEntriesForYear(year)
+
+	templateData = {
+		'entries' : entries,
+		'year' : year
+	}
+	return render_template('entries.html', **templateData)
+
+@app.route('/arrivals_after/<year>')
+def arrivals_after(year):
+
+	entries = []
+	entries = getEntriesAfterYear(year)
+
+	templateData = {
+		'entries' : entries,
+		'year' : 'after {}'.format(year)
+	}
+	return render_template('entries.html', **templateData)
 
 @app.route('/vessel/<filter>')
 def vessel(filter):

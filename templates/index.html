@@ -9,6 +9,14 @@
 		<h1>Aberdeen Harbour Arrival History Dashboard</h1>
 
 		<p>This site contains information about the arrival of vessels into Aberdeen harbour between 1914 and 1920. The data has been transcribed from harbour log books of the period.</p>
+
+		<h2>Arrival Records</h2>
+		<p>
+			{% for year in range(1914, 1921) %}
+				<a href="/arrivals/{{year}}" class="button">{{year}}</a>
+			{% endfor %}
+			<a href="/arrivals_after/1920" class="button">After 1920 - probably transcription errors</a>
+		</p>
 		
 		<h2>{{ records_count }} records have been transcribed as of {{ last_import }}.</h2>
 
