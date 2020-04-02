@@ -27,6 +27,10 @@ def getRecordCount():
 	rows = db.select('SELECT COUNT(date) FROM arrivals')
 	return rows[0][0]
 
+def getCheckedRecordCount():
+	rows = db.select('SELECT COUNT(date) FROM arrivals WHERE checker != "?"')
+	return rows[0][0]
+
 
 def getCargoData():
 	rows = db.select('SELECT DISTINCT cargo FROM arrivals ORDER BY cargo')
@@ -134,11 +138,13 @@ def getEntriesAfterYear(year):
 def index():
 
 	records_count = 0
+	checked_records_count = 0
 	cargo = []
 	vessels = []
 	registered_ports = []
 	from_ports = []
 	last_import, records_count = getLastImport()
+	checked_records_count = getCheckedRecordCount()
 
 	weather = []
 
@@ -170,6 +176,7 @@ def index():
 	templateData = {
 		'records_count' : records_count,
 		'last_import' : last_import,
+		'checked_records_count' : checked_records_count,
 		'cargo' : cargo,
 		'vessels' : vessels,
 		'masters' : masters,
