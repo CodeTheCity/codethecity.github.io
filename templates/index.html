@@ -3,24 +3,72 @@
 			<title>Aberdeen Harbour Arrival History Dashboard</title>
 			<link rel="stylesheet" href="../static/style.css/">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<style>
+				body {
+				    text-align: center;
+				}
+				#gChecking {
+				    width: 200px;
+				    height: 160px;
+				    display: inline-block;
+				    margin: 1em;
+				}
+			</style>
 	</head>
 	<body>
 		{% include 'navigation.html' %}
 		<h1>Aberdeen Harbour Arrival History Dashboard</h1>
 
 		<p>This site contains information about the arrival of vessels into Aberdeen harbour between 1914 and 1920. The data has been transcribed from harbour log books of the period.</p>
+		
+		<h2>Transcription Progress</h2>
+		<p>Last update: {{ last_import }}</p>
+		
+		<div>
+			<p style="font-family: sans-serif; font-size: 16px; font-weight: bold;">Records Transcribed</p>
+			<p style="text-anchor: middle; font-family: Arial; font-size: 29px; font-weight: bold; fill-opacity: 1; color: yellow;">{{ records_count }}</p>
+		</div>
+		<div>
+			<div id="gChecking"></div>
+		</div>
+
+		<div>
+			<p>{{ records_count }} records have been transcribed.</p>
+			<p>{{ checked_records_count }} records have been checked by a second person.</p>
+		</div>
+
+		<script src="../static/raphael-2.1.4.min.js"></script>
+	  <script src="../static/justgage.js"></script>
+	  <script>
+		var gChecking;
+		document.addEventListener("DOMContentLoaded", function(event) {
+		    gChecking = new JustGage({
+					id: "gChecking",
+					value: {{ checked_records_count }},
+					valueFontColor: "yellow",
+					min: 0,
+					max: {{ records_count }},
+					title: "Records Checked",
+					label: "Records",
+					pointer: true,
+					titleFontColor: "white",
+					labelFontColor: "white",
+					counter: true,
+					donut: true
+				});
+		  });
+		</script>
 
 		<h2>Arrival Records</h2>
+		<p>The transcribed arrival records for each year can be viewed via the following links:</p>
 		<p>
 			{% for year in range(1914, 1921) %}
 				<a href="/arrivals/{{year}}" class="button">{{year}}</a>
 			{% endfor %}
 			<a href="/arrivals_after/1920" class="button">After 1920 - probably transcription errors</a>
 		</p>
-		
-		<h2>{{ records_count }} records have been transcribed as of {{ last_import }}.</h2>
-		<p>{{ checked_records_count }} records have been checked by a second person.</p>
 
+		<h2>Download Data</h2>
 		<p>
     	<a href="/api/v1.0/arrivals.csv" class="button">Download all data as CSV</a>
     </p>
