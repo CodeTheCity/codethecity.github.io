@@ -84,3 +84,13 @@ kill PID
 ### Contributing
 
 If you'd like to contribute to the project, that's great. There's a guide to contributing to, both code and general help, over in [CONTRIBUTING](https://github.com/CodeTheCity/historical_harbour_arrivals_api/blob/master/CONTRIBUTING.md)
+
+# Discussing the Project
+
+## Slack
+
+Feel free to come and join discussions on our Slack channels. [Join CTC on Slack](https://join.slack.com/t/codethecity/shared_invite/zt-d4a8eohu-pbc_J4rn~caNlPGGuq28Zw)
+## Twitter
+
+Feel free to contact the CodeTheCity core team via Twitter [@CodeTheCity](https://twitter.com/codethecity)
+
