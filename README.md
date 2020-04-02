@@ -80,3 +80,7 @@ To stop it running in the background:
 ps ax | grep aqsensor.py
 kill PID
 ```
+
+### Contributing
+
+If you'd like to contribute to the project, that's great. There's a guide to contributing to, both code and general help, over in [CONTRIBUTING](https://github.com/CodeTheCity/historical_harbour_arrivals_api/blob/master/CONTRIBUTING.md)
