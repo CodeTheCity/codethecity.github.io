@@ -15,10 +15,6 @@ If you'd like to help make this project better, we would really appreciated it. 
 
 Thanks for helping us make this project better.
 
-# Requesting Features
-
-Head on over to the [ISSUES](https://github.com/CodeTheCity/historical_harbour_arrivals_api/blob/master/ISSUES.md). Pull requests welcome!
-
 # Discussing the Project
 
 ## Slack
