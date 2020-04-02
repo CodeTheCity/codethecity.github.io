@@ -58,6 +58,30 @@ The records are imported from a Google Spreadsheet, cleaned and then stored in a
 ./create_database.py
 ```
 
+If you want to have the database automatically rebuild with the latest data from the source spreadsheets then setup a Cron job.
+
+```
+crontab -e
+```
+
+Add
+
+```
+*/<interval> * * * * cd <path> && ./create_database.py > /home/pi/logs/cronlog 2>&1
+```
+
+where <path> is the path to the directory that you have the code installed and <interval> is the minute frequency that you want the rebuild to occur at.
+  
+The output is sent to a log file in a directory named `logs` that you will need to create first.
+
+A sample completed entry that runs every 5 minutes for the code in `/home/pi/Projects/historical_harbour_arrivals_api` would be:
+
+```
+*/5 * * * * cd /home/pi/Projects/historical_harbour_arrivals_api && ./create_database.py > /home/pi/logs/cronlog 2>&1
+```
+
+
+
 ## Webserver
 
 To start the webserver running use the following:
