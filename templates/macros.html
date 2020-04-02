@@ -1,4 +1,5 @@
 {% macro entries_table(entries) %}
+	<p><strong>Checked</strong> indicates if the transcription of the entry has been checked by a second person.</p>
 	<table class="dataframe">
 		<tr>
 			<th>Date</th>
@@ -8,6 +9,7 @@
 			<th>Registered Tonnage</th>
 			<th>From Port</th>
 			<th>Cargo</th>
+			<th>Checked</th>
 		</tr>
 	{% for entry in entries %}
 		<tr>
@@ -18,6 +20,12 @@
 			<td>{{ entry[4] }}</td>
 			<td>{{ entry[5] }}</td>
 			<td>{{ entry[6] }}</td>
+			<td>
+				{% if entry[7] == '?' %}
+				{% else %}
+					Yes
+				{% endif %}
+			</td>
 		</tr>
 	{% endfor %}
 	</table>

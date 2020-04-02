@@ -95,37 +95,37 @@ def getCheckersData():
 	return data
 
 def getEntriesForVessel(vessel):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE vessel LIKE :vessel ORDER BY date', {"vessel":'%'+vessel+'%'})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker FROM arrivals WHERE vessel LIKE :vessel ORDER BY date', {"vessel":'%'+vessel+'%'})
 
 	return rows
 
 def getEntriesForMaster(master):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE master LIKE :master ORDER BY date', {"master":'%'+master+'%'})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker FROM arrivals WHERE master LIKE :master ORDER BY date', {"master":'%'+master+'%'})
 
 	return rows
 
 def getEntriesForCargo(cargo):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE cargo LIKE :cargo ORDER BY date', {"cargo":'%'+cargo+'%'})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker FROM arrivals WHERE cargo LIKE :cargo ORDER BY date', {"cargo":'%'+cargo+'%'})
 
 	return rows
 
 def getEntriesForRegisteredPort(registered_port):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE registered_port LIKE :registered_port ORDER BY date', {"registered_port":'%'+registered_port+'%'})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker FROM arrivals WHERE registered_port LIKE :registered_port ORDER BY date', {"registered_port":'%'+registered_port+'%'})
 
 	return rows
 
 def getEntriesForFromPort(from_port):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE from_port LIKE :from_port ORDER BY date', {"from_port":'%'+from_port+'%'})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker FROM arrivals WHERE from_port LIKE :from_port ORDER BY date', {"from_port":'%'+from_port+'%'})
 
 	return rows
 
 def getEntriesForYear(year):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE strftime("%Y", date) = :year ORDER BY date', { "year":year})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker FROM arrivals WHERE strftime("%Y", date) = :year ORDER BY date', { "year":year})
 
 	return rows
 
 def getEntriesAfterYear(year):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo FROM arrivals WHERE strftime("%Y", date) > :year ORDER BY date', { "year":year})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker FROM arrivals WHERE strftime("%Y", date) > :year ORDER BY date', { "year":year})
 
 	return rows
 
