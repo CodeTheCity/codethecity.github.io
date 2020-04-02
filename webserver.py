@@ -488,4 +488,11 @@ if __name__ == '__main__':
 		config.write(open('config.ini', 'w'))
 
 	config.read('config.ini')
-	app.run(debug=True, port=config['server']['port'], host='0.0.0.0')
+	debug = False
+	try:
+		if config.getboolean('server', 'debug'):
+			debug = True
+	except Exception as e:
+		print(e)
+
+	app.run(debug=debug, port=config['server']['port'], host='0.0.0.0')
