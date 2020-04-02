@@ -1,13 +1,23 @@
-<a href="/" class="button">Dashboard</a>
-<a href="/vessels" class="button">Vessels</a>
-<a href="/masters" class="button">Masters</a>
-<a href="/cargos" class="button">Cargos</a>
-<a href="/registered_ports" class="button">Registered Ports</a>
-<a href="/from_ports" class="button">From Ports</a>
-<a href="/weather" class="button">Weather</a>
-<a href="/notes" class="button">Notes</a>
-<a href="/graphs_cargo" class="button">Cargo Graphs</a>
-<a href="/thanks" class="button">Thanks</a>
+<p>
+	<a href="/" class="button">Dashboard</a>
+	<a href="/vessels" class="button">Vessels</a>
+	<a href="/masters" class="button">Masters</a>
+	<a href="/cargos" class="button">Cargos</a>
+	<a href="/registered_ports" class="button">Registered Ports</a>
+	<a href="/from_ports" class="button">From Ports</a>
+	<a href="/weather" class="button">Weather</a>
+	<a href="/notes" class="button">Notes</a>
+	<a href="/graphs_cargo" class="button">Cargo Graphs</a>
+	<a href="/thanks" class="button">Thanks</a>
+</p>
+
+<p>
+	Arrival Records
+	{% for year in range(1914, 1921) %}
+		<a href="/arrivals/{{year}}" class="button">{{year}}</a>
+	{% endfor %}
+	<a href="/arrivals_after/1920" class="button">After 1920 - probably transcription errors</a>
+</p>
 
 <div class="information">
 	<p>This website is part of the <a href="https://codethecity.org/what-we-do/hack-weekends/code-the-city-19-history-data-innovation/" class="link">CodeTheCity 19: History + Data = Innovation</a> event. It's very much a work in progress playground for extracting and presenting the historical vessel arrival information. The source code for this dashboard is available on <a href="https://github.com/CodeTheCity/historical_harbour_arrivals_api" class="link">GitHub</a>.</p>
