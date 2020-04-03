@@ -133,6 +133,11 @@ def getEntriesAfterYear(year):
 
 	return rows
 
+def getEntriesWithTranscriberNotes():
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker, transcriber_notes FROM arrivals WHERE transcriber_notes <> "" ORDER BY date')
+
+	return rows
+
 @app.route('/')
 # main route
 def index():
@@ -305,6 +310,17 @@ def notes():
 		'notes' : notes
 	}
 	return render_template('notes.html', **templateData)
+
+@app.route('/transcriber_notes')
+def transcriber_notes():
+
+	entries = []
+	entries = getEntriesWithTranscriberNotes()
+
+	templateData = {
+		'entries' : entries
+	}
+	return render_template('transcriber_notes.html', **templateData)
 
 @app.route('/arrivals/<year>')
 def arrivals(year):

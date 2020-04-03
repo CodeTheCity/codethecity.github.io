@@ -34,6 +34,8 @@ if __name__ == '__main__':
 		for column in columns:
 			df[column] = df[column].fillna("?").str.strip()
 			df.loc[(df[column] == '(blank)'), column] = ''
+
+		df.loc[(df['transcriber_notes'] == '?'), 'transcriber_notes'] = ''
 			
 		# Write to database
 		con = db.create_connection()

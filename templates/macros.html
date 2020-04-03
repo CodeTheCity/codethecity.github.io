@@ -12,6 +12,11 @@
 			<th>Checked</th>
 		</tr>
 	{% for entry in entries %}
+		{% if entry[8] %}
+			<tr>
+				<td colspan="8" style="background-color: #000000;"><strong>Transcriber note for following entry:</strong> {{ entry[8] }}</td>
+			</tr>
+		{% endif %}
 		<tr>
 			<td nowrap>{{ entry[0] }}</td>
 			<td>{{ entry[1] }}</td>
@@ -20,7 +25,7 @@
 			<td>{{ entry[4] }}</td>
 			<td>{{ entry[5] }}</td>
 			<td>{{ entry[6] }}</td>
-			<td>
+			<td style="text-align: center">
 				{% if entry[7] == '?' %}
 				{% else %}
 					Yes
