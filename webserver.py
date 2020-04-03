@@ -397,27 +397,31 @@ def buildCargoGraph(year):
 	df = pd.read_sql_query('SELECT date, cargo FROM arrivals WHERE strftime(\'%Y\', date) = "{}" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
 	con.close()
 
+
+
 	fig = Figure(figsize=(12,8))
 	axis = fig.subplots(1)
 
 	if df.empty == False:
 		df_cargos = df.groupby('date').cargo.value_counts().unstack().fillna(0)
 
-		columns = df_cargos.columns
+		resampled = df_cargos.resample('W').sum()
+
+		columns = resampled.columns
 		labels = columns.values.tolist()
 
 		colour_map = cm.get_cmap('tab20', len(columns) + 1)
 
-		x = df_cargos.index
-		bottom = np.zeros(df_cargos.shape[0])
+		x = resampled.index
+		bottom = np.zeros(resampled.shape[0])
 		for i, column in enumerate(columns, start=0):
-			axis.bar(x, df_cargos[column].values.tolist(), bottom=bottom, label=column, color=colour_map.colors[i])
-			bottom += df_cargos[column].values.tolist()
+			axis.bar(x, resampled[column].values.tolist(), bottom=bottom, label=column, color=colour_map.colors[i])
+			bottom += resampled[column].values.tolist()
 
 	date_format = mpl_dates.DateFormatter('%d %b %Y')
 	axis.xaxis_date()
 	axis.xaxis.set_major_formatter(date_format)
-	axis.set_title('Cargo arrival at Aberdeen {}'.format(year))
+	axis.set_title('Weekly cargo arrival at Aberdeen {}'.format(year))
 	fig.legend(loc='center right', fancybox=True, shadow=True, fontsize=10, ncol=2)
 
 	fig.autofmt_xdate()
