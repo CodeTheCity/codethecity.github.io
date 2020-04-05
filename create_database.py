@@ -20,11 +20,14 @@ if __name__ == '__main__':
 
 		dfname = pd.ExcelFile(google_sheet_url)
 
+		# use following to track down import errors
+		#df=pd.read_excel(google_sheet_url, sheet_name='1915', nrows=75, dtype={6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0])
+
 		df=pd.read_excel(google_sheet_url, dtype={6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0])
 
 		for year in range(1915, 1921):
-			dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), dtype={6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0])
-			df = pd.concat([df, dfnew])
+		 	dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), dtype={6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0])
+		 	df = pd.concat([df, dfnew])
 
 		df = df.rename(columns = {'Date of Arrival (dd-mmm-yyyy)':'date', 'Number':'number', 'Ship\'s Name':'vessel', 'Of What Port':'registered_port', 'Master':'master', 'Registered Tonnage':'registered_tonnage','Port From Whence':'from_port','Cargo':'cargo', 'Wind and Weather':'weather','Other Notes':'notes', 'Transcriber Notes':'transcriber_notes', 'Transcribed by':'transcriber', 'Checked by':'checker', 'Queries':'transcriber_queries'})
 
@@ -36,6 +39,7 @@ if __name__ == '__main__':
 			df.loc[(df[column] == '(blank)'), column] = ''
 
 		df.loc[(df['transcriber_notes'] == '?'), 'transcriber_notes'] = ''
+
 			
 		# Write to database
 		con = db.create_connection()
