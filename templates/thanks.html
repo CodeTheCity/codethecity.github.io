@@ -11,17 +11,9 @@
 		<p>A big thank you to the following people who have transcribed and checked the records:</p>
 		
 		<h2>Transcribers</h2>
-		<ul>
-		{% for person in transcribers %}
-			<li>{{ person }}</li>
-		{% endfor %}
-		</ul>
+		{{ transcribers|join(', ')|safe}}
 
 		<h2>Checkers</h2>
-		<ul>
-		{% for person in checkers %}
-			<li>{{ person }}</li>
-		{% endfor %}
-		</ul>
+		{{ checkers|join(', ')|safe}}
 	</body>
 </html>

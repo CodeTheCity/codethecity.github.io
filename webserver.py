@@ -10,6 +10,7 @@ from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import io
 from flask import Flask, render_template, send_file, make_response, request
 import datetime
+from datetime import date
 import database_driver
 import pandas as pd
 import configparser, os
@@ -123,6 +124,13 @@ def getEntriesForFromPort(from_port):
 
 	return rows
 
+# Checks for partial match of date - e.g. search for 1914 gets all in 1914
+# search for 5-4 gets all for 5th April any year
+def getEntriesForDate(date):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker FROM arrivals WHERE strftime("%d-%m-%Y", date) like :date ORDER BY date', { "date": '%{}%'.format(date)})
+
+	return rows
+
 def getEntriesForYear(year):
 	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker FROM arrivals WHERE strftime("%Y", date) = :year ORDER BY date', { "year":year})
 
@@ -150,6 +158,11 @@ def index():
 	from_ports = []
 	last_import, records_count = getLastImport()
 	checked_records_count = getCheckedRecordCount()
+
+	this_day = date.today().strftime("%d-%m")
+
+	on_this_day = getEntriesForDate(this_day)
+
 
 	weather = []
 
@@ -186,7 +199,8 @@ def index():
 		'vessels' : vessels,
 		'masters' : masters,
 		'registered_ports' : registered_ports,
-		'from_ports' : from_ports
+		'from_ports' : from_ports,
+		'on_this_day' : on_this_day
 	}
 	return render_template('index.html', **templateData)
 

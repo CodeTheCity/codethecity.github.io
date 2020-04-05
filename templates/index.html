@@ -1,12 +1,11 @@
+{% from "macros.html" import entries_table with context %}
+
 <!DOCTYPE html>
 	<head>
 			<title>Aberdeen Harbour Arrival History Dashboard</title>
 			<link rel="stylesheet" href="../static/style.css/">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			<style>
-				body {
-				    text-align: center;
-				}
 				#gChecking {
 				    width: 200px;
 				    height: 160px;
@@ -21,25 +20,35 @@
 
 		<p>This site contains information about the arrival of vessels into Aberdeen harbour between 1914 and 1920. The data has been transcribed from harbour log books of the period.</p>
 		
-		<h3>Note</h3>
-		<p>If the records checked is displaying 0 or none of the years contain data then it means the last data import failed due to an expected value in one of the columns.</p>
-		<p>So far non-date values in the date column have caused this problem to occur. Please check that no such values are present and hopefully it will rectify the import on the next attempt.</p>
+		<section>
+			<h3>Note</h3>
+			<div class="body">
+				<p>If the records checked is displaying 0 or none of the years contain data then it means the last data import failed due to an expected value in one of the columns.</p>
+				<p>So far non-date values in the date column have caused this problem to occur. Please check that no such values are present and hopefully it will rectify the import on the next attempt.</p>
+			</div>
+		</section>
 
 		<h2>Transcription Progress</h2>
 		<p>Last update: {{ last_import }}</p>
 		
-		<div>
-			<p style="font-family: sans-serif; font-size: 16px; font-weight: bold;">Records Transcribed</p>
-			<p style="text-anchor: middle; font-family: Arial; font-size: 29px; font-weight: bold; fill-opacity: 1; color: yellow;">{{ records_count }}</p>
-		</div>
-		<div>
-			<div id="gChecking"></div>
-		</div>
-
-		<div>
-			<p>{{ records_count }} records have been transcribed.</p>
-			<p>{{ checked_records_count }} records have been checked by a second person.</p>
-		</div>
+		<section>
+			<div class="cards">
+				<div class="card">
+		  		<div class="content">
+						<p style="font-family: sans-serif; font-size: 16px; font-weight: bold;">Records Transcribed</p>
+						<p style="text-anchor: middle; font-family: Arial; font-size: 29px; font-weight: bold; fill-opacity: 1; color: yellow;">{{ records_count }}</p>
+					</div>
+					<footer>{{ records_count }} records have been transcribed.</footer>
+				</div>
+		 		<div class="card">
+		 		 	<div class="content">
+		 		 		<div id="gChecking"></div>
+		 		 	</div>
+		 		 	<footer>{{ checked_records_count }} records checked by a second person.</footer>
+		 		</div>
+			</div>
+		</section>
+	
 
 		<script src="../static/raphael-2.1.4.min.js"></script>
 	  <script src="../static/justgage.js"></script>
@@ -75,18 +84,12 @@
 		<h2>Download Data</h2>
 		<p>
     	<a href="/api/v1.0/arrivals.csv" class="button">Download all data as CSV</a>
-    </p>
-
-    <p>
     	<a href="/api/v1.0/arrivals" class="button">Download all data as JSON</a>
-    </p>
-    <p>
     	<a href="/api/v1.0/weather" class="button">Download weather events as JSON</a>
-    </p>
-
-    <p>
     	<a href="/api/v1.0/cargo" class="button">Download cargo list as JSON</a>
     </p>
 
+    <h1>On this day in history</h1>
+		{{ entries_table(on_this_day) }}
 	</body>
 </html>
