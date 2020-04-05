@@ -10,7 +10,7 @@ from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import io
 from flask import Flask, render_template, send_file, make_response, request
 import datetime
-from datetime import date
+from datetime import date, datetime
 import database_driver
 import pandas as pd
 import configparser, os
@@ -198,7 +198,7 @@ def index():
 
 	templateData = {
 		'records_count' : records_count,
-		'last_import' : last_import,
+		'last_import' : datetime.strptime(last_import, '%H:%M %d-%m-%Y').strftime('%d %B %Y %H:%M'),
 		'checked_records_count' : checked_records_count,
 		'cargo' : cargo,
 		'vessels' : vessels,
