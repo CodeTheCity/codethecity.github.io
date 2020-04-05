@@ -20,6 +20,11 @@ app = Flask(__name__)
 dbname = 'harbour.db'
 db = database_driver.database(dbname)
 
+def dir_last_updated(folder):
+	return str(max(os.path.getmtime(os.path.join(root_path, f))
+		for root_path, dirs, files in os.walk(folder)
+		for f in files))
+
 def getLastImport():
 	rows = db.select('SELECT strftime("%H:%M %d-%m-%Y", timestamp) as formated_date, entries FROM imports ORDER BY timestamp DESC LIMIT 1')
 	return rows[0][0], rows[0][1]
@@ -200,7 +205,8 @@ def index():
 		'masters' : masters,
 		'registered_ports' : registered_ports,
 		'from_ports' : from_ports,
-		'on_this_day' : on_this_day
+		'on_this_day' : on_this_day,
+		'last_updated' : dir_last_updated('static')
 	}
 	return render_template('index.html', **templateData)
 

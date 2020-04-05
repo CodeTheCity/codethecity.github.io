@@ -1,5 +1,5 @@
 body {
-	background: green;
+	background: rgb(0, 0, 128);
 	color: white;
 	text-align: center;
 	margin: 20px;
@@ -24,7 +24,8 @@ body {
 }
 
 a:hover {
-  color: hotpink;
+  color: yellow;
+  background-color: black;
 }
 
 .information {
