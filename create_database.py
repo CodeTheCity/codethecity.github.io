@@ -16,9 +16,9 @@ if __name__ == '__main__':
 		except Error as e:
 				print(e)
 
-		google_sheet_url = 'https://docs.google.com/spreadsheets/d/120KGS0oRFby5so-4_QVtaJWgAzuFEsnq86C1EgZW0-A/export#gid=0?format=csv'
 
-		dfname = pd.ExcelFile(google_sheet_url)
+		# Import transcribed records
+		google_sheet_url = 'https://docs.google.com/spreadsheets/d/120KGS0oRFby5so-4_QVtaJWgAzuFEsnq86C1EgZW0-A/export#gid=0?format=csv'
 
 		df = pd.DataFrame()
 
