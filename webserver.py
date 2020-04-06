@@ -34,12 +34,11 @@ def getRecordCount():
 	return rows[0][0]
 
 def getCheckedRecordCount():
-	rows = db.select('SELECT COUNT(date) FROM arrivals WHERE checker != "?"')
+	rows = db.select('SELECT COUNT(date) FROM arrivals WHERE checker != ""')
 	return rows[0][0]
 
-
-def getCargoData():
-	rows = db.select('SELECT DISTINCT cargo FROM arrivals ORDER BY cargo')
+def getDataForColumn(column):
+	rows = db.select('SELECT DISTINCT {} FROM arrivals WHERE {} <> "" ORDER BY {}'.format(column, column, column))
 	data = []
 	for row in rows:
 		data.append(row[0])
@@ -47,36 +46,19 @@ def getCargoData():
 	return data
 
 def getVesselsData():
-	rows = db.select('SELECT DISTINCT vessel FROM arrivals ORDER BY vessel')
-	data = []
-	for row in rows:
-		data.append(row[0])
-
-	return data
+	return getDataForColumn('vessel')
 
 def getMastersData():
-	rows = db.select('SELECT DISTINCT master FROM arrivals WHERE master is not null ORDER BY master')
-	data = []
-	for row in rows:
-		data.append(row[0])
+	return getDataForColumn('master')
 
-	return data
+def getCargoData():
+	return getDataForColumn('cargo')
 
 def getRegisteredPortsData():
-	rows = db.select('SELECT DISTINCT registered_port FROM arrivals ORDER BY registered_port')
-	data = []
-	for row in rows:
-		data.append(row[0])
-
-	return data
+	return getDataForColumn('registered_port')
 
 def getFromPortsData():
-	rows = db.select('SELECT DISTINCT from_port FROM arrivals ORDER BY from_port')
-	data = []
-	for row in rows:
-		data.append(row[0])
-
-	return data
+	return getDataForColumn('from_port')
 
 def getWeatherData():
 	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, weather FROM arrivals WHERE weather != "?" AND weather != "" ORDER BY date')
@@ -89,20 +71,10 @@ def getNotesData():
 	return rows
 
 def getTranscribersData():
-	rows = db.select('SELECT DISTINCT transcriber FROM arrivals ORDER BY transcriber')
-	data = []
-	for row in rows:
-		data.append(row[0])
-
-	return data
+	return getDataForColumn('transcriber')
 
 def getCheckersData():
-	rows = db.select('SELECT DISTINCT checker FROM arrivals ORDER BY checker')
-	data = []
-	for row in rows:
-		data.append(row[0])
-
-	return data
+	return getDataForColumn('checker')
 
 def getEntriesForVessel(vessel):
 	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, registered_port, master, registered_tonnage, from_port, cargo, checker FROM arrivals WHERE vessel LIKE :vessel ORDER BY date', {"vessel":'%'+vessel+'%'})
