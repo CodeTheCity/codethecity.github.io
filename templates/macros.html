@@ -20,13 +20,13 @@
 		{% endif %}
 		<tr>
 			<td nowrap>{{ entry[0] }}</td>
-			<td>{{ entry[1] }}</td>
+			<td><a href="/vessel/{{ entry[1] }}" class="link">{{ entry[1] }}</a></td>
 			<td>{{ entry[2] }}</td>
-			<td>{{ entry[3] }}</td>
-			<td>{{ entry[4] }}</td>
+			<td><a href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a></td>
+			<td><a href="/master/{{ entry[4] }}" class="link">{{ entry[4] }}</a></td>
 			<td>{{ entry[5] }}</td>
-			<td>{{ entry[6] }}</td>
-			<td>{{ entry[7] }}</td>
+			<td><a href="/from_port/{{ entry[6] }}" class="link">{{ entry[6] }}</a></td>
+			<td><a href="/cargo/{{ entry[7] }}" class="link">{{ entry[7] }}</a></td>
 			<td style="text-align: center">
 				{% if entry[8] == '' %}
 				{% else %}
