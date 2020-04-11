@@ -481,6 +481,17 @@ def api_get_cargo():
 	response.headers["Content-Type"] = "application/json"
 	return response
 
+@app.route('/api/v1.0/vessels.csv')
+def csv_get_vessels():
+	con = db.create_connection()
+	df = pd.read_sql_query('SELECT DISTINCT vessel FROM arrivals ORDER BY vessel', con)
+	con.close()
+
+	response = make_response(df.to_csv())
+	response.headers["Content-Disposition"] = "attachment; filename=vessels.csv"
+	response.headers["Content-Type"] = "text/csv"
+	return response
+
 @app.route('/api/v1.0/weather')
 def api_get_weather():
 	con = db.create_connection()
