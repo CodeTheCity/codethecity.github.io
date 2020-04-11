@@ -322,6 +322,28 @@ def transcriber_notes():
 	}
 	return render_template('transcriber_notes.html', **templateData)
 
+@app.route('/day/<year>/<month>/<day>')
+def day(year, month, day):
+
+	entries = []
+	entries = getEntriesForYear(year)
+
+	this_day = date.today().strftime('{:0>2}-{:0>2}-{}'.format(day, month, year))
+
+	on_this_day = getEntriesForDate(this_day)
+
+	on_this_day_weather = getWeatherDataForDate(this_day)
+
+	templateData = {
+		'entries' : on_this_day,
+		'year' : year,
+		'month' : month,
+		'day' : day,
+		'last_updated' : dir_last_updated('static')
+	}
+	return render_template('day.html', **templateData)
+
+
 @app.route('/arrivals/<year>')
 def arrivals(year):
 
