@@ -110,7 +110,6 @@
 
 <h1>On this day in history</h1>
 
-<<<<<<< HEAD
     <a href="/day/1914/04/11" class="button">Today in 1914</a>
 
     <table class="dataframe">
@@ -125,19 +124,5 @@
 			</tr>
 		{% endfor %}
 		</table>
-=======
-<table class="dataframe">
-  <tr>
-    <th>Date</th>
-    <th>Weather</th>
-  </tr>
-  {% for entry in on_this_day_weather %}
-  <tr>
-    <td nowrap>{{ entry[0] }}</td>
-    <td>{{ entry[1] }}</td>
-  </tr>
-  {% endfor %}
-</table>
->>>>>>> 7dcd543e21d23455bfa4f50a27d2d1c9fd701bdf
 
 {{ entries_table(on_this_day) }} {% endblock %}
