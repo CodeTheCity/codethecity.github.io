@@ -1,15 +1,9 @@
+{% extends 'base.html' %}
+
 {% from "macros.html" import entries_table with context %}
 
-<!DOCTYPE html>
-	<head>
-			<title>Aberdeen Harbour Historic Arrival Records</title>
-			<link rel="stylesheet" href="../../../static/style.css?u={{ last_updated }}/">
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body>
-		{% include 'navigation.html' %}
-		<h1>Aberdeen Harbour Historic Arrival Records {{ year }}</h1>
-		
-		{{ entries_table(entries) }}
-	</body>
-</html>
+{% block title %}Aberdeen Harbour Historic Arrival Records {{ year }}{% endblock %}
+
+{% block content %}
+{{ entries_table(entries) }}
+{% endblock %}
