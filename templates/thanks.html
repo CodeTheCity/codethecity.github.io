@@ -1,19 +1,13 @@
-<!DOCTYPE html>
-	<head>
-			<title>Harbour Arrival History Thanks</title>
-			<link rel="stylesheet" href="../static/style.css?u={{ last_updated }}/">
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body>
-		{% include 'navigation.html' %}
-		<h1>Thank You</h1>
+{% extends 'base.html' %}
 
-		<p>A big thank you to the following people who have transcribed and checked the records:</p>
-		
-		<h2>Transcribers</h2>
-		{{ transcribers|join(', ')|safe}}
+{% block title %}Thank You{% endblock %}
 
-		<h2>Checkers</h2>
-		{{ checkers|join(', ')|safe}}
-	</body>
-</html>
+{% block content %}
+<p>A big thank you to the following people who have transcribed and checked the records:</p>
+
+<h2>Transcribers</h2>
+{{ transcribers|join(', ')|safe}}
+
+<h2>Checkers</h2>
+{{ checkers|join(', ')|safe}}
+{% endblock %}
