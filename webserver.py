@@ -101,6 +101,11 @@ def getEntriesForFromPort(from_port):
 
 	return rows
 
+def getWeatherDataForDate(date):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, weather FROM arrivals WHERE weather != "?" AND weather != "" AND strftime("%d-%m-%Y", date) like :date ORDER BY date', { "date": '%{}%'.format(date)})
+
+	return rows
+
 # Checks for partial match of date - e.g. search for 1914 gets all in 1914
 # search for 5-4 gets all for 5th April any year
 def getEntriesForDate(date):
@@ -140,6 +145,8 @@ def index():
 
 	on_this_day = getEntriesForDate(this_day)
 
+	on_this_day_weather = getWeatherDataForDate(this_day)
+
 
 	weather = []
 
@@ -178,6 +185,7 @@ def index():
 		'registered_ports' : registered_ports,
 		'from_ports' : from_ports,
 		'on_this_day' : on_this_day,
+		'on_this_day_weather' : on_this_day_weather,
 		'last_updated' : dir_last_updated('static')
 	}
 	return render_template('index.html', **templateData)

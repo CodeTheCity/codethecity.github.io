@@ -94,6 +94,20 @@
     </p>
 
     <h1>On this day in history</h1>
+
+    <table class="dataframe">
+			<tr>
+				<th>Date</th>
+				<th>Weather</th>
+			</tr>
+		{% for entry in on_this_day_weather %}
+			<tr>
+				<td nowrap>{{ entry[0] }}</td>
+				<td>{{ entry[1] }}</td>
+			</tr>
+		{% endfor %}
+		</table>
+
 		{{ entries_table(on_this_day) }}
 	</body>
 </html>
