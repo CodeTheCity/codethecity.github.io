@@ -105,6 +105,20 @@ ps ax | grep aqsensor.py
 kill PID
 ```
 
+### Automatically start on reboot
+
+To automatically start the webserver on reboot:
+
+```
+crontab -e
+```
+
+Add the following to the end of the file:
+
+```
+@reboot cd /home/pi/Projects/historical_harbour_arrivals_api && sudo /home/pi/Projects/historical_harbour_arrivals_api/webserver.py & > /home/pi/logs/cronlog 2>&1
+```
+
 ### Contributing
 
 If you'd like to contribute to the project, that's great. There's a guide to contributing to, both code and general help, over in [CONTRIBUTING](https://github.com/CodeTheCity/historical_harbour_arrivals_api/blob/master/CONTRIBUTING.md)
