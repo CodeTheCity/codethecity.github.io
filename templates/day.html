@@ -1,33 +1,34 @@
+{% extends 'base.html' %}
+
 {% from "macros.html" import entries_table with context %}
 
 <!DOCTYPE html>
-	<head>
-			<title>Aberdeen Harbour Historic Arrival Records</title>
-			<link rel="stylesheet" href="../../../static/style.css?u={{ last_updated }}/">
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body>
-		{% include 'navigation.html' %}
-		<h1>Aberdeen Harbour Historic Arrival Records {{ date }}</h1>
-		<a href="/day/{{ yesterday }}" class="button">Back a day</a>
-		<a href="/day/{{ tomorrow }}" class="button">Forward a day</a>
 
-		<div style="text-align: left">
-			<h2>Weather</h2>
-			<p>{{ on_this_day_weather[1] }}</p>
+{%block title %}Aberdeen Harbour Historic Arrival Records {{ date }}{% endblock %}
 
-			{% if on_this_day_note|length > 0 %}
-				<h2>Notes</h2>
-				{% for note in on_this_day_note %}
-					<p>{{ note[1] }}</p>
-				{% endfor %}
-			{% endif %}
+{% block content %}
+<a href="/day/{{ yesterday }}" class="button">Back a day</a>
+<a href="/day/{{ tomorrow }}" class="button">Forward a day</a>
+
+<div style="text-align: left">
+	<h2>Weather</h2>
+	<p>{{ on_this_day_weather[1] }}</p>
+
+	{% if on_this_day_note|length > 0 %}
+	<h2>Notes</h2>
+	{% for note in on_this_day_note %}
+	<p>{{ note[1] }}</p>
+	{% endfor %}
+	{% endif %}
 
 
-			<h2>Arrivals</h2>
-			{% for entry in entries %}
-				<p>The <a href="/vessel/{{ entry[1] }}" class="link">{{ entry[1] }}</a> arrived from <a href="/from_port/{{ entry[6] }}" class="link">{{ entry[6] }}</a> carrying a cargo of {{ entry[5] }} tonnes of <a href="/cargo/{{ entry[7] }}" class="link">{{ entry[7] }}</a>. Master of the vessel was <a href="/master/{{ entry[4] }}" class="link">{{ entry[4] }}</a> and it was registered in <a href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a>.</p>
-			{% endfor %}
-		</div>
-	</body>
-</html>
+	<h2>Arrivals</h2>
+	{% for entry in entries %}
+	<p>The <a href="/vessel/{{ entry[1] }}" class="link">{{ entry[1] }}</a> arrived from <a
+			href="/from_port/{{ entry[6] }}" class="link">{{ entry[6] }}</a> carrying a cargo of {{ entry[5] }} tonnes of <a
+			href="/cargo/{{ entry[7] }}" class="link">{{ entry[7] }}</a>. Master of the vessel was <a
+			href="/master/{{ entry[4] }}" class="link">{{ entry[4] }}</a> and it was registered in <a
+			href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a>.</p>
+	{% endfor %}
+</div>
+{% endblock %}

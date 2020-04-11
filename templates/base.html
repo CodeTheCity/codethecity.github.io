@@ -17,8 +17,11 @@
 </head>
 
 <body>
-  {% include 'navigation.html' %} {% block content %}{% endblock %}
+  {% include 'navigation.html' %}
+
   <h1>{% block title %}{% endblock %}</h1>
+
+  {% block content %}{% endblock %}
 </body>
 
 </html>
