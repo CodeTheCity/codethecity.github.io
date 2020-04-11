@@ -1,5 +1,28 @@
 {% macro entries_table(entries) %}
 	<p><strong>Checked</strong> indicates if the transcription of the entry has been checked by a second person.</p>
+	<h3>Definitions</h3>
+	<div style="text-align:left">
+		<dl>
+			<dt>Date</dt>
+			<dd>The date the vessel arrived at Aberdeen harbour</dd>
+			<dt>Vessel</dt>
+			<dd>Name of the vessel that arrived on the date</dd>
+			<dt>Number</dt>
+			<dd>Entry number in the log book</dd>
+			<dt>Registered Port</dt>
+			<dd>The port that the vessel is registered at</dd>
+			<dt>Master</dt>
+			<dd>The name of the person in charge of the vessel</dd>
+			<dt>Registered Tonnage</dt>
+			<dd>The tonnage of the cargo arriving in the vessel</dd>
+			<dt>Port of Origin</dt>
+			<dd>The port that the vessel sailed from to arrive at Aberdeen</dd>
+			<dt>Cargo</dt>
+			<dd>What the vessel was carrying</dd>
+			<dt>Checked</dt>
+			<dd>Has the transcription been checked by a second person</dd>
+		</dl>
+	</div>
 	<table class="dataframe">
 		<tr>
 			<th>Date</th>
@@ -8,7 +31,7 @@
 			<th>Registered Port</th>
 			<th>Master</th>
 			<th>Registered Tonnage</th>
-			<th>From Port</th>
+			<th>Port of Origin</th>
 			<th>Cargo</th>
 			<th>Checked</th>
 		</tr>
