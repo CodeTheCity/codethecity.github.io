@@ -29,18 +29,23 @@ if __name__ == '__main__':
 		 	dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), nrows=import_nrows, header=1, dtype={1:'str', 5:'str', 6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0], na_values=['(blank)', '(Blank)','Blank', '-'])
 		 	df = pd.concat([df, dfnew])
 
-		df = df.rename(columns = {'Date of Arrival (dd-mmm-yyyy)':'date', 'Number':'number', 'Ship\'s Name':'vessel', 'Of What Port':'registered_port', 'Master':'master', 'Registered Tonnage':'registered_tonnage','Port From Whence':'from_port','Cargo':'cargo', 'Wind and Weather':'weather','Other Notes':'notes', 'Transcriber Notes':'transcriber_notes', 'Transcribed by':'transcriber', 'Checked by':'checker', 'Queries':'transcriber_queries'})
+		df = df.rename(columns = {'Date of Arrival (dd-mmm-yyyy)':'date', 'Number':'number', 'Ship\'s Name':'vessel', 'Of What Port':'registered_port', 'Master':'master', 'Registered Tonnage':'registered_tonnage','Port From Whence':'from_port','Cargo':'cargo_transcribed', 'Wind and Weather':'weather','Other Notes':'notes', 'Transcriber Notes':'transcriber_notes', 'Transcribed by':'transcriber', 'Checked by':'checker', 'Queries':'transcriber_queries'})
 
 		# Fix missing data issues and clean out whitespace
-		columns = ['number', 'cargo', 'master', 'registered_port', 'registered_tonnage', 'from_port', 'vessel', 'weather', 'notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
+		columns = ['number', 'cargo_transcribed', 'master', 'registered_port', 'registered_tonnage', 'from_port', 'vessel', 'weather', 'notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
 
 		for column in columns:
 			df[column] = df[column].fillna('').str.strip()
 			#df.loc[(df[column] == '(blank)'), column] = ''
 
 		df.loc[(df['transcriber_notes'] == '?'), 'transcriber_notes'] = ''
+		df['cargo'] = df['cargo_transcribed']
+		df.loc[(df['cargo'].isin(['Ballast', 'Ballast WB'])), 'cargo'] = 'Ballast'
+		df.loc[(df['cargo'].isin(['Barley', 'Barley WB'])), 'cargo'] = 'Barley'
+		df.loc[(df['cargo'].isin(['A Boiler', 'Boiler', 'Boilers', 'Bolier'])), 'cargo'] = 'Boiler'
+		df.loc[(df['cargo'].isin(['Cement', 'Cement', 'Cement PC', 'Cement WB'])), 'cargo'] = 'Cement'
+		df.loc[(df['cargo'].isin(['Coal', 'Coal W3', 'Coal WB'])), 'cargo'] = 'Coal'
 
-			
 		# Write to database
 		con = db.create_connection()
 		df.to_sql('arrivals', con, if_exists='replace', index = False)
