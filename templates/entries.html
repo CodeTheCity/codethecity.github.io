@@ -9,6 +9,10 @@
 	<body>
 		{% include 'navigation.html' %}
 		<h1>Aberdeen Harbour Historic Arrival Records {{ year }}</h1>
+
+		{% if source %}
+			<a href="{{ source }}" class="link">Source files</a>
+		{% endif %}
 		
 		{{ entries_table(entries) }}
 	</body>

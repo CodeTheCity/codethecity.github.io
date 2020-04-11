@@ -320,9 +320,16 @@ def arrivals(year):
 	entries = []
 	entries = getEntriesForYear(year)
 
+	sources = { '1914' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=1432177458', '1915' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=524481503', '1916' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=247148901', '1917' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=1725245449', '1918' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=1155924912', '1919' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=1705602406', '1920' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=583956228' }
+
+	source = None
+	if year in sources:
+		source = sources[year]
+
 	templateData = {
 		'entries' : entries,
-		'year' : year
+		'year' : year,
+		'source' : source
 	}
 	return render_template('entries.html', **templateData)
 
