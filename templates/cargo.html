@@ -1,15 +1,9 @@
+{% extends 'base.html' %}
+
 {% from "macros.html" import entries_table with context %}
 
-<!DOCTYPE html>
-	<head>
-			<title>Harbour Arrival History - Cargo</title>
-			<link rel="stylesheet" href="../static/style.css?u={{ last_updated }}/">
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body>
-		{% include 'navigation.html' %}
-		<h1>Entries with Cargo that include "{{ cargo }}"</h1>
+{%block title %}Entries with Cargo that include "{{ cargo }}"{% endblock %}
 
-		{{ entries_table(entries) }}
-	</body>
-</html>
+{% block content %}
+{{ entries_table(entries) }}
+{% endblock %}
