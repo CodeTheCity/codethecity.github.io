@@ -1,113 +1,126 @@
+{% extends 'base.html' %}
+
 {% from "macros.html" import entries_table with context %}
 
-<!DOCTYPE html>
-	<head>
-			<title>Aberdeen Harbour Arrival History Dashboard</title>
-			<link rel="stylesheet" href="../static/style.css?u={{ last_updated }}/">
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-			<style>
-				#gChecking {
-				    width: 200px;
-				    height: 160px;
-				    display: inline-block;
-				    margin: 1em;
-				}
-			</style>
-	</head>
-	<body>
-		{% include 'navigation.html' %}
-		<h1>Aberdeen Harbour Arrival History Dashboard</h1>
+{% block title %}Aberdeen Harbour Arrival History Dashboard{% endblock %}
 
-		<p>This site contains information about the arrival of vessels into Aberdeen harbour between 1914 and 1920. The data has been transcribed from harbour log books of the period.</p>
-		
-		<section>
-			<h3>Note</h3>
-			<div class="body">
-				<p>If the records checked is displaying 0 or none of the years contain data then it means the last data import failed due to an expected value in one of the columns.</p>
-				<p>So far non-date values in the date column have caused this problem to occur. Please check that no such values are present and hopefully it will rectify the import on the next attempt.</p>
-			</div>
-		</section>
+{% block content %}
+<p>
+  This site contains information about the arrival of vessels into Aberdeen
+  harbour between 1914 and 1920. The data has been transcribed from harbour log
+  books of the period.
+</p>
 
-		<h2>Transcription Progress</h2>
-		
-		<section>
-			<div class="cards">
-				<div class="card">
-		  		<div class="content">
-						<p style="font-family: sans-serif; font-size: 16px; font-weight: bold;">Records Transcribed</p>
-						<p style="text-anchor: middle; font-family: Arial; font-size: 29px; font-weight: bold; fill-opacity: 1; color: yellow;">{{ records_count }}</p>
-					</div>
-					<footer>{{ records_count }} records have been transcribed.</footer>
-				</div>
-		 		<div class="card">
-		 		 	<div class="content">
-		 		 		<div id="gChecking"></div>
-		 		 	</div>
-		 		 	<footer>{{ checked_records_count }} records checked by a second person.</footer>
-		 		</div>
-			</div>
-		</section>
-		<p>Last update: {{ last_import }}</p>
-	
-		<script src="../static/raphael-2.1.4.min.js"></script>
-	  <script src="../static/justgage.js"></script>
-	  <script>
-		var gChecking;
-		document.addEventListener("DOMContentLoaded", function(event) {
-		    gChecking = new JustGage({
-					id: "gChecking",
-					value: {{ checked_records_count }},
-					valueFontColor: "yellow",
-					min: 0,
-					max: {{ records_count }},
-					title: "Records Checked",
-					label: "Records",
-					pointer: true,
-					titleFontColor: "white",
-					labelFontColor: "white",
-					counter: true,
-					donut: true
-				});
-		  });
-		</script>
-
-		<h2>Arrival Records</h2>
-		<p>The transcribed arrival records for each year can be viewed via the following links:</p>
-		<p>
-			{% for year in range(1914, 1921) %}
-				<a href="/arrivals/{{year}}" class="button">{{year}}</a>
-			{% endfor %}
-			<a href="/arrivals_after/1920" class="button">After 1920 - probably transcription errors</a>
-		</p>
-
-		<h2>Download Data</h2>
-		<h3>CSV</h3>
-		<p>
-    	<a href="/api/v1.0/arrivals.csv" class="button">Download all data as CSV</a>
-    	<a href="/api/v1.0/vessels.csv" class="button">Download vessel list as CSV</a>
-    </p>
-    <h3>JSON</h3>
+<section>
+  <h3>Note</h3>
+  <div class="body">
     <p>
-    	<a href="/api/v1.0/arrivals" class="button">Download all data as JSON</a>
-    	<a href="/api/v1.0/weather" class="button">Download weather events as JSON</a>
-    	<a href="/api/v1.0/cargo" class="button">Download cargo list as JSON</a>
+      If the records checked is displaying 0 or none of the years contain data
+      then it means the last data import failed due to an expected value in one
+      of the columns.
     </p>
+    <p>
+      So far non-date values in the date column have caused this problem to
+      occur. Please check that no such values are present and hopefully it will
+      rectify the import on the next attempt.
+    </p>
+  </div>
+</section>
 
-    <h1>On this day in history</h1>
+<h2>Transcription Progress</h2>
 
-    <table class="dataframe">
-			<tr>
-				<th>Date</th>
-				<th>Weather</th>
-			</tr>
-		{% for entry in on_this_day_weather %}
-			<tr>
-				<td nowrap>{{ entry[0] }}</td>
-				<td>{{ entry[1] }}</td>
-			</tr>
-		{% endfor %}
-		</table>
+<section>
+  <div class="cards">
+    <div class="card">
+      <div class="content">
+        <p style="font-family: sans-serif; font-size: 16px; font-weight: bold;">
+          Records Transcribed
+        </p>
+        <p style="
+            text-anchor: middle;
+            font-family: Arial;
+            font-size: 29px;
+            font-weight: bold;
+            fill-opacity: 1;
+            color: yellow;
+          ">
+          {{ records_count }}
+        </p>
+      </div>
+      <footer>{{ records_count }} records have been transcribed.</footer>
+    </div>
+    <div class="card">
+      <div class="content">
+        <div id="gChecking"></div>
+      </div>
+      <footer>
+        {{ checked_records_count }} records checked by a second person.
+      </footer>
+    </div>
+  </div>
+</section>
+<p>Last update: {{ last_import }}</p>
 
-		{{ entries_table(on_this_day) }}
-	</body>
-</html>
+<script src="../static/raphael-2.1.4.min.js"></script>
+<script src="../static/justgage.js"></script>
+<script>
+  var gChecking;
+  document.addEventListener("DOMContentLoaded", function (event) {
+    gChecking = new JustGage({
+      id: "gChecking",
+      value: {{ checked_records_count }},
+    valueFontColor: "yellow",
+    min: 0,
+    max: {{ records_count }},
+    title: "Records Checked",
+    label: "Records",
+    pointer: true,
+    titleFontColor: "white",
+    labelFontColor: "white",
+    counter: true,
+    donut: true
+  		});
+    });
+</script>
+
+<h2>Arrival Records</h2>
+<p>
+  The transcribed arrival records for each year can be viewed via the following
+  links:
+</p>
+<p>
+  {% for year in range(1914, 1921) %}
+  <a href="/arrivals/{{year}}" class="button">{{year}}</a>
+  {% endfor %}
+  <a href="/arrivals_after/1920" class="button">After 1920 - probably transcription errors</a>
+</p>
+
+<h2>Download Data</h2>
+<h3>CSV</h3>
+<p>
+  <a href="/api/v1.0/arrivals.csv" class="button">Download all data as CSV</a>
+  <a href="/api/v1.0/vessels.csv" class="button">Download vessel list as CSV</a>
+</p>
+<h3>JSON</h3>
+<p>
+  <a href="/api/v1.0/arrivals" class="button">Download all data as JSON</a>
+  <a href="/api/v1.0/weather" class="button">Download weather events as JSON</a>
+  <a href="/api/v1.0/cargo" class="button">Download cargo list as JSON</a>
+</p>
+
+<h1>On this day in history</h1>
+
+<table class="dataframe">
+  <tr>
+    <th>Date</th>
+    <th>Weather</th>
+  </tr>
+  {% for entry in on_this_day_weather %}
+  <tr>
+    <td nowrap>{{ entry[0] }}</td>
+    <td>{{ entry[1] }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{{ entries_table(on_this_day) }} {% endblock %}
