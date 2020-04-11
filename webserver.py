@@ -10,7 +10,7 @@ from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import io
 from flask import Flask, render_template, send_file, make_response, request
 import datetime
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import database_driver
 import pandas as pd
 import configparser, os
@@ -103,6 +103,11 @@ def getEntriesForFromPort(from_port):
 
 def getWeatherDataForDate(date):
 	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, weather FROM arrivals WHERE weather != "?" AND weather != "" AND strftime("%d-%m-%Y", date) like :date ORDER BY date', { "date": '%{}%'.format(date)})
+
+	return rows
+
+def getNotesDataForDate(date):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, notes FROM arrivals WHERE notes != "?" AND notes != "" AND strftime("%d-%m-%Y", date) like :date ORDER BY date', { "date": '%{}%'.format(date)})
 
 	return rows
 
@@ -328,17 +333,21 @@ def day(year, month, day):
 	entries = []
 	entries = getEntriesForYear(year)
 
-	this_day = date.today().strftime('{:0>2}-{:0>2}-{}'.format(day, month, year))
+	date_string = '{:0>2}-{:0>2}-{}'.format(day, month, year)
+	date = datetime.strptime(date_string, '%d-%m-%Y').date()
 
-	on_this_day = getEntriesForDate(this_day)
+	on_this_day = getEntriesForDate(date_string)
 
-	on_this_day_weather = getWeatherDataForDate(this_day)
+	on_this_day_weather = getWeatherDataForDate(date_string)[0]
+	on_this_day_note = getNotesDataForDate(date_string)
 
 	templateData = {
 		'entries' : on_this_day,
-		'year' : year,
-		'month' : month,
-		'day' : day,
+		'date' : date.strftime('%d %B %Y'),
+		'tomorrow' : (date + timedelta(days=1)).strftime('%Y/%m/%d'),
+		'yesterday' : (date + timedelta(days=-1)).strftime('%Y/%m/%d'),
+		'on_this_day_weather' : on_this_day_weather,
+		'on_this_day_note' : on_this_day_note,
 		'last_updated' : dir_last_updated('static')
 	}
 	return render_template('day.html', **templateData)
