@@ -1,18 +1,13 @@
+{% extends 'base.html' %}
+
 {% from "macros.html" import grouped_entries with context %}
 
 <!DOCTYPE html>
-	<head>
-			<title>Aberdeen Harbour Historic Arrival Vessel Masters List</title>
-			<link rel="stylesheet" href="../static/style.css?u={{ last_updated }}/">
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body>
-		{% include 'navigation.html' %}
-		<h1>Aberdeen Harbour Historic Arrival Vessel Masters List</h1>
 
+{%block title %}Aberdeen Harbour Historic Arrival Vessel Masters List{% endblock %}
 
-		<p>Click on a masters name to see all the records that it appears in.</p>
-		
-		{{ grouped_entries('Masters', 'master', masters) }}
-	</body>
-</html>
+{%block content %}
+<p>Click on a masters name to see all the records that it appears in.</p>
+
+{{ grouped_entries('Masters', 'master', masters) }}
+{% endblock %}
