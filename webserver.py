@@ -15,6 +15,7 @@ import database_driver
 import pandas as pd
 import configparser, os
 import numpy as np
+from calendar import monthrange
 
 app = Flask(__name__)
 dbname = 'harbour.db'
@@ -337,8 +338,7 @@ def day(year, month, day):
 	date = datetime.strptime(date_string, '%d-%m-%Y').date()
 
 	on_this_day = getEntriesForDate(date_string)
-
-	on_this_day_weather = getWeatherDataForDate(date_string)[0]
+	on_this_day_weather = getWeatherDataForDate(date_string)
 	on_this_day_note = getNotesDataForDate(date_string)
 
 	templateData = {
@@ -346,8 +346,13 @@ def day(year, month, day):
 		'date' : date.strftime('%d %B %Y'),
 		'tomorrow' : (date + timedelta(days=1)).strftime('%Y/%m/%d'),
 		'yesterday' : (date + timedelta(days=-1)).strftime('%Y/%m/%d'),
+		'current_day' : day,
+		'current_month' : month,
+		'current_year' : year,
+		'days_in_month' : monthrange(int(year), int(month))[1],
 		'on_this_day_weather' : on_this_day_weather,
 		'on_this_day_note' : on_this_day_note,
+		'on_this_day' : on_this_day,
 		'last_updated' : dir_last_updated('static')
 	}
 	return render_template('day.html', **templateData)

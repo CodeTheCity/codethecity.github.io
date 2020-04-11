@@ -7,28 +7,67 @@
 {%block title %}Aberdeen Harbour Historic Arrival Records {{ date }}{% endblock %}
 
 {% block content %}
+
+<p>
+	{% for year in range(1914, 1921) %}
+		{% if current_year|int == year %}
+			{{ year }}
+		{% else %}
+			<a href="/day/{{year}}/1/1" class="button">{{year}}</a>
+		{% endif %}
+	{% endfor %}
+</p>
+<p>
+	{% set months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] %}
+	{% for month in range(1, 13) %}
+		{% if current_month|int == month %}
+			{{ months[month - 1] }}
+		{% else %}
+			<a href="/day/{{current_year}}/{{month}}/1" class="button">{{months[month - 1]}}</a>
+		{% endif %}
+	{% endfor %}
+</p>
+<p>
+	{% for day in range(1, days_in_month + 1) %}
+		{% if current_day|int == day %}
+			{{ day }}
+		{% else %}
+			<a href="/day/{{current_year}}/{{current_month}}/{{day}}" class="button">{{day}}</a>
+		{% endif %}
+	{% endfor %}
+</p>
+
 <a href="/day/{{ yesterday }}" class="button">Back a day</a>
 <a href="/day/{{ tomorrow }}" class="button">Forward a day</a>
 
-<div style="text-align: left">
-	<h2>Weather</h2>
-	<p>{{ on_this_day_weather[1] }}</p>
+<section>
+	<div style="text-align: left">
+		<h2>Weather</h2>
+		{% for weather in on_this_day_weather %}
+			<p>{{ weather[1] }}</p>
+		{% endfor %}
 
-	{% if on_this_day_note|length > 0 %}
-	<h2>Notes</h2>
-	{% for note in on_this_day_note %}
-	<p>{{ note[1] }}</p>
-	{% endfor %}
-	{% endif %}
+		{% if on_this_day_note|length > 0 %}
+		<h2>Notes</h2>
+		{% for note in on_this_day_note %}
+		<p>{{ note[1] }}</p>
+		{% endfor %}
+		{% endif %}
 
 
-	<h2>Arrivals</h2>
-	{% for entry in entries %}
-	<p>The <a href="/vessel/{{ entry[1] }}" class="link">{{ entry[1] }}</a> arrived from <a
-			href="/from_port/{{ entry[6] }}" class="link">{{ entry[6] }}</a> carrying a cargo of {{ entry[5] }} tonnes of <a
-			href="/cargo/{{ entry[7] }}" class="link">{{ entry[7] }}</a>. Master of the vessel was <a
-			href="/master/{{ entry[4] }}" class="link">{{ entry[4] }}</a> and it was registered in <a
-			href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a>.</p>
-	{% endfor %}
-</div>
+		<h2>Arrivals</h2>
+		{% for entry in entries %}
+		<p>The <a href="/vessel/{{ entry[1] }}" class="link">{{ entry[1] }}</a> arrived from <a
+				href="/from_port/{{ entry[6] }}" class="link">{{ entry[6] }}</a> carrying a cargo of {{ entry[5] }} tonnes of <a
+				href="/cargo/{{ entry[7] }}" class="link">{{ entry[7] }}</a>. Master of the vessel was <a
+				href="/master/{{ entry[4] }}" class="link">{{ entry[4] }}</a> and it was registered in <a
+				href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a>.</p>
+		{% endfor %}
+	</div>
+</section>
+
+<h2>Raw Data</h2>
+
+{{ entries_table(on_this_day) }}
+
 {% endblock %}
