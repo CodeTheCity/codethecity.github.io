@@ -119,6 +119,42 @@ Add the following to the end of the file:
 @reboot cd /home/pi/Projects/historical_harbour_arrivals_api && sudo /home/pi/Projects/historical_harbour_arrivals_api/webserver.py & > /home/pi/logs/cronlog 2>&1
 ```
 
+## Developing
+
+If you want to get things up and running on your local machine, please follow these instructions to get set up.
+
+### [Optional] Setting up a virtual environment
+
+If you'd like to keep the libs installed for this project separate from your main install, you can set up [virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment).
+
+### Python dependencies
+
+You'll need to install the following dependencies:
+
+```
+# for running ./create_database.py
+
+pip install numpy pandas xlrt
+```
+
+```
+# for running the webserver
+
+pip install flask matplotlib
+```
+
+### Build the database
+
+```
+./create_database.py
+```
+
+### Run the webserver
+
+```
+./webserver.py
+```
+
 ### Contributing
 
 If you'd like to contribute to the project, that's great. There's a guide to contributing to, both code and general help, over in [CONTRIBUTING](https://github.com/CodeTheCity/historical_harbour_arrivals_api/blob/master/CONTRIBUTING.md)
