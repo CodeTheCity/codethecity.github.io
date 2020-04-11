@@ -1,24 +1,18 @@
-<!DOCTYPE html>
-	<head>
-			<title>Historic Aberdeen Harbour Weather Notes</title>
-			<link rel="stylesheet" href="../static/style.css?u={{ last_updated }}/">
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head>
-	<body>
-		{% include 'navigation.html' %}
-		<h1>Historic Aberdeen Harbour Weather Notes</h1>
+{% extends 'base.html' %}
 
-		<table class="dataframe">
-			<tr>
-				<th>Date</th>
-				<th>Weather</th>
-			</tr>
-		{% for entry in weather %}
-			<tr>
-				<td nowrap>{{ entry[0] }}</td>
-				<td>{{ entry[1] }}</td>
-			</tr>
-		{% endfor %}
-		</table>
-	</body>
-</html>
+{% block title %}Historic Aberdeen Harbour Weather Notes{% endblock %}
+
+{% block content %}
+<table class="dataframe">
+	<tr>
+		<th>Date</th>
+		<th>Weather</th>
+	</tr>
+	{% for entry in weather %}
+	<tr>
+		<td nowrap>{{ entry[0] }}</td>
+		<td>{{ entry[1] }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}
