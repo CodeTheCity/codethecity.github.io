@@ -2,8 +2,8 @@
 
 {% from "macros.html" import entries_table with context %}
 
-{%block title %}Entries with Registered Port that include "{{ registered_port }}"{% endblock %}
+{% block title %}Entries with Registered Port that include "{{ registered_port }}"{% endblock %}
 
-{%block content %}
+{% block content %}
 {{ entries_table(entries) }}
 {% endblock %}

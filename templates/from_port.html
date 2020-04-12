@@ -2,7 +2,7 @@
 
 {% from "macros.html" import entries_table with context %}
 
-{%block title %}Entries with Port of Origin that include "{{ from_port }}"{% endblock %}
+{% block title %}Entries with Port of Origin that include "{{ from_port }}"{% endblock %}
 
 {% block content %}
 {{ entries_table(entries) }}

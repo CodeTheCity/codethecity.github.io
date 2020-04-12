@@ -4,36 +4,36 @@
 
 <!DOCTYPE html>
 
-{%block title %}Aberdeen Harbour Historic Arrival Records {{ date }}{% endblock %}
+{% block title %}Aberdeen Harbour Historic Arrival Records {{ date }}{% endblock %}
 
 {% block content %}
 
 <p>
 	{% for year in range(1914, 1921) %}
-		{% if current_year|int == year %}
-			{{ year }}
-		{% else %}
-			<a href="/day/{{year}}/1/1" class="button">{{year}}</a>
-		{% endif %}
+	{% if current_year|int == year %}
+	{{ year }}
+	{% else %}
+	<a href="/day/{{year}}/1/1" class="button">{{year}}</a>
+	{% endif %}
 	{% endfor %}
 </p>
 <p>
 	{% set months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] %}
 	{% for month in range(1, 13) %}
-		{% if current_month|int == month %}
-			{{ months[month - 1] }}
-		{% else %}
-			<a href="/day/{{current_year}}/{{month}}/1" class="button">{{months[month - 1]}}</a>
-		{% endif %}
+	{% if current_month|int == month %}
+	{{ months[month - 1] }}
+	{% else %}
+	<a href="/day/{{current_year}}/{{month}}/1" class="button">{{months[month - 1]}}</a>
+	{% endif %}
 	{% endfor %}
 </p>
 <p>
 	{% for day in range(1, days_in_month + 1) %}
-		{% if current_day|int == day %}
-			{{ day }}
-		{% else %}
-			<a href="/day/{{current_year}}/{{current_month}}/{{day}}" class="button">{{day}}</a>
-		{% endif %}
+	{% if current_day|int == day %}
+	{{ day }}
+	{% else %}
+	<a href="/day/{{current_year}}/{{current_month}}/{{day}}" class="button">{{day}}</a>
+	{% endif %}
 	{% endfor %}
 </p>
 
@@ -44,7 +44,7 @@
 	<div style="text-align: left">
 		<h2>Weather</h2>
 		{% for weather in on_this_day_weather %}
-			<p>{{ weather[1] }}</p>
+		<p>{{ weather[1] }}</p>
 		{% endfor %}
 
 		{% if on_this_day_note|length > 0 %}

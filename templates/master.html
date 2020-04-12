@@ -2,9 +2,7 @@
 
 {% from "macros.html" import entries_table with context %}
 
-<!DOCTYPE html>
-
-{%block title %}Entries with Master that include "{{ master }}"{% endblock %}
+{% block title %}Entries with Master that include "{{ master }}"{% endblock %}
 
 {% block content %}
 {{ entries_table(entries) }}

@@ -2,7 +2,7 @@
 
 {% from "macros.html" import entries_table with context %}
 
-{%block title %}Entries with Cargo that include "{{ cargo }}"{% endblock %}
+{% block title %}Entries with Cargo that include "{{ cargo }}"{% endblock %}
 
 {% block content %}
 {{ entries_table(entries) }}
