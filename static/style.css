@@ -46,6 +46,20 @@ img{
 	text-align: left;
 }
 
+.body dl {
+  text-align: left;
+}
+
+.body dt {
+  font-weight: bold;
+}
+
+.body dd { 
+  display: block;
+  margin-left: 40px;
+  padding-bottom: 5px;
+}
+
 table.dataframe, .dataframe th, .dataframe td {
   border: none;
   border-bottom: 1px solid #C8C8C8;

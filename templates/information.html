@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% from "macros.html" import grouped_entries with context %}
+
+{% block title %}Information{% endblock %}
+
+{% block content %}
+
+	<div class="body">
+		<h2>The Transcription Process</h2>
+		<p>
+			The log books have been transcribed 'as written' were possible. This means that modern interpetations have not been used to replace words or phrases with modern versions.
+		</p>
+
+		<h2>Record Cleaning</h2>
+		<p>
+			Using the transcribed records as a source, we have applied various rules to clean up the information (for example different spellings of the same word) that is presented on this website. The orginial information has still been retained so that it is possible to see what was transcribed alongside our interpretation. This means that should new information come to light then we can easily rebuild an updated version using the original source material.
+		</p>
+
+		<h2>Definitions</h2>
+		<p>
+			There are various terms used throught the records that have lost their meaning. The following are our interpretations of the various terms. If you are aware of a different interpretation then please let us know.
+		</p>
+
+		<h3>Light Cargo</h3>
+		<p>
+			Light, means that there is no cargo. She is sailing with empty holds. She may be water ballasted to maintain trim, but if she were carrying solid ballast, then she would be recorded as "in ballast".
+		</p>
+
+		<h3>Tonnage</h3>
+		<p>
+			Tonnage has various meanings. These are:-
+		</p>
+		<dl>
+			<dt>Gross Registered Tons</dt>
+			<dd>a measure of volume, not weight, to a formula in the Merchant Shipping Acts. It is the roughly , the total enclosed volume of the vessel. The ton comes form the old “Ton”, a wine barrel.</dd>
+			<dt>Net registered tons</dt>
+			<dd>a measure of volume, not weight, to a formula in the Merchant Shipping Acts. It is the gross registered tonnage (g.r.t.) less allowed spaces, such as crew accommodation and engine and boiler rooms.</dd>
+			<dt>Displacement</dt>
+			<dd>the actual weight of water displaced by the vessel when empty, although it could also be given when fully loaded. Most often use for Royal Navy vessels.</dd>
+			<dt>Builder’s measure</dt>
+			<dd>An archaic measurement which me do not have any informstion about.</dd>
+		</dl>
+
+		<p>
+			1854 Merchant Shipping Act specification: -<br/>
+			1 ton = 100 cubic feet.
+		</p>
+		<dl>
+			<dt>“Gross”</dt>
+			<dd>registered tonnage specified as: - Total permanent enclosed volume of a ship, less fixed deductions for, ballast tanks, wheelhouses, galley and lavatories.</dd>
+			<dt>“Nett”</dt>
+			<dd>registered tonnage specified as: - Gross tonnage less volume of,accommodation, engine and machinery spaces.</dd>
+			<dt>“Deadweight”</dt>
+			<dd>The weight in tons of the cargo which may be carried by the vessel. This changes with season and salinity.</dd>
+			<dt>“Displacement”</dt>
+			<dd>The weight of water displaced by the hull of the vessel when carrying her deadweight tonnage.</dd>
+		</dl>
+	</div>
+
+{% endblock %}

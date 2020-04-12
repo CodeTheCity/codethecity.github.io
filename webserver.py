@@ -198,6 +198,9 @@ def index():
 	}
 	return render_template('index.html', **templateData)
 
+@app.route('/information')
+def information():
+	return render_template('information.html')
 
 @app.route('/thanks')
 def thanks():
