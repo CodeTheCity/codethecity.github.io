@@ -71,7 +71,7 @@ Add
 ```
 
 where <path> is the path to the directory that you have the code installed and <interval> is the minute frequency that you want the rebuild to occur at.
-  
+
 The output is sent to a log file in a directory named `logs` that you will need to create first.
 
 A sample completed entry that runs every 5 minutes for the code in `/home/pi/Projects/historical_harbour_arrivals_api` would be:
@@ -119,7 +119,7 @@ Add the following to the end of the file:
 @reboot cd /home/pi/Projects/historical_harbour_arrivals_api && sudo /home/pi/Projects/historical_harbour_arrivals_api/webserver.py & > /home/pi/logs/cronlog 2>&1
 ```
 
-## Developing
+## Setting up a development machine
 
 If you want to get things up and running on your local machine, please follow these instructions to get set up.
 
@@ -134,7 +134,7 @@ You'll need to install the following dependencies:
 ```
 # for running ./create_database.py
 
-pip install numpy pandas xlrt
+pip install numpy pandas xlrd
 ```
 
 ```
