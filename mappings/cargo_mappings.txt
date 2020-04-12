@@ -1,6 +1,6 @@
 Ballast:Ballast,Ballast WB
 Barley:Barley,Barley WB
-Boiler:A Boiler,Boiler,Boliers,Bolier
+Boiler:A Boiler,Boiler,Boliers,Bolier,Boilers
 Cement:Cement,Cement PC,Cement WB
 Coal:Coal,Coal W3,Coal WB
 Cruising:Cruising,Cruising WB
