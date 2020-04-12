@@ -1,0 +1,28 @@
+Ballast:Ballast,Ballast WB
+Barley:Barley,Barley WB
+Boiler:A Boiler,Boiler,Boliers,Bolier
+Cement:Cement,Cement PC,Cement WB
+Coal:Coal,Coal W3,Coal WB
+Cruising:Cruising,Cruising WB
+Esparto:Esparto,Esparto DC
+Fish Offal:Fish Offal,Fish,Fish & Oil
+General:General,General PC,General WB
+Goods:Good,Goods,Goods Light WB,Goods Towing,Goods WB
+Government Stores:Goverment Stores,Government Stores,Gov Stores,Gov Stores WB
+Granite:Granite,Granite PC
+Herring:Herring,Herrings,Herring WB
+Light:Light,Light F.O.,Light WB
+Manure:Manure,Manure PC
+Oats:Oatcake,Oats,Oats WB
+Oil:Oil,Oil in barrels
+Petrol:Petrol,Petroleum
+Phosphate:Phos asphilta,Phosphate
+Pulp:Pulp,Pulp DC,Pulpwood
+Salt:Salt,Salt P. C
+Slag:Slag,Slag WB
+Slates:Slates,Slates PC,Slates RC
+Timber:Timber,Timber WB
+Towing:Towing,Towing Admiralty Lighter,Towing Barge,Towing Frigate,Towing Hopper,In Tow,Light Towing
+Wood:Wood,Wood pulp
+Fit Out:To Fit,To Fit Out,To Be Fitted
+Repairs:For Repairs,To Be Repaired

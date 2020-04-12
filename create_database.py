@@ -40,11 +40,23 @@ if __name__ == '__main__':
 
 		df.loc[(df['transcriber_notes'] == '?'), 'transcriber_notes'] = ''
 		df['cargo'] = df['cargo_transcribed']
-		df.loc[(df['cargo'].isin(['Ballast', 'Ballast WB'])), 'cargo'] = 'Ballast'
-		df.loc[(df['cargo'].isin(['Barley', 'Barley WB'])), 'cargo'] = 'Barley'
-		df.loc[(df['cargo'].isin(['A Boiler', 'Boiler', 'Boilers', 'Bolier'])), 'cargo'] = 'Boiler'
-		df.loc[(df['cargo'].isin(['Cement', 'Cement', 'Cement PC', 'Cement WB'])), 'cargo'] = 'Cement'
-		df.loc[(df['cargo'].isin(['Coal', 'Coal W3', 'Coal WB'])), 'cargo'] = 'Coal'
+
+		mappings = {}
+
+		with open('cargo_mappings.txt') as file:
+			line = file.readline()
+
+			while line:
+				line = line.rstrip('\n')
+				key = line.split(':')[0]
+				values = line.split(':')[1]
+
+				mappings[key] = values.split(',')
+
+				line = file.readline()
+
+		for key, value in mappings.items():
+			df.loc[(df['cargo'].isin(value)), 'cargo'] = key
 
 		# Write to database
 		con = db.create_connection()
