@@ -33,12 +33,13 @@
 			<th>Registered Tonnage</th>
 			<th>Port of Origin</th>
 			<th>Cargo</th>
+			<th>Activity</th>
 			<th>Checked</th>
 		</tr>
 	{% for entry in entries %}
-		{% if entry[9] %}
+		{% if entry[10] %}
 			<tr>
-				<td colspan="8" style="background-color: #000000;"><strong>Transcriber note for following entry:</strong> {{ entry[9] }}</td>
+				<td colspan="8" style="background-color: #000000;"><strong>Transcriber note for following entry:</strong> {{ entry[10] }}</td>
 			</tr>
 		{% endif %}
 		<tr>
@@ -50,8 +51,9 @@
 			<td>{{ entry[5] }}</td>
 			<td><a href="/from_port/{{ entry[6] }}" class="link">{{ entry[6] }}</a></td>
 			<td><a href="/cargo/{{ entry[7] }}" class="link">{{ entry[7] }}</a></td>
+			<td><a href="/activity/{{ entry[8] }}" class="link">{{ entry[8] }}</a></td>
 			<td style="text-align: center">
-				{% if entry[8] == '' %}
+				{% if entry[9] == '' %}
 				{% else %}
 					Yes
 				{% endif %}

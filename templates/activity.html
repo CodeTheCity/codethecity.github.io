@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% from "macros.html" import entries_table with context %}
+
+{% block title %}Entries with Activity that include "{{ activity }}"{% endblock %}
+
+{% block content %}
+{{ entries_table(entries) }}
+{% endblock %}

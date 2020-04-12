@@ -41,6 +41,7 @@ if __name__ == '__main__':
 		df.loc[(df['transcriber_notes'] == '?'), 'transcriber_notes'] = ''
 		df['cargo'] = df['cargo_transcribed']
 
+		# Remap cargo into unified list
 		mappings = {}
 
 		with open('mappings/cargo_mappings.txt') as file:
@@ -57,6 +58,11 @@ if __name__ == '__main__':
 
 		for key, values in mappings.items():
 			df.loc[(df['cargo'].str.lower().isin([value.lower() for value in values])), 'cargo'] = key
+
+		activities = ['towing', 'Cruising', 'Trials', 'Fit Out', 'repairs']
+		# Reallocate cargo to activities where required
+		df['activity'] = np.where(df['cargo'].str.lower().isin([value.lower() for value in activities]), df['cargo'], '')
+		df['cargo'] = np.where(df['cargo'].str.lower().isin([value.lower() for value in activities]), '', df['cargo'])
 
 		# Write to database
 		con = db.create_connection()
