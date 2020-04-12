@@ -46,6 +46,12 @@ def getDataForColumn(column):
 
 	return data
 
+def getEntriesForColumnLike(column, value):
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker FROM arrivals WHERE {} LIKE :value ORDER BY date'.format(column), {"value":'%'+value+'%'})
+
+	return rows
+
+
 def getVesselsData():
 	return getDataForColumn('vessel')
 
@@ -81,34 +87,22 @@ def getCheckersData():
 	return getDataForColumn('checker')
 
 def getEntriesForVessel(vessel):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker FROM arrivals WHERE vessel LIKE :vessel ORDER BY date', {"vessel":'%'+vessel+'%'})
-
-	return rows
+	return getEntriesForColumnLike('vessel', vessel)
 
 def getEntriesForMaster(master):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker FROM arrivals WHERE master LIKE :master ORDER BY date', {"master":'%'+master+'%'})
-
-	return rows
+	return getEntriesForColumnLike('master', master)
 
 def getEntriesForCargo(cargo):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker FROM arrivals WHERE cargo LIKE :cargo ORDER BY date', {"cargo":'%'+cargo+'%'})
-
-	return rows
+	return getEntriesForColumnLike('cargo', cargo)
 
 def getEntriesForActivity(activity):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker FROM arrivals WHERE activity LIKE :activity ORDER BY date', {"activity":'%'+activity+'%'})
-
-	return rows
+	return getEntriesForColumnLike('activity', activity)
 
 def getEntriesForRegisteredPort(registered_port):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker FROM arrivals WHERE registered_port LIKE :registered_port ORDER BY date', {"registered_port":'%'+registered_port+'%'})
-
-	return rows
+	return getEntriesForColumnLike('registered_port', registered_port)
 
 def getEntriesForFromPort(from_port):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker FROM arrivals WHERE from_port LIKE :from_port ORDER BY date', {"from_port":'%'+from_port+'%'})
-
-	return rows
+	return getEntriesForColumnLike('from_port', from_port)
 
 def getWeatherDataForDate(date):
 	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, weather FROM arrivals WHERE weather != "?" AND weather != "" AND strftime("%d-%m-%Y", date) like :date ORDER BY date', { "date": '%{}%'.format(date)})
