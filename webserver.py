@@ -484,12 +484,14 @@ def from_port(filter):
 def graphs_cargo():
 	return render_template('graphs_cargo.html')
 
+@app.route('/graphs_activity')
+def graphs_activity():
+	return render_template('graphs_activity.html')
+
 def buildCargoGraph(year):
 	con = db.create_connection()
-	df = pd.read_sql_query('SELECT date, cargo FROM arrivals WHERE strftime(\'%Y\', date) = "{}" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
+	df = pd.read_sql_query('SELECT date, cargo FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND cargo <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
 	con.close()
-
-
 
 	fig = Figure(figsize=(12,12))
 	axis = fig.subplots(1)
@@ -527,10 +529,54 @@ def buildCargoGraph(year):
 	response.mimetype = 'image/png'
 	return response
 
+def buildActivityGraph(year):
+	con = db.create_connection()
+	df = pd.read_sql_query('SELECT date, activity FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND activity <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
+	con.close()
+
+	fig = Figure(figsize=(12,12))
+	axis = fig.subplots(1)
+
+	if df.empty == False:
+		df_activity = df.groupby('date').activity.value_counts().unstack().fillna(0)
+
+		resampled = df_activity.resample('W').sum()
+
+		columns = resampled.columns
+		labels = columns.values.tolist()
+
+		colour_map = cm.get_cmap('tab20', len(columns) + 1)
+
+		x = resampled.index
+		bottom = np.zeros(resampled.shape[0])
+		for i, column in enumerate(columns, start=0):
+			axis.bar(x, resampled[column].values.tolist(), bottom=bottom, label=column, color=colour_map.colors[i])
+			bottom += resampled[column].values.tolist()
+
+	date_format = mpl_dates.DateFormatter('%d %b %Y')
+	axis.xaxis_date()
+	axis.xaxis.set_major_formatter(date_format)
+	axis.set_title('Weekly arrival activity at Aberdeen {}'.format(year))
+	fig.legend(loc='center right', fancybox=True, shadow=True, fontsize=10, ncol=2)
+
+	fig.autofmt_xdate()
+	fig.tight_layout()
+	fig.subplots_adjust(right=0.75)
+
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response
+
 @app.route('/plot/cargo/<year>')
 def plot_cargo(year):
 	return buildCargoGraph(year)
-	
+
+@app.route('/plot/activity/<year>')
+def plot_activity(year):
+	return buildActivityGraph(year)
 
 @app.route('/api/v1.0/arrivals.csv')
 def csv_get_arrivals():
