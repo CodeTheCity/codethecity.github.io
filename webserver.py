@@ -458,7 +458,7 @@ def buildCargoGraph(year):
 
 
 
-	fig = Figure(figsize=(12,8))
+	fig = Figure(figsize=(12,12))
 	axis = fig.subplots(1)
 
 	if df.empty == False:

@@ -22,7 +22,8 @@ Salt:Salt,Salt P. C
 Slag:Slag,Slag WB
 Slates:Slates,Slates PC,Slates RC
 Timber:Timber,Timber WB
-Towing:Towing,Towing Admiralty Lighter,Towing Barge,Towing Frigate,Towing Hopper,In Tow,Light Towing
+Trials:Trials,Trails
+Towing:Towing,Towing Admiralty Lighter,Towing Barge,Towing Frigate,Towing Hopper,In Tow,Light Towing,Towing above
 Wood:Wood,Wood pulp
-Fit Out:To Fit,To Fit Out,To Be Fitted
+Fit Out:To Fit,To Fit Out,To Be Fitted,To fit out
 Repairs:For Repairs,To Be Repaired
