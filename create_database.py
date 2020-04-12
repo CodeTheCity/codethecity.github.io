@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
 		mappings = {}
 
-		with open('cargo_mappings.txt') as file:
+		with open('mappings/cargo_mappings.txt') as file:
 			line = file.readline()
 
 			while line:
@@ -55,8 +55,8 @@ if __name__ == '__main__':
 
 				line = file.readline()
 
-		for key, value in mappings.items():
-			df.loc[(df['cargo'].isin(value)), 'cargo'] = key
+		for key, values in mappings.items():
+			df.loc[(df['cargo'].str.lower().isin([value.lower() for value in values])), 'cargo'] = key
 
 		# Write to database
 		con = db.create_connection()
