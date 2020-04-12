@@ -19,6 +19,7 @@ Petrol:Petrol,Petroleum
 Phosphate:Phos asphilta,Phosphate
 Pulp:Pulp,Pulp DC,Pulpwood
 Salt:Salt,Salt P. C
+Sea Stores:Sea Stores,Sea stores
 Slag:Slag,Slag WB
 Slates:Slates,Slates PC,Slates RC
 Timber:Timber,Timber WB

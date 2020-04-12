@@ -56,11 +56,19 @@ if __name__ == '__main__':
 
 				line = file.readline()
 
+		activities = []
+
 		for key, values in mappings.items():
 			df.loc[(df['cargo'].str.lower().isin([value.lower() for value in values])), 'cargo'] = key
 
-		activities = ['towing', 'Cruising', 'Trials', 'Fit Out', 'repairs']
 		# Reallocate cargo to activities where required
+		with open('mappings/cargo_mappings.txt') as file:
+			line = file.readline()
+
+			while line:
+				activities.append(line)
+				line = file.readline()
+		
 		df['activity'] = np.where(df['cargo'].str.lower().isin([value.lower() for value in activities]), df['cargo'], '')
 		df['cargo'] = np.where(df['cargo'].str.lower().isin([value.lower() for value in activities]), '', df['cargo'])
 
