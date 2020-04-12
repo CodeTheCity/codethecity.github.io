@@ -62,10 +62,11 @@ if __name__ == '__main__':
 			df.loc[(df['cargo'].str.lower().isin([value.lower() for value in values])), 'cargo'] = key
 
 		# Reallocate cargo to activities where required
-		with open('mappings/cargo_mappings.txt') as file:
+		with open('mappings/activities_mappings.txt') as file:
 			line = file.readline()
 
 			while line:
+				line = line.rstrip('\n')
 				activities.append(line)
 				line = file.readline()
 		
