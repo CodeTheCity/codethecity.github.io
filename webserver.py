@@ -482,6 +482,10 @@ def graphs_cargo():
 def graphs_activity():
 	return render_template('graphs_activity.html')
 
+@app.route('/graphs_top_vessels')
+def graphs_top_vessels():
+	return render_template('graphs_top_vessels.html')
+
 def buildCargoGraph(year):
 	con = db.create_connection()
 	df = pd.read_sql_query('SELECT date, cargo FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND cargo <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
@@ -564,6 +568,32 @@ def buildActivityGraph(year):
 	response.mimetype = 'image/png'
 	return response
 
+
+def buildTopVesselsGraph(year):
+	con = db.create_connection()
+	df = pd.read_sql_query('SELECT date, vessel FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND vessel <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
+	con.close()
+
+	fig = Figure(figsize=(8,12))
+	axis = fig.subplots(1)
+
+	top = df['vessel'].value_counts()
+	top = top[top > 4]
+
+	colour_map = cm.get_cmap('tab20', len(top) + 1)
+
+	axis.barh(top.index, top.values, color=colour_map.colors)
+	axis.set_title('Vessels arriving more than 5 times at Aberdeen during {}'.format(year))
+
+	fig.tight_layout()
+
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response
+
 @app.route('/plot/cargo/<year>')
 def plot_cargo(year):
 	return buildCargoGraph(year)
@@ -571,6 +601,10 @@ def plot_cargo(year):
 @app.route('/plot/activity/<year>')
 def plot_activity(year):
 	return buildActivityGraph(year)
+
+@app.route('/plot/top_vessels/<year>')
+def plot_top_vessels(year):
+	return buildTopVesselsGraph(year)
 
 @app.route('/api/v1.0/arrivals.csv')
 def csv_get_arrivals():

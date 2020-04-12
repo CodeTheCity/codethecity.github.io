@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Top Vessel Arrivals{% endblock %}
+
+{% block content %}
+	{% for year in range(1914, 1921) %}
+		<img src="/plot/top_vessels/{{year}}" alt="Image Placeholder">
+	{% endfor %}
+{% endblock %}
