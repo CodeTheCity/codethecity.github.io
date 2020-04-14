@@ -30,9 +30,9 @@
 			<th>Date</th>
 			<th>Vessel</th>
 			<th>Number</th>
-			<th>Registered Port</th>
+			<th style="text-align: center">Registered Port</th>
 			<th>Master</th>
-			<th>Registered Tonnage</th>
+			<th style="text-align: right">Registered Tonnage</th>
 			<th>Port of Origin</th>
 			<th>Cargo</th>
 			<th>Activity</th>
@@ -53,10 +53,10 @@
 				{% endif %}
 			</td>
 			<td><a href="/vessel/{{ entry[1] }}" class="link">{{ entry[1] }}</a></td>
-			<td>{{ entry[2] }}</td>
-			<td><a href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a></td>
+			<td style="text-align: right;">{{ entry[2] }}</td>
+			<td style="text-align: center"><a href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a></td>
 			<td><a href="/master/{{ entry[4] }}" class="link">{{ entry[4] }}</a></td>
-			<td>{{ entry[5] }}</td>
+			<td style="text-align: right;">{{ entry[5] }}</td>
 			<td><a href="/from_port/{{ entry[6] }}" class="link">{{ entry[6] }}</a></td>
 			<td><a href="/cargo/{{ entry[7] }}" class="link">{{ entry[7] }}</a></td>
 			<td><a href="/activity/{{ entry[8] }}" class="link">{{ entry[8] }}</a></td>
