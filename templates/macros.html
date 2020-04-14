@@ -45,7 +45,7 @@
 			</tr>
 		{% endif %}
 		<tr>
-			<td nowrap>{{ entry[0] }}</td>
+			<td nowrap><a href="/day/{{ entry[0].split('-')[2] }}/{{ entry[0].split('-')[1] }}/{{ entry[0].split('-')[0] }}" class="link">{{ entry[0] }}</a></td>
 			<td><a href="/vessel/{{ entry[1] }}" class="link">{{ entry[1] }}</a></td>
 			<td>{{ entry[2] }}</td>
 			<td><a href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a></td>
