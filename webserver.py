@@ -214,6 +214,19 @@ def information():
 
 	registered_port_mappings.sort()
 
+	from_port_mappings = []
+
+	with open('mappings/from_ports_mappings.txt', 'r') as file:
+		line = file.readline()
+
+		while line:
+			line = line.rstrip('\n').replace(':', ' : ').replace(',', ', ')
+			from_port_mappings.append(line)
+
+			line = file.readline()
+
+	from_port_mappings.sort()
+
 	cargo_mappings = []
 
 	with open('mappings/cargo_mappings.txt', 'r') as file:
@@ -229,7 +242,8 @@ def information():
 
 	templateData = {
 		'registered_port_mappings' : registered_port_mappings,
-		'cargo_mappings' : cargo_mappings
+		'cargo_mappings' : cargo_mappings,
+		'from_port_mappings' : from_port_mappings
 	}
 	return render_template('information.html', **templateData)
 

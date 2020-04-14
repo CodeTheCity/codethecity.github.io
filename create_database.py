@@ -89,10 +89,23 @@ if __name__ == '__main__':
 
 				line = file.readline()
 
-		activities = []
+		# Remap From Ports into unified list
+		mappings = {}
+
+		with open('mappings/from_ports_mappings.txt') as file:
+			line = file.readline()
+
+			while line:
+				line = line.rstrip('\n')
+				key = line.split(':')[0]
+				values = line.split(':')[1]
+
+				mappings[key] = values.split(',')
+
+				line = file.readline()
 
 		for key, values in mappings.items():
-			df.loc[(df['registered_port'].str.lower().isin([value.lower() for value in values])), 'registered_port'] = key
+			df.loc[(df['from_port'].str.lower().isin([value.lower() for value in values])), 'from_port'] = key
 
 		# Write to database
 		con = db.create_connection()

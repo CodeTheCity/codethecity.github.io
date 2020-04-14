@@ -26,6 +26,16 @@
 				<li>{{ item }}</li>
 			{% endfor %}
 		</ul>
+
+		<h3>Ports of Origin</h3>
+		<p>
+			The following groupings have been used for cleaning the ports of origin:
+		</p>
+		<ul style="text-align: left;">
+			{% for item in from_port_mappings %}
+				<li>{{ item }}</li>
+			{% endfor %}
+		</ul>
 		
 		<h3>Cargo</h3>
 		<p>
