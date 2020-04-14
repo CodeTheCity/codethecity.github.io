@@ -212,6 +212,8 @@ def information():
 
 			line = file.readline()
 
+	registered_port_mappings.sort()
+
 	cargo_mappings = []
 
 	with open('mappings/cargo_mappings.txt', 'r') as file:
@@ -222,6 +224,8 @@ def information():
 			cargo_mappings.append(line)
 
 			line = file.readline()
+	
+	cargo_mappings.sort()
 
 	templateData = {
 		'registered_port_mappings' : registered_port_mappings,
