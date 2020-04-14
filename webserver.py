@@ -615,8 +615,13 @@ def buildRegisteredPortsGraph(year):
 	colour_map = cm.get_cmap('tab20', len(top) + 1)
 
 	axis.barh(top.index, top.values, color=colour_map.colors)
-	axis.set_title('Registered Port of Vessels arriving at Aberdeen during {}'.format(year))
 
+	for i, v in enumerate(top):
+		axis.text(v, i, " "+str(v), va='center')
+
+	axis.set_title('Registered Port of Vessels arriving at Aberdeen during {}'.format(year))
+	axis.spines['right'].set_color('none')
+	axis.spines['top'].set_color('none')
 	fig.tight_layout()
 
 	canvas = FigureCanvas(fig)
