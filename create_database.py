@@ -73,6 +73,27 @@ if __name__ == '__main__':
 		df['activity'] = np.where(df['cargo'].str.lower().isin([value.lower() for value in activities]), df['cargo'], '')
 		df['cargo'] = np.where(df['cargo'].str.lower().isin([value.lower() for value in activities]), '', df['cargo'])
 
+
+		# Remap Registered Ports into unified list
+		mappings = {}
+
+		with open('mappings/registered_ports_mappings.txt') as file:
+			line = file.readline()
+
+			while line:
+				line = line.rstrip('\n')
+				key = line.split(':')[0]
+				values = line.split(':')[1]
+
+				mappings[key] = values.split(',')
+
+				line = file.readline()
+
+		activities = []
+
+		for key, values in mappings.items():
+			df.loc[(df['registered_port'].str.lower().isin([value.lower() for value in values])), 'registered_port'] = key
+
 		# Write to database
 		con = db.create_connection()
 		df.to_sql('arrivals', con, if_exists='replace', index = False)

@@ -1,0 +1,5 @@
+Norwegian:Norwegian,Norway
+Netherlands:Netherlands,Holland,Hollands,Dutch
+German:German,Germany
+French:French,France
+Danish:Danish,Denmark
