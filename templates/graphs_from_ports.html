@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Arrivals Ports of Origin{% endblock %}
+
+{% block content %}
+	<p>
+		<strong>Note</strong>: the data for 1919 still requires some post import processing and clarification.
+	</p>
+	{% for year in range(1914, 1921) %}
+		<img src="/plot/from_ports/{{year}}" alt="Image Placeholder">
+	{% endfor %}
+{% endblock %}

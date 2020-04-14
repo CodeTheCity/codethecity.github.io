@@ -493,6 +493,10 @@ def graphs_top_vessels():
 def graphs_registered_ports():
 	return render_template('graphs_registered_ports.html')
 
+@app.route('/graphs_from_ports')
+def graphs_from_ports():
+	return render_template('graphs_from_ports.html')
+
 def buildCargoGraph(year):
 	con = db.create_connection()
 	df = pd.read_sql_query('SELECT date, cargo FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND cargo <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
@@ -603,7 +607,7 @@ def buildTopVesselsGraph(year):
 
 def buildRegisteredPortsGraph(year):
 	con = db.create_connection()
-	df = pd.read_sql_query('SELECT DISTINCT vessel, registered_port FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND registered_port <> ""'.format(year), con)
+	df = pd.read_sql_query('SELECT DISTINCT vessel, registered_port FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND registered_port <> "" ORDER BY registered_port'.format(year), con)
 	con.close()
 
 	fig = Figure(figsize=(8,12))
@@ -631,6 +635,36 @@ def buildRegisteredPortsGraph(year):
 	response.mimetype = 'image/png'
 	return response
 
+def buildFromPortsGraph(year):
+	con = db.create_connection()
+	df = pd.read_sql_query('SELECT DISTINCT vessel, from_port FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND from_port <> "" ORDER BY from_port'.format(year), con)
+	con.close()
+
+	fig = Figure(figsize=(8,12))
+	axis = fig.subplots(1)
+
+	top = df['from_port'].value_counts()
+	top = top[:75]
+
+	colour_map = cm.get_cmap('tab20', len(top) + 1)
+
+	axis.barh(top.index, top.values, color=colour_map.colors)
+
+	for i, v in enumerate(top):
+		axis.text(v, i, " "+str(v), va='center')
+
+	axis.set_title('Top 75 Ports of Origin for Vessels arriving at Aberdeen during {}'.format(year))
+	axis.spines['right'].set_color('none')
+	axis.spines['top'].set_color('none')
+	fig.tight_layout()
+
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response
+
 @app.route('/plot/cargo/<year>')
 def plot_cargo(year):
 	return buildCargoGraph(year)
@@ -646,6 +680,10 @@ def plot_top_vessels(year):
 @app.route('/plot/registered_ports/<year>')
 def plot_registered_ports(year):
 	return buildRegisteredPortsGraph(year)
+
+@app.route('/plot/from_ports/<year>')
+def plot_from_ports(year):
+	return buildFromPortsGraph(year)
 
 @app.route('/api/v1.0/arrivals.csv')
 def csv_get_arrivals():
