@@ -1,3 +1,6 @@
 Bo'ness:Bo'Ness,Bo'ness,Boness,Bowness
 Put Back:Put Back,Put back,Putback,Returned
 Fraserburgh:Fraserboro,Fraserbro,Fraserburgh,Frasersboro,Frasersbro
+Newcastle:New Castle,Newcastle
+Naval Base:Naval Base,Naval base
+Stornoway:Stornaway,Stornoway
