@@ -69,6 +69,13 @@ table.dataframe, .dataframe th, .dataframe td {
   margin-bottom: 40px;
   margin-left: auto;
   margin-right: auto;
+  border-left: 1px solid #C8C8C8;
+  border-right: 1px solid #C8C8C8;
+}
+
+table.dataframe th {
+  background-color: #00000040;
+  border-top: 1px solid #C8C8C8;
 }
 
 section {
