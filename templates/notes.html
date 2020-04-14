@@ -10,7 +10,13 @@
 	</tr>
 	{% for entry in notes %}
 	<tr>
-		<td nowrap>{{ entry[0] }}</td>
+		<td nowrap>
+			{% if entry[0] != None %}
+				<a href="/day/{{ entry[0].split('-')[2] }}/{{ entry[0].split('-')[1] }}/{{ entry[0].split('-')[0] }}" class="link">{{ entry[0] }}</a>
+			{% else %}
+				{{ entry[0] }}
+			{% endif %}
+		</td>
 		<td>{{ entry[1] }}</td>
 	</tr>
 	{% endfor %}

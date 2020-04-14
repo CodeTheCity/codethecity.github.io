@@ -41,11 +41,17 @@
 	{% for entry in entries %}
 		{% if entry[10] %}
 			<tr>
-				<td colspan="8" style="background-color: #000000;"><strong>Transcriber note for following entry:</strong> {{ entry[10] }}</td>
+				<td colspan="10" style="background-color: #00000040;"><strong>Transcriber note for following entry:</strong> {{ entry[10] }}</td>
 			</tr>
 		{% endif %}
 		<tr>
-			<td nowrap><a href="/day/{{ entry[0].split('-')[2] }}/{{ entry[0].split('-')[1] }}/{{ entry[0].split('-')[0] }}" class="link">{{ entry[0] }}</a></td>
+			<td nowrap>
+				{% if entry[0] != None %}
+					<a href="/day/{{ entry[0].split('-')[2] }}/{{ entry[0].split('-')[1] }}/{{ entry[0].split('-')[0] }}" class="link">{{ entry[0] }}</a>
+				{% else %}
+					{{ entry[0] }}
+				{% endif %}
+			</td>
 			<td><a href="/vessel/{{ entry[1] }}" class="link">{{ entry[1] }}</a></td>
 			<td>{{ entry[2] }}</td>
 			<td><a href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a></td>
