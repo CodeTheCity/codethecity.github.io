@@ -603,7 +603,7 @@ def buildTopVesselsGraph(year):
 
 def buildRegisteredPortsGraph(year):
 	con = db.create_connection()
-	df = pd.read_sql_query('SELECT date, registered_port FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND registered_port <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
+	df = pd.read_sql_query('SELECT DISTINCT vessel, registered_port FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND registered_port <> ""'.format(year), con)
 	con.close()
 
 	fig = Figure(figsize=(8,12))
