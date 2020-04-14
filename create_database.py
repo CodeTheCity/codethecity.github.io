@@ -56,12 +56,11 @@ if __name__ == '__main__':
 
 				line = file.readline()
 
-		activities = []
-
 		for key, values in mappings.items():
 			df.loc[(df['cargo'].str.lower().isin([value.lower() for value in values])), 'cargo'] = key
 
 		# Reallocate cargo to activities where required
+		activities = []
 		with open('mappings/activities_mappings.txt') as file:
 			line = file.readline()
 
@@ -88,6 +87,9 @@ if __name__ == '__main__':
 				mappings[key] = values.split(',')
 
 				line = file.readline()
+
+		for key, values in mappings.items():
+			df.loc[(df['registered_port'].str.lower().isin([value.lower() for value in values])), 'registered_port'] = key
 
 		# Remap From Ports into unified list
 		mappings = {}
