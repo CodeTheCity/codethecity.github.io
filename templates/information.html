@@ -14,8 +14,28 @@
 
 		<h2>Record Cleaning</h2>
 		<p>
-			Using the transcribed records as a source, we have applied various rules to clean up the information (for example different spellings of the same word) that is presented on this website. The orginial information has still been retained so that it is possible to see what was transcribed alongside our interpretation. This means that should new information come to light then we can easily rebuild an updated version using the original source material.
+			Using the transcribed records as a source, we have applied various rules to clean up the information (for example different spellings of the same word) that is presented on this website. The orginial information has still been retained so that it is possible to see what was transcribed alongside our interpretation. This means that should new information come to light then we can easily rebuild an updated version using the original source material. If you see a mistake in the groupings we have used then please let us know so we can update it.
 		</p>
+
+		<h3>Registered Ports</h3>
+		<p>
+			The following groupings have been used for cleaning the registered ports:
+		</p>
+		<ul style="text-align: left;">
+			{% for item in registered_port_mappings %}
+				<li>{{ item }}</li>
+			{% endfor %}
+		</ul>
+		
+		<h3>Cargo</h3>
+		<p>
+			The following groupings have been used for cleaning the cargo:
+		</p>
+		<ul style="text-align: left;">
+			{% for item in cargo_mappings %}
+				<li>{{ item }}</li>
+			{% endfor %}
+		</ul>
 
 		<h2>Definitions</h2>
 		<p>

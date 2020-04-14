@@ -200,7 +200,34 @@ def index():
 
 @app.route('/information')
 def information():
-	return render_template('information.html')
+
+	registered_port_mappings = []
+
+	with open('mappings/registered_ports_mappings.txt', 'r') as file:
+		line = file.readline()
+
+		while line:
+			line = line.rstrip('\n').replace(':', ' : ').replace(',', ', ')
+			registered_port_mappings.append(line)
+
+			line = file.readline()
+
+	cargo_mappings = []
+
+	with open('mappings/cargo_mappings.txt', 'r') as file:
+		line = file.readline()
+
+		while line:
+			line = line.rstrip('\n').replace(':', ' : ').replace(',', ', ')
+			cargo_mappings.append(line)
+
+			line = file.readline()
+
+	templateData = {
+		'registered_port_mappings' : registered_port_mappings,
+		'cargo_mappings' : cargo_mappings
+	}
+	return render_template('information.html', **templateData)
 
 @app.route('/thanks')
 def thanks():
