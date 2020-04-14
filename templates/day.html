@@ -58,20 +58,31 @@
 		<h2>Arrivals</h2>
 		{% for entry in entries %}
 		<p>
+
+			{% if entry[5] != '' %}
+				{{ entry[5] }} ton 
+			{% endif %}
+
 			<a href="/vessel/{{ entry[1] }}" class="link">{{ entry[1] }}</a> arrived from <a
 				href="/from_port/{{ entry[6] }}" class="link">{{ entry[6] }}</a>
 
 				{% if entry[7] != '' %}
-					carrying a cargo of {{ entry[5] }} tonnes of <a href="/cargo/{{ entry[7] }}" class="link">{{ entry[7] }}</a>.
+					carrying a cargo of <a href="/cargo/{{ entry[7] }}" class="link">{{ entry[7] }}</a>.
 				{% endif %}
 
 				{% if entry[8] != '' %}
-					on <a href="/activity/{{ entry[8] }}" class="link">{{ entry[8] }}</a>.
+					<a href="/activity/{{ entry[8] }}" class="link">{{ entry[8] }}</a>.
 				{% endif %}
 
-				Master of the vessel was <a href="/master/{{ entry[4] }}" class="link">{{ entry[4] }}</a> and it was registered in <a href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a>.
+				Master of the vessel was <a href="/master/{{ entry[4] }}" class="link">{{ entry[4] }}</a> and it was <a href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a> registered.
 			</p>
 		{% endfor %}
+	</div>
+</section>
+<section>
+	<div style="text-align: left">
+		<h3>Meanings</h3>
+		<p>Windbound means that the vessel Put Back into the harbour due to strong winds preventing it travelling.</p>
 	</div>
 </section>
 
