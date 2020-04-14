@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Number of arrivals of each activity type by year{% endblock %}
+
+{% block content %}
+	{% for year in range(1914, 1921) %}
+		<img src="/plot/activity_by_kind/{{year}}" alt="Image Placeholder">
+	{% endfor %}
+{% endblock %}

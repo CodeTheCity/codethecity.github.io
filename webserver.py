@@ -538,6 +538,10 @@ def graphs_cargo_by_kind():
 def graphs_activity():
 	return render_template('graphs_activity.html')
 
+@app.route('/graphs_activity_by_kind')
+def graphs_activity_by_kind():
+	return render_template('graphs_activity_by_kind.html')
+
 @app.route('/graphs_top_vessels')
 def graphs_top_vessels():
 	return render_template('graphs_top_vessels.html')
@@ -663,6 +667,36 @@ def buildActivityGraph(year):
 	response.mimetype = 'image/png'
 	return response
 
+def buildActivityByKindGraph(year):
+	con = db.create_connection()
+	df = pd.read_sql_query('SELECT activity FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND activity <> "" ORDER BY activity'.format(year), con)
+	con.close()
+
+	fig = Figure(figsize=(8,12))
+	axis = fig.subplots(1)
+
+	top = df['activity'].value_counts().sort_index()
+	#top = top[top > 4]
+
+	colour_map = cm.get_cmap('tab20', len(top) + 1)
+
+	axis.barh(top.index, top.values, color=colour_map.colors)
+
+	for i, v in enumerate(top):
+		axis.text(v, i, " "+str(v), va='center')
+
+	axis.set_title('Number of arrivals of each activity type Aberdeen during {}'.format(year))
+	axis.spines['right'].set_color('none')
+	axis.spines['top'].set_color('none')
+	fig.tight_layout()
+
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response
+
 
 def buildTopVesselsGraph(year):
 	con = db.create_connection()
@@ -760,6 +794,10 @@ def plot_cargo_by_kind(year):
 @app.route('/plot/activity/<year>')
 def plot_activity(year):
 	return buildActivityGraph(year)
+
+@app.route('/plot/activity_by_kind/<year>')
+def activity_by_kind(year):
+	return buildActivityByKindGraph(year)
 
 @app.route('/plot/top_vessels/<year>')
 def plot_top_vessels(year):

@@ -24,7 +24,7 @@ Slag:Slag,Slag WB
 Slates:Slates,Slates PC,Slates RC
 Timber:Timber,Timber WB
 Trials:Trials,Trails
-Towing:Towing,Towing Admiralty Lighter,Towing Barge,Towing Frigate,Towing Hopper,In Tow,Light Towing,Towing above,Towing Agnes,Towing Drifter,Towing salvor
+Towing:Towing,Light Towing
 Wood:Wood,Wood pulp
 Fit Out:To Fit,To Fit Out,To Be Fitted,To fit out
 Repairs:For Repairs,To Be Repaired
