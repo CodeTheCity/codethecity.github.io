@@ -28,3 +28,4 @@ Towing:Towing,Towing Admiralty Lighter,Towing Barge,Towing Frigate,Towing Hopper
 Wood:Wood,Wood pulp
 Fit Out:To Fit,To Fit Out,To Be Fitted,To fit out
 Repairs:For Repairs,To Be Repaired
+Windbound:WBound,Wind Bound,Windbound,WB
