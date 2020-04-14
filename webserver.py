@@ -233,6 +233,10 @@ def information():
 	}
 	return render_template('information.html', **templateData)
 
+@app.route('/downloads')
+def downloads():
+	return render_template('downloads.html')
+
 @app.route('/thanks')
 def thanks():
 	transcribers = []
