@@ -102,7 +102,9 @@
 
 <h1>On this day in history</h1>
 <p>
-  <a href="/day/1914/04/11" class="button">Today in 1914</a>
+  {% for year in range(1914, 1921) %}
+    <a href="/day/{{year}}/{{ this_day.split('-')[1] }}/{{ this_day.split('-')[0] }}" class="button">Today in {{year}}</a>
+  {% endfor %}
 </p>
 
 <table class="dataframe">

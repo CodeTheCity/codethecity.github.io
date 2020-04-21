@@ -194,6 +194,7 @@ def index():
 		'from_ports' : from_ports,
 		'on_this_day' : on_this_day,
 		'on_this_day_weather' : on_this_day_weather,
+		'this_day' : this_day,
 		'last_updated' : dir_last_updated('static')
 	}
 	return render_template('index.html', **templateData)
