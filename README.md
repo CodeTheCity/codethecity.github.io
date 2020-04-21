@@ -46,7 +46,8 @@ sudo apt-get update
 | Flask | webserver| `sudo apt-get install python3-flask`|
 | Pandas | data wrangling|`sudo pip3 install pandas`|
 | Matplot | graphing|`sudo pip3 install matplotlib`|
-| Seaborn | graph styling|`sudo apt-get install libatlas3-base`<br>`sudo pip3 install seaborn`|
+| Seaborn | graph styling| `sudo apt-get install libatlas3-base`<br>`sudo pip3 install seaborn`|
+| xlrd | Excel support | `sudo pip3 install xlrd` |
 
 # Use
 
