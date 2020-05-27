@@ -40,7 +40,7 @@
 <a href="/day/{{ yesterday }}" class="button">Back a day</a>
 <a href="/day/{{ tomorrow }}" class="button">Forward a day</a>
 
-<section>
+<section class="box">
 	<div style="text-align: left">
 		<h2>Weather</h2>
 		{% for weather in on_this_day_weather %}
@@ -48,13 +48,19 @@
 		{% endfor %}
 
 		{% if on_this_day_note|length > 0 %}
-		<h2>Notes</h2>
-		{% for note in on_this_day_note %}
-		<p>{{ note[1] }}</p>
-		{% endfor %}
+			</div>
+		</section>
+		<section class="box">
+		<div style="text-align: left">
+			<h2>Notes</h2>
+			{% for note in on_this_day_note %}
+			<p>{{ note[1] }}</p>
+			{% endfor %}
 		{% endif %}
-
-
+	</div>
+</section>
+<section class="box">
+	<div style="text-align: left">
 		<h2>Arrivals</h2>
 		{% for entry in entries %}
 		<p>
@@ -79,7 +85,8 @@
 		{% endfor %}
 	</div>
 </section>
-<section>
+
+<section class="box">
 	<div style="text-align: left">
 		<h3>Meanings</h3>
 		<p>Windbound means that the vessel Put Back into the harbour due to strong winds preventing it travelling.</p>

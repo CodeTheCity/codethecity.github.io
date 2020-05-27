@@ -3,11 +3,21 @@
 {% block title %}Thank You{% endblock %}
 
 {% block content %}
-<p>A big thank you to the following people who have transcribed and checked the records:</p>
 
-<h2>Transcribers</h2>
-{{ transcribers|join(', ')|safe}}
 
-<h2>Checkers</h2>
-{{ checkers|join(', ')|safe}}
+<section class="box">
+	<p>A big thank you to the following people who have transcribed and checked the records.</p>
+	<p style="font-size: 90%">(These names have been extracted from the transcription sheets which is why there may be multiple versions of the same name.)</p>
+</section>
+
+<section class="box">
+	<h2>Transcribers</h2>
+	{{ transcribers|join(', ')|safe}}
+</section>
+
+<section class="box">
+	<h2>Checkers</h2>
+	{{ checkers|join(', ')|safe}}
+</section>
+
 {% endblock %}

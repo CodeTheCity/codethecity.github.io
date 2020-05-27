@@ -1,16 +1,42 @@
 body {
-	background: rgb(0, 0, 128);
-	color: white;
+	background: white;
+	color: black;
 	text-align: center;
-  margin: 20px;
+  margin: 0px;
+  padding: 0px;
   font-family: 'Fira Sans', sans-serif;
+}
+
+.header {
+  background-color: paleturquoise;
+  padding: 10px;
+  margin: 0px;
+  border: 1px solid rgba(96, 139, 168, .2);
+}
+
+.content {
+  margin: 20px;
+}
+
+.disclaimer {
+  background-color: lightcyan;
+}
+
+.box {
+  background-color: lightcyan;
+  margin-top: 10px;
+}
+
+.box h2 {
+  margin-top: 5px;
+  border-bottom: 1px solid rgba(96, 139, 168, .2);
 }
 
 .button {
 	font: bold 15px Arial;
 	text-decoration: none;
-	background-color: #EEEEEE;
-	color: #333333;
+	background-color: darkcyan;
+	color: white;
 	padding: 2px 6px 2px 6px;
 	border-top: 1px solid #CCCCCC;
 	border-right: 1px solid #333333;
@@ -21,7 +47,7 @@ body {
 .link {
 	font: bold 15px Arial;
 	text-decoration: none;
-	color: #EEEEEE;
+	color: #101010;
 }
 
 a:hover {
@@ -74,7 +100,7 @@ table.dataframe, .dataframe th, .dataframe td {
 }
 
 table.dataframe th {
-  background-color: #00000040;
+  background-color: paleturquoise;
   border-top: 1px solid #C8C8C8;
 }
 
@@ -96,8 +122,8 @@ section {
 }
 
 .card {
-  border: 2px solid white;
-  border-radius: 5px;
+  border: 2px solid black;
+  #border-radius: 5px;
 }
 
 .card .content {

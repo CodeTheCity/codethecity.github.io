@@ -5,18 +5,20 @@
 {% block title %}Aberdeen Harbour Arrival History{% endblock %}
 
 {% block content %}
-<div class="body">
-  <p>
-    This site contains information about the arrival of vessels into Aberdeen
-    harbour between 1914 and 1920. The data has been transcribed from harbour log
-    books of the period.
-  </p>
-  <p>
-    Please read the <a href="/information" class="button">Information</a> page for details about the various assumptions that have been made about the data and any questions we are hoping the wider community can answer.
-  </p>
-</div>
+<section class="box">
+  <div class="body">
+    <p>
+      This site contains information about the arrival of vessels into Aberdeen
+      harbour between 1914 and 1920. The data has been transcribed from harbour log
+      books of the period.
+    </p>
+    <p>
+      Please read the <a href="/information" class="button">Information</a> page for details about the various assumptions that have been made about the data and any questions we are hoping the wider community can answer.
+    </p>
+  </div>
+</section>
 
-<section>
+<section class="box">
   <h3>Note</h3>
   <div class="body">
     <p>
@@ -34,7 +36,7 @@
 
 <h2>Transcription Progress</h2>
 
-<section>
+<section class="box">
   <div class="cards">
     <div class="card">
       <div class="content">
@@ -47,7 +49,7 @@
             font-size: 29px;
             font-weight: bold;
             fill-opacity: 1;
-            color: yellow;
+            color: black;
           ">
           {{ records_count }}
         </p>
@@ -74,51 +76,56 @@
     gChecking = new JustGage({
       id: "gChecking",
       value: {{ checked_records_count }},
-    valueFontColor: "yellow",
+    valueFontColor: "black",
     min: 0,
     max: {{ records_count }},
     title: "Records Checked",
     label: "Records",
-    pointer: true,
-    titleFontColor: "white",
-    labelFontColor: "white",
+    gaugeWidthScale: 0.3,
+    pointer: false,
+    titleFontColor: "black",
+    labelFontColor: "black",
     counter: true,
     donut: true
   		});
     });
 </script>
 
-<h2>Arrival Records</h2>
-<p>
-  The transcribed arrival records for each year can be viewed via the following
-  links:
-</p>
-<p>
-  {% for year in range(1914, 1921) %}
-  <a href="/arrivals/{{year}}" class="button">{{year}}</a>
-  {% endfor %}
-  <a href="/arrivals_after/1920" class="button">After 1920 - probably transcription errors</a>
-</p>
+<section class="box">
+  <h2>Arrival Records</h2>
+  <p>
+    The transcribed arrival records for each year can be viewed via the following
+    links:
+  </p>
+  <p>
+    {% for year in range(1914, 1921) %}
+    <a href="/arrivals/{{year}}" class="button">{{year}}</a>
+    {% endfor %}
+  </p>
+</section>
 
-<h1>On this day in history</h1>
-<p>
-  {% for year in range(1914, 1921) %}
-    <a href="/day/{{year}}/{{ this_day.split('-')[1] }}/{{ this_day.split('-')[0] }}" class="button">Today in {{year}}</a>
-  {% endfor %}
-</p>
+<section class="box">
+  <h2>On this day in history</h2>
+  <p>
+    Today in 
+    {% for year in range(1914, 1921) %}
+      <a href="/day/{{year}}/{{ this_day.split('-')[1] }}/{{ this_day.split('-')[0] }}" class="button">{{year}}</a>
+    {% endfor %}
+  </p>
 
-<table class="dataframe">
-  <tr>
-    <th>Date</th>
-    <th>Weather</th>
-  </tr>
-  {% for entry in on_this_day_weather %}
-  <tr>
-    <td nowrap>{{ entry[0] }}</td>
-    <td>{{ entry[1] }}</td>
-  </tr>
-  {% endfor %}
-</table>
+  <table class="dataframe">
+    <tr>
+      <th>Date</th>
+      <th>Weather</th>
+    </tr>
+    {% for entry in on_this_day_weather %}
+    <tr>
+      <td nowrap>{{ entry[0] }}</td>
+      <td>{{ entry[1] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</section>
 
 {{ entries_table(on_this_day) }}
 

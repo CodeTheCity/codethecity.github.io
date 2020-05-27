@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import database_driver
 import datetime
+from pathlib import Path  # <= Added Line
 
 dbname = 'harbour.db'
 db = database_driver.database(dbname)
@@ -17,6 +18,12 @@ if __name__ == '__main__':
 				print(e)
 
 
+		# new function to save errors - NEEDS a new directory called "errors" to save them to		
+		def write_out(name, dframe):
+				file_path = "errors/"+ name + ".csv"
+				dframe.to_csv(file_path)
+
+
 		# Import transcribed records
 		google_sheet_url = 'https://docs.google.com/spreadsheets/d/120KGS0oRFby5so-4_QVtaJWgAzuFEsnq86C1EgZW0-A/export#gid=0?format=csv'
 
@@ -26,10 +33,35 @@ if __name__ == '__main__':
 		import_nrows = None
 
 		for year in range(1914, 1921):
-		 	dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), nrows=import_nrows, header=1, dtype={1:'str', 5:'str', 6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0], na_values=['(blank)', '(Blank)','Blank','blank', '-'])
-		 	df = pd.concat([df, dfnew])
+			dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), nrows=import_nrows, header=1, dtype={1:'str', 5:'str', 6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0], na_values=['(blank)', '(Blank)','Blank','blank', '-'])
+			df = pd.concat([df, dfnew])
+			print(dfnew)
 
-		df = df.rename(columns = {'Date of Arrival (dd-mmm-yyyy)':'date', 'Number':'number', 'Ship\'s Name':'vessel', 'Of What Port':'registered_port', 'Master':'master', 'Registered Tonnage':'registered_tonnage','Port From Whence':'from_port','Cargo':'cargo_transcribed', 'Wind and Weather':'weather','Other Notes':'notes', 'Transcriber Notes':'transcriber_notes', 'Transcribed by':'transcriber', 'Checked by':'checker', 'Queries':'transcriber_queries'})
+		#df = df.rename(columns = {'Date of Arrival (dd-mmm-yyyy)':'date', 'Number':'number', 'Ship\'s Name':'vessel', 'Of What Port':'registered_port', 'Master':'master', 'Registered Tonnage':'registered_tonnage','Port From Whence':'from_port','Cargo':'cargo_transcribed', 'Wind and Weather':'weather','Other Notes':'notes', 'Transcriber Notes':'transcriber_notes', 'Transcribed by':'transcriber', 'Checked by':'checker', 'Queries':'transcriber_queries'})
+
+		df.columns = ['date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
+
+		#########################
+		#Main new code starts here
+		start_date = '01-01-1914' # You can test this working by making start_date 1915 or end date 1919 
+		end_date = '31-12-1920'
+
+		te_mask = (df['date'] < start_date)
+		too_early_df = df.loc[te_mask]
+
+		tl_mask = (df['date'] > end_date)
+		too_late_df = df.loc[tl_mask]
+
+		mask = (df['date'] >= start_date) & (df['date'] <= end_date)
+		df = df.loc[mask]
+
+		if len(too_late_df.count(axis='columns')) > 0:
+				write_out("too_late", too_late_df)
+		if len(too_early_df.count(axis='columns')) > 0:
+				write_out("too_early", too_early_df)
+
+		# Ends
+		##################
 
 		# Fix missing data issues and clean out whitespace
 		columns = ['number', 'cargo_transcribed', 'master', 'registered_port', 'registered_tonnage', 'from_port', 'vessel', 'weather', 'notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']

@@ -17,13 +17,17 @@
 </head>
 
 <body>
-  {% include 'navigation.html' %}
+  <div class="header">
+    {% include 'navigation.html' %}
+  </div>
+  <div class="content">
 
-  {% include 'disclaimer.html' %}
+    {% include 'disclaimer.html' %}
 
-  <h1>{% block title %}{% endblock %}</h1>
+    <h1>{% block title %}{% endblock %}</h1>
 
-  {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
+  </div>
 </body>
 
 </html>
