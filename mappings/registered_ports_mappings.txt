@@ -2,4 +2,8 @@ Norwegian:Norwegian,Norway
 Dutch:Netherlands,Holland,Hollands,Dutch
 German:German,Germany
 French:French,France
-Danish:Danish,Denmark
+Danish:Danish,Denmark,Dane
+Greek:Greek,Greece
+Icelandic:Iceland,Icelandic,Icelandic Rep
+Swedish:Sweden,Swedish
+Belgian:Belgian,Belgium
