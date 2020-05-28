@@ -7,3 +7,4 @@ Greek:Greek,Greece
 Icelandic:Iceland,Icelandic,Icelandic Rep
 Swedish:Sweden,Swedish
 Belgian:Belgian,Belgium
+British:British,british
