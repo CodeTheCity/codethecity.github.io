@@ -33,35 +33,62 @@ if __name__ == '__main__':
 		import_nrows = None
 
 		for year in range(1914, 1921):
-			dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), nrows=import_nrows, header=1, dtype={1:'str', 5:'str', 6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0], na_values=['(blank)', '(Blank)','Blank','blank', '-'])
-			df = pd.concat([df, dfnew])
+			dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), nrows=import_nrows, header=1, dtype={1:'str', 5:'str', 6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0], na_values=['(blank)', '(Blank)','Blank','blank', '-',''])
+
+			dfnew.columns = ['date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
+
+			#########################
+			#Main new code starts here
+			start_date = '01-01-{}'.format(year) # You can test this working by making start_date 1915 or end date 1919 
+			end_date = '31-12-{}'.format(year)
+
+			te_mask = (dfnew['date'] < start_date)
+			too_early_df = dfnew.loc[te_mask]
+
+			tl_mask = (dfnew['date'] > end_date)
+			too_late_df = dfnew.loc[tl_mask]
+
+			nd_mask = (dfnew['date'].isnull())
+			not_date_df = dfnew.loc[nd_mask]
+
+			dfnew = dfnew.loc[dfnew['date'].notnull()]
+
+			mask = (dfnew['date'] >= start_date) & (dfnew['date'] <= end_date)
+			dfnew = dfnew.loc[mask]
+
+			if len(not_date_df.count(axis='columns')) > 0:
+					write_out('not_date_{}'.format(year), not_date_df)
+			if len(too_late_df.count(axis='columns')) > 0:
+					write_out('too_late_{}'.format(year), too_late_df)
+			if len(too_early_df.count(axis='columns')) > 0:
+					write_out('too_early_{}'.format(year), too_early_df)
+
+			# Ends
+			##################
+
 			print(dfnew)
+
+			# Write to database
+			con = db.create_connection()
+			dfnew.to_sql('arrivals', con, if_exists='replace', index = False)
+			con.close()
+
+			print('Imported {} into database'.format(year))
+
+			df = pd.concat([df, dfnew])
+
+			# Write to database
+			con = db.create_connection()
+			df.to_sql('arrivals', con, if_exists='replace', index = False)
+			con.close()
+
+			
 
 		#df = df.rename(columns = {'Date of Arrival (dd-mmm-yyyy)':'date', 'Number':'number', 'Ship\'s Name':'vessel', 'Of What Port':'registered_port', 'Master':'master', 'Registered Tonnage':'registered_tonnage','Port From Whence':'from_port','Cargo':'cargo_transcribed', 'Wind and Weather':'weather','Other Notes':'notes', 'Transcriber Notes':'transcriber_notes', 'Transcribed by':'transcriber', 'Checked by':'checker', 'Queries':'transcriber_queries'})
 
 		df.columns = ['date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
 
-		#########################
-		#Main new code starts here
-		start_date = '01-01-1914' # You can test this working by making start_date 1915 or end date 1919 
-		end_date = '31-12-1920'
-
-		te_mask = (df['date'] < start_date)
-		too_early_df = df.loc[te_mask]
-
-		tl_mask = (df['date'] > end_date)
-		too_late_df = df.loc[tl_mask]
-
-		mask = (df['date'] >= start_date) & (df['date'] <= end_date)
-		df = df.loc[mask]
-
-		if len(too_late_df.count(axis='columns')) > 0:
-				write_out("too_late", too_late_df)
-		if len(too_early_df.count(axis='columns')) > 0:
-				write_out("too_early", too_early_df)
-
-		# Ends
-		##################
+		
 
 		# Fix missing data issues and clean out whitespace
 		columns = ['number', 'cargo_transcribed', 'master', 'registered_port', 'registered_tonnage', 'from_port', 'vessel', 'weather', 'notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
