@@ -30,16 +30,19 @@ if __name__ == '__main__':
 		df = pd.DataFrame()
 
 		# set to None to import all
+		# set this to a number to limit the number of rows imported for each year
+		# this is used to trace broken dates
 		import_nrows = None
 
 		for year in range(1914, 1921):
 			dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), nrows=import_nrows, header=1, dtype={1:'str', 5:'str', 6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0], na_values=['(blank)', '(Blank)','Blank','blank', '-',''])
 
+			# Remap spreadsheet column names into more meaningful internal names
 			dfnew.columns = ['date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
 
-			#########################
-			#Main new code starts here
-			start_date = '01-01-{}'.format(year) # You can test this working by making start_date 1915 or end date 1919 
+			# Set the date range to filter by
+			# it should be just for dates in <year>
+			start_date = '01-01-{}'.format(year) 
 			end_date = '31-12-{}'.format(year)
 
 			te_mask = (dfnew['date'] < start_date)
@@ -48,6 +51,7 @@ if __name__ == '__main__':
 			tl_mask = (dfnew['date'] > end_date)
 			too_late_df = dfnew.loc[tl_mask]
 
+			# Build a dataframe of all the date enteries that are blank
 			nd_mask = (dfnew['date'].isnull())
 			not_date_df = dfnew.loc[nd_mask]
 
@@ -56,6 +60,9 @@ if __name__ == '__main__':
 			mask = (dfnew['date'] >= start_date) & (dfnew['date'] <= end_date)
 			dfnew = dfnew.loc[mask]
 
+			# Log the rouge entries
+			# Issue: a date with a year starting 0 is not caught by this
+			# e.g. 12-feb-0916
 			if len(not_date_df.count(axis='columns')) > 0:
 					write_out('not_date_{}'.format(year), not_date_df)
 			if len(too_late_df.count(axis='columns')) > 0:
@@ -63,21 +70,27 @@ if __name__ == '__main__':
 			if len(too_early_df.count(axis='columns')) > 0:
 					write_out('too_early_{}'.format(year), too_early_df)
 
-			# Ends
-			##################
-
+			# Just to see what has been imported
 			print(dfnew)
 
+			# This was added to check each year and would be removed once everything works
+
 			# Write to database
+			# This overwrites the existing content and imports the current year
+			# This works even if there is a 0916 year in the date column
 			con = db.create_connection()
 			dfnew.to_sql('arrivals', con, if_exists='replace', index = False)
 			con.close()
 
 			print('Imported {} into database'.format(year))
 
+			# Issue: If dfnew contains dates with a 0916 year then post concat df
+			# crashes the database write
+
 			df = pd.concat([df, dfnew])
 
 			# Write to database
+			# This was added to check each year and would be removed once everything works
 			con = db.create_connection()
 			df.to_sql('arrivals', con, if_exists='replace', index = False)
 			con.close()
