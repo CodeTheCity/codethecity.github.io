@@ -39,12 +39,15 @@ def getCheckedRecordCount():
 	return rows[0][0]
 
 def getDataForColumn(column):
-	rows = db.select('SELECT DISTINCT {} FROM arrivals WHERE {} <> "" ORDER BY {}'.format(column, column, column))
-	data = []
-	for row in rows:
-		data.append(row[0])
+	try:
+		rows = db.select('SELECT DISTINCT {} FROM arrivals WHERE {} <> "" ORDER BY {}'.format(column, column, column))
+		data = []
+		for row in rows:
+			data.append(row[0])
 
-	return data
+		return data
+	except Exception as e:
+		raise e
 
 def getEntriesForColumnLike(column, value):
 	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker FROM arrivals WHERE {} LIKE :value ORDER BY date'.format(column), {"value":'%'+value+'%'})
@@ -53,22 +56,40 @@ def getEntriesForColumnLike(column, value):
 
 
 def getVesselsData():
-	return getDataForColumn('vessel')
+	try:
+		return getDataForColumn('vessel')
+	except Exception as e:
+		raise e
 
 def getMastersData():
-	return getDataForColumn('master')
+	try:
+		return getDataForColumn('master')
+	except Exception as e:
+		raise e
 
 def getCargoData():
-	return getDataForColumn('cargo')
+	try:
+		return getDataForColumn('cargo')
+	except Exception as e:
+		raise e
 
 def getActivityData():
-	return getDataForColumn('activity')
+	try:
+		return getDataForColumn('activity')
+	except Exception as e:
+		raise e
 
 def getRegisteredPortsData():
-	return getDataForColumn('registered_port')
+	try:
+		return getDataForColumn('registered_port')
+	except Exception as e:
+		raise e
 
 def getFromPortsData():
-	return getDataForColumn('from_port')
+	try:
+		return getDataForColumn('from_port')
+	except Exception as e:
+		raise e
 
 def getWeatherData():
 	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, weather FROM arrivals WHERE weather != "?" AND weather != "" ORDER BY date')
@@ -140,6 +161,7 @@ def getEntriesWithTranscriberNotes():
 # main route
 def index():
 
+	errors = []
 	records_count = 0
 	checked_records_count = 0
 	cargo = []
@@ -149,12 +171,23 @@ def index():
 	last_import, records_count = getLastImport()
 	checked_records_count = getCheckedRecordCount()
 
+	on_this_day = []
+	on_this_day_weather = []
+
 	this_day = date.today().strftime("%d-%m")
 
-	on_this_day = getEntriesForDate(this_day)
 
-	on_this_day_weather = getWeatherDataForDate(this_day)
+	try:
+		on_this_day = getEntriesForDate(this_day)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
+	try:
+		on_this_day_weather = getWeatherDataForDate(this_day)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	weather = []
 
@@ -162,26 +195,31 @@ def index():
 		cargo = getCargoData()
 	except Exception as e:
 		print(e)
+		errors.append(e)
 
 	try:
 		vessels = getVesselsData()
 	except Exception as e:
 		print(e)
+		errors.append(e)
 
 	try:
 		masters = getMastersData()
 	except Exception as e:
 		print(e)
+		errors.append(e)
 
 	try:
 		registered_ports = getRegisteredPortsData()
 	except Exception as e:
 		print(e)
+		errors.append(e)
 
 	try:
 		from_ports = getFromPortsData()
 	except Exception as e:
 		print(e)
+		errors.append(e)
 
 	templateData = {
 		'records_count' : records_count,
@@ -195,7 +233,8 @@ def index():
 		'on_this_day' : on_this_day,
 		'on_this_day_weather' : on_this_day_weather,
 		'this_day' : this_day,
-		'last_updated' : dir_last_updated('static')
+		'last_updated' : dir_last_updated('static'),
+		'errors' : errors
 	}
 	return render_template('index.html', **templateData)
 
@@ -307,16 +346,19 @@ def masters():
 
 @app.route('/cargos')
 def cargos():
+	errors = []
 	cargos = []
 
 	try:
 		cargos = getCargoData()
 	except Exception as e:
 		print(e)
+		errors.append(e)
 
 
 	templateData = {
-		'cargos' : cargos
+		'cargos' : cargos,
+		'errors' : errors
 	}
 	return render_template('cargos.html', **templateData)
 
@@ -431,8 +473,13 @@ def day(year, month, day):
 @app.route('/arrivals/<year>')
 def arrivals(year):
 
+	errors = []
 	entries = []
-	entries = getEntriesForYear(year)
+	try:
+		entries = getEntriesForYear(year)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	sources = { '1914' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=1432177458', '1915' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=524481503', '1916' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=247148901', '1917' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=1725245449', '1918' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=1155924912', '1919' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=1705602406', '1920' : 'https://docs.google.com/spreadsheets/d/1gr-501asOIg-YLTWkkeX3iWwVR1ROnHfX4swNKinRUk/edit#gid=583956228' }
 
@@ -443,85 +490,141 @@ def arrivals(year):
 	templateData = {
 		'entries' : entries,
 		'year' : year,
-		'source' : source
+		'source' : source,
+		'errors' : errors
 	}
 	return render_template('entries.html', **templateData)
 
 @app.route('/arrivals_after/<year>')
 def arrivals_after(year):
 
+	errors = []
 	entries = []
-	entries = getEntriesAfterYear(year)
+
+	try:
+		entries = getEntriesAfterYear(year)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
 		'entries' : entries,
-		'year' : 'after {}'.format(year)
+		'year' : 'after {}'.format(year),
+		'errors' : errors
 	}
 	return render_template('entries.html', **templateData)
 
 @app.route('/vessel/<filter>')
 def vessel(filter):
 
-	entries = getEntriesForVessel(filter)
+	errors = []
+	entries = []
+
+	try:
+		entries = getEntriesForVessel(filter)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
 		'entries' : entries,
-		'vessel' : filter
+		'vessel' : filter,
+		'errors' : errors
 	}
 	return render_template('vessel.html', **templateData)
 	
 @app.route('/master/<filter>')
 def master(filter):
 
-	entries = getEntriesForMaster(filter)
+	errors = []
+	entries = []
+
+	try:
+		entries = getEntriesForMaster(filter)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
 		'entries' : entries,
-		'master' : filter
+		'master' : filter,
+		'errors' : errors
 	}
 	return render_template('master.html', **templateData)
 	
 @app.route('/cargo/<filter>')
 def cargo(filter):
 
-	entries = getEntriesForCargo(filter)
+	errors = []
+	entries = []
+
+	try:
+		entries = getEntriesForCargo(filter)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
 		'entries' : entries,
-		'cargo' : filter
+		'cargo' : filter,
+		'errors' : errors
 	}
 	return render_template('cargo.html', **templateData)
 	
 @app.route('/activity/<filter>')
 def activity(filter):
 
-	entries = getEntriesForActivity(filter)
+	errors = []
+	entries = []
+
+	try:
+		entries = getEntriesForActivity(filter)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
 		'entries' : entries,
-		'activity' : filter
+		'activity' : filter,
+		'errors' : errors
 	}
 	return render_template('activity.html', **templateData)
 
 @app.route('/registered_port/<filter>')
 def registered_port(filter):
 
-	entries = getEntriesForRegisteredPort(filter)
+	errors = []
+	entries = []
+
+	try:
+		entries = getEntriesForRegisteredPort(filter)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
 		'entries' : entries,
-		'registered_port' : filter
+		'registered_port' : filter,
+		'errors' : errors
 	}
 	return render_template('registered_port.html', **templateData)
 
 @app.route('/from_port/<filter>')
 def from_port(filter):
 
-	entries = getEntriesForFromPort(filter)
+	errors = []
+	entries = []
+
+	try:
+		entries = getEntriesForFromPort(filter)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
 		'entries' : entries,
-		'from_port' : filter
+		'from_port' : filter,
+		'errors' : errors
 	}
 	return render_template('from_port.html', **templateData)
 	

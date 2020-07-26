@@ -46,7 +46,6 @@ class database:
             curs.execute(query_sql, query_params)
             rows = curs.fetchall()
             conn.close()
+            return rows
         except Error as e:
-            print(e)
-
-        return rows
+            raise e

@@ -108,3 +108,9 @@ venv.bak/
 
 # editor
 .vscode
+/errors/not_date_1915.csv
+/errors/not_date_1917.csv
+/errors/not_date_1918.csv
+/errors/not_date_1919.csv
+/errors/not_date_1920.csv
+/errors/too_late_1917.csv

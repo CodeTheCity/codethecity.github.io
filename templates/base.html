@@ -24,6 +24,17 @@
 
     {% include 'disclaimer.html' %}
 
+    {% if errors|length > 0 %}
+      <section class="box" style="background-color: red; color: white;">
+        <div class="body">
+          <h2>Errors!</h2>
+          {% for error in errors %}
+            {{ error }}<br/>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
     <h1>{% block title %}{% endblock %}</h1>
 
     {% block content %}{% endblock %}
