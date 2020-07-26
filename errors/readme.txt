@@ -1,1 +1,0 @@
-Error logs get created for each year and error type.

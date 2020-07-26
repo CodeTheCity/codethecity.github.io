@@ -18,21 +18,24 @@
   </div>
 </section>
 
-<section class="box">
-  <h3>Note</h3>
-  <div class="body">
-    <p>
-      If the records checked is displaying 0 or none of the years contain data
-      then it means the last data import failed due to an expected value in one
-      of the columns.
-    </p>
-    <p>
-      So far non-date values in the date column have caused this problem to
-      occur. Please check that no such values are present and hopefully it will
-      rectify the import on the next attempt.
-    </p>
-  </div>
-</section>
+
+{% if records_count == 0 %}
+  <section class="box">
+    <h3>Note</h3>
+    <div class="body">
+      <p>
+        If the records checked is displaying 0 or none of the years contain data
+        then it means the last data import failed due to an expected value in one
+        of the columns.
+      </p>
+      <p>
+        So far non-date values in the date column have caused this problem to
+        occur. Please check that no such values are present and hopefully it will
+        rectify the import on the next attempt.
+      </p>
+    </div>
+  </section>
+{% endif %}
 
 <h2>Transcription Progress</h2>
 

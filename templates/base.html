@@ -28,9 +28,21 @@
       <section class="box" style="background-color: red; color: white;">
         <div class="body">
           <h2>Errors!</h2>
-          {% for error in errors %}
-            {{ error }}<br/>
-          {% endfor %}
+          <p>
+            {% for error in errors %}
+              <strong>{{ error }}</strong><br/>
+            {% endfor %}
+          </p>
+          <p>
+            If the records checked is displaying 0 or none of the years contain data
+            then it means the last data import failed due to an expected value in one
+            of the columns.
+          </p>
+          <p>
+            So far non-date values in the date column have caused this problem to
+            occur. Please check that no such values are present and hopefully it will
+            rectify the import on the next attempt.
+          </p>
         </div>
       </section>
     {% endif %}
