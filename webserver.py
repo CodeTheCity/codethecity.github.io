@@ -364,94 +364,144 @@ def cargos():
 
 @app.route('/activities')
 def activities():
+	errors = []
 	activities = []
 
 	try:
 		activities = getActivityData()
 	except Exception as e:
 		print(e)
+		errors.append(e)
 
 
 	templateData = {
-		'activities' : activities
+		'activities' : activities,
+		'errors' : errors
 	}
 	return render_template('activities.html', **templateData)
 
 @app.route('/registered_ports')
 def registered_ports():
+	errors = []
 	registered_ports = []
 
 	try:
 		registered_ports = getRegisteredPortsData()
 	except Exception as e:
 		print(e)
+		errors.append(e)
 
 
 	templateData = {
-		'registered_ports' : registered_ports
+		'registered_ports' : registered_ports,
+		'errors' : errors
 	}
 	return render_template('registered_ports.html', **templateData)
 
 @app.route('/from_ports')
 def from_ports():
+	errors = []
 	from_ports = []
 
 	try:
 		from_ports = getFromPortsData()
 	except Exception as e:
 		print(e)
+		errors.append(e)
 
 
 	templateData = {
-		'from_ports' : from_ports
+		'from_ports' : from_ports,
+		'errors' : errors
 	}
 	return render_template('from_ports.html', **templateData)
 
 @app.route('/weather')
 def weather():
 
+	errors = []
 	weather = []
-	weather = getWeatherData()
+	try:
+		weather = getWeatherData()
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
-		'weather' : weather
+		'weather' : weather,
+		'errors' : errors
 	}
 	return render_template('weather.html', **templateData)
 
 @app.route('/notes')
 def notes():
 
+	errors = []
 	notes = []
-	notes = getNotesData()
+	try:
+		notes = getNotesData()
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
-		'notes' : notes
+		'notes' : notes,
+		'errors' : errors
 	}
 	return render_template('notes.html', **templateData)
 
 @app.route('/transcriber_notes')
 def transcriber_notes():
 
+	errors = []
 	entries = []
-	entries = getEntriesWithTranscriberNotes()
+	try:
+		entries = getEntriesWithTranscriberNotes()
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
-		'entries' : entries
+		'entries' : entries,
+		'errors' : errors
 	}
 	return render_template('transcriber_notes.html', **templateData)
 
 @app.route('/day/<year>/<month>/<day>')
 def day(year, month, day):
 
+	errors = []
 	entries = []
-	entries = getEntriesForYear(year)
+	on_this_day = []
+	on_this_day_weather = []
+	on_this_day_note = []
+
+	try:
+		entries = getEntriesForYear(year)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	date_string = '{:0>2}-{:0>2}-{}'.format(day, month, year)
 	date = datetime.strptime(date_string, '%d-%m-%Y').date()
 
-	on_this_day = getEntriesForDate(date_string)
-	on_this_day_weather = getWeatherDataForDate(date_string)
-	on_this_day_note = getNotesDataForDate(date_string)
+	try:
+		on_this_day = getEntriesForDate(date_string)
+	except Exception as e:
+		print(e)
+		errors.append(e)
+
+	try:
+		on_this_day_weather = getWeatherDataForDate(date_string)
+	except Exception as e:
+		print(e)
+		errors.append(e)
+
+	try:
+		on_this_day_note = getNotesDataForDate(date_string)
+	except Exception as e:
+		print(e)
+		errors.append(e)
 
 	templateData = {
 		'entries' : on_this_day,
@@ -465,7 +515,8 @@ def day(year, month, day):
 		'on_this_day_weather' : on_this_day_weather,
 		'on_this_day_note' : on_this_day_note,
 		'on_this_day' : on_this_day,
-		'last_updated' : dir_last_updated('static')
+		'last_updated' : dir_last_updated('static'),
+		'errors' : errors
 	}
 	return render_template('day.html', **templateData)
 
