@@ -28,7 +28,7 @@ There is also an API for downloading all the data as CSV or JSON. Also for downl
 
 The dashboard is written in Python3 and uses Flask as a webserver.
 
-The prototype version of this is running on a Raspberry Pi running Buster and the installation instructions are for that platform.
+The prototype version of this was originally run on a Raspberry Pi running Buster and the installation instructions are for that platform.
 
 ## Raspberry Pi
 
