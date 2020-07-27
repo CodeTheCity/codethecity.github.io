@@ -1,5 +1,5 @@
 # Aberdeen Harbour Historical Arrivals Data API and Dashboard
-This is a self contained web server that provides an API and dashboard for historical arrivals at Aberdeen harbour during the period 1914 - 1920. The data has been transcribed from the log books record at the time. The transcription was done as part of [CodeTheCity 19](https://codethecity.org/what-we-do/hack-weekends/code-the-city-19-history-data-innovation) and is being revisited as part of [CodeTheCity20](https://codethecity.org/what-we-do/hack-weekends/code-the-city-20-history-and-culture)
+This is a self contained web server that provides an API and dashboard for historical arrivals at Aberdeen harbour during the period 1914 - 1920. The data has been transcribed from the log books record at the time. The transcription was done as part of [CodeTheCity 19](https://codethecity.org/what-we-do/hack-weekends/code-the-city-19-history-data-innovation) and is being revisited as part of [CodeTheCity 20](https://codethecity.org/what-we-do/hack-weekends/code-the-city-20-history-and-culture)
 
 A demonstration of the site can be seen at [http://161.35.162.175](http://161.35.162.175).
 
