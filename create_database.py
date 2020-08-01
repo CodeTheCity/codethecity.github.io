@@ -79,7 +79,7 @@ if __name__ == '__main__':
 			# This overwrites the existing content and imports the current year
 			# This works even if there is a 0916 year in the date column
 			con = db.create_connection()
-			dfnew.to_sql('arrivals_temp', con, if_exists='replace', index = False)
+			dfnew.to_sql('arrivals', con, if_exists='replace', index = False)
 			con.close()
 
 			print('Imported {} into database'.format(year))
@@ -92,7 +92,7 @@ if __name__ == '__main__':
 			# Write to database
 			# This was added to check each year and would be removed once everything works
 			con = db.create_connection()
-			df.to_sql('arrivals_temp', con, if_exists='replace', index = False)
+			df.to_sql('arrivals', con, if_exists='replace', index = False)
 			con.close()
 
 		df.columns = ['uuid', 'date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
@@ -177,10 +177,10 @@ if __name__ == '__main__':
 
 		# Write to database
 		con = db.create_connection()
-		df.to_sql('arrivals_temp', con, if_exists='replace', index = False)
+		df.to_sql('arrivals', con, if_exists='replace', index = False)
 		con.close()
 
-		rows = db.select('SELECT COUNT(date) FROM arrivals_temp')
+		rows = db.select('SELECT COUNT(date) FROM arrivals')
 
 		print('{} imported'.format(rows[0][0]))
 		db.execute_query("INSERT INTO imports values((?), (?))", (datetime.datetime.now(), rows[0][0]))
