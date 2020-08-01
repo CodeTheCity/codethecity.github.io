@@ -35,10 +35,10 @@ if __name__ == '__main__':
 		import_nrows = None
 
 		for year in range(1914, 1921):
-			dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), nrows=import_nrows, header=1, dtype={1:'str', 5:'str', 6:'string', 7:'string',12:'string', 13:'string'}, parse_dates=[0], na_values=['(blank)', '(Blank)','Blank','blank', '-',''])
+			dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), nrows=import_nrows, header=1, dtype={1:'str', 2:'str', 6:'str', 7:'string', 8:'string',13:'string', 14:'string'}, parse_dates=[0], na_values=['(blank)', '(Blank)','Blank','blank', '-',''])
 
 			# Remap spreadsheet column names into more meaningful internal names
-			dfnew.columns = ['date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
+			dfnew.columns = ['uuid', 'date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
 
 			# Set the date range to filter by
 			# it should be just for dates in <year>
@@ -79,7 +79,7 @@ if __name__ == '__main__':
 			# This overwrites the existing content and imports the current year
 			# This works even if there is a 0916 year in the date column
 			con = db.create_connection()
-			dfnew.to_sql('arrivals', con, if_exists='replace', index = False)
+			dfnew.to_sql('arrivals_temp', con, if_exists='replace', index = False)
 			con.close()
 
 			print('Imported {} into database'.format(year))
@@ -92,16 +92,10 @@ if __name__ == '__main__':
 			# Write to database
 			# This was added to check each year and would be removed once everything works
 			con = db.create_connection()
-			df.to_sql('arrivals', con, if_exists='replace', index = False)
+			df.to_sql('arrivals_temp', con, if_exists='replace', index = False)
 			con.close()
 
-			
-
-		#df = df.rename(columns = {'Date of Arrival (dd-mmm-yyyy)':'date', 'Number':'number', 'Ship\'s Name':'vessel', 'Of What Port':'registered_port', 'Master':'master', 'Registered Tonnage':'registered_tonnage','Port From Whence':'from_port','Cargo':'cargo_transcribed', 'Wind and Weather':'weather','Other Notes':'notes', 'Transcriber Notes':'transcriber_notes', 'Transcribed by':'transcriber', 'Checked by':'checker', 'Queries':'transcriber_queries'})
-
-		df.columns = ['date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
-
-		
+		df.columns = ['uuid', 'date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
 
 		# Fix missing data issues and clean out whitespace
 		columns = ['number', 'cargo_transcribed', 'master', 'registered_port', 'registered_tonnage', 'from_port', 'vessel', 'weather', 'notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
@@ -183,10 +177,10 @@ if __name__ == '__main__':
 
 		# Write to database
 		con = db.create_connection()
-		df.to_sql('arrivals', con, if_exists='replace', index = False)
+		df.to_sql('arrivals_temp', con, if_exists='replace', index = False)
 		con.close()
 
-		rows = db.select('SELECT COUNT(date) FROM arrivals')
+		rows = db.select('SELECT COUNT(date) FROM arrivals_temp')
 
 		print('{} imported'.format(rows[0][0]))
 		db.execute_query("INSERT INTO imports values((?), (?))", (datetime.datetime.now(), rows[0][0]))
