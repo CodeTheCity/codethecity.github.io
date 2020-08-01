@@ -711,7 +711,7 @@ def graphs_from_ports():
 
 def buildCargoGraph(year):
 	con = db.create_connection()
-	df = pd.read_sql_query('SELECT date, cargo FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND cargo <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
+	df = pd.read_sql_query('SELECT date, cargo FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND cargo <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['uuid'])
 	con.close()
 
 	fig = Figure(figsize=(12,12))
@@ -783,7 +783,7 @@ def buildCargoGraphByKind(year):
 
 def buildActivityGraph(year):
 	con = db.create_connection()
-	df = pd.read_sql_query('SELECT date, activity FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND activity <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
+	df = pd.read_sql_query('SELECT date, activity FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND activity <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['uuid'])
 	con.close()
 
 	fig = Figure(figsize=(12,12))
@@ -855,7 +855,7 @@ def buildActivityByKindGraph(year):
 
 def buildTopVesselsGraph(year):
 	con = db.create_connection()
-	df = pd.read_sql_query('SELECT date, vessel FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND vessel <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['date'])
+	df = pd.read_sql_query('SELECT date, vessel FROM arrivals WHERE strftime(\'%Y\', date) = "{}" AND vessel <> "" ORDER BY date'.format(year), con, parse_dates=['date'], index_col=['uuid'])
 	con.close()
 
 	fig = Figure(figsize=(8,12))
@@ -969,7 +969,7 @@ def plot_from_ports(year):
 @app.route('/api/v1.0/arrivals.csv')
 def csv_get_arrivals():
 	con = db.create_connection()
-	df = pd.read_sql_query('SELECT * FROM arrivals ORDER BY date', con, parse_dates=['date'], index_col=['date'])
+	df = pd.read_sql_query('SELECT * FROM arrivals ORDER BY date', con, parse_dates=['date'], index_col=['uuid'])
 	con.close()
 
 	response = make_response(df.to_csv())
@@ -980,7 +980,7 @@ def csv_get_arrivals():
 @app.route('/api/v1.0/arrivals')
 def api_get_arrivals():
 	con = db.create_connection()
-	df = pd.read_sql_query('SELECT * FROM arrivals ORDER BY date', con, parse_dates=['date'], index_col=['date'])
+	df = pd.read_sql_query('SELECT * FROM arrivals ORDER BY date', con, parse_dates=['date'], index_col=['uuid'])
 	con.close()
 
 	response = make_response(df.to_json(orient='table', index=False))
