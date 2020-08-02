@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% from "macros.html" import grouped_entries with context %}
+
+{% block title %}Aberdeen Harbour Historic Arrival Vessel Fishing Port Registration Numbers List{% endblock %}
+
+<p>Click on a nmumber to see all the records that it appears in.</p>
+
+{% block content %}
+{{ grouped_entries('Fishing Port Registraion Number', 'fishing_port_registration_number', fishing_port_registration_numbers) }}
+{% endblock %}

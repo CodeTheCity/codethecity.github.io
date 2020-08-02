@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% from "macros.html" import entries_table with context %}
+
+{% block title %}Entries with Fishing Port Registration Number that include "{{ fishing_port_registration_number }}"{% endblock %}
+
+{% block content %}
+{{ entries_table(entries) }}
+{% endblock %}

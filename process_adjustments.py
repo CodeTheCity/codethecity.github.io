@@ -34,7 +34,9 @@ class ProcessAdjustments:
 
 		dfAdjusted = dfOriginal.merge(dfAdjustments[['uuid', 'fishing_port_registration_numbers']], on='uuid')
 
-		dfAdjusted = dfAdjusted.rename(columns={'fishing_port_registration_numbers':'fishing_port_registation_number'})
+		dfAdjusted = dfAdjusted.rename(columns={'fishing_port_registration_numbers':'fishing_port_registration_number'})
+
+		dfAdjusted['fishing_port_registration_number'] = dfAdjusted['fishing_port_registration_number'].fillna('')
 
 		print(dfAdjusted)
 		print(dfAdjusted.dtypes)
