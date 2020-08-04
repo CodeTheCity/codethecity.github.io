@@ -37,10 +37,34 @@ class ProcessAdjustments:
 			for name, group in grouped:
 				dfAdjusted.loc[(dfAdjusted[column].isin([value for value in group[column]])), column] = name		
 
+		# Extract HMx prefix from Vessel name
+		dfAdjusted['vessel_prefix'] = dfAdjusted['vessel'].apply(lambda row:getVesselPrefix(row))
+		dfAdjusted['vessel'] = dfAdjusted['vessel'].apply(lambda row: splitVesselName(row))
+
 		# Write to database
 		con = self.db.create_connection()
 		dfAdjusted.to_sql('arrivals', con, if_exists='replace', index = False)
 		con.close()
+
+def getVesselPrefix(x):
+	result = ''
+
+	if x is not None:
+		parts = x.split(' ')
+		if parts[0] in ['HMSL', 'HMTB', 'HMM', 'HMOC', 'HMPO', 'HMQS', 'HML', 'HMTS', 'HMRS', 'HMSS', 'HMR', 'HMFB', 'HMFS', 'HMMB', 'HMBO', 'HMBS', 'HMME', 'HMMD', 'HMC', 'HMMO', 'HMT', 'HMD', 'HMMP', 'HMPS', 'HMML', 'HMW', 'HMY', 'HMB', 'HHMS', 'HMBD', 'HMO', 'HMMR', 'HMS', 'HMMS', 'HMP', 'HM']:
+			result = parts[0]
+
+	return result
+
+def splitVesselName(x):
+	result = x
+
+	if x is not None:
+		parts = x.split(' ')
+		if parts[0] in ['HMSL', 'HMTB', 'HMM', 'HMOC', 'HMPO', 'HMQS', 'HML', 'HMTS', 'HMRS', 'HMSS', 'HMR', 'HMFB', 'HMFS', 'HMMB', 'HMBO', 'HMBS', 'HMME', 'HMMD', 'HMC', 'HMMO', 'HMT', 'HMD', 'HMMP', 'HMPS', 'HMML', 'HMW', 'HMY', 'HMB', 'HHMS', 'HMBD', 'HMO', 'HMMR', 'HMS', 'HMMS', 'HMP', 'HM']:
+			result = ' '.join(parts[1:])
+
+	return result
 
 
 def main():

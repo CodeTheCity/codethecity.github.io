@@ -50,7 +50,7 @@ def getDataForColumn(column):
 		raise e
 
 def getEntriesForColumnLike(column, value):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker, fishing_port_registration_number FROM arrivals WHERE {} LIKE :value ORDER BY date'.format(column), {"value":'%'+value+'%'})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, vessel_prefix, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker, fishing_port_registration_number FROM arrivals WHERE {} LIKE :value ORDER BY date'.format(column), {"value":'%'+value+'%'})
 
 	return rows
 
@@ -147,22 +147,22 @@ def getNotesDataForDate(date):
 # Checks for partial match of date - e.g. search for 1914 gets all in 1914
 # search for 5-4 gets all for 5th April any year
 def getEntriesForDate(date):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker, fishing_port_registration_number FROM arrivals WHERE strftime("%d-%m-%Y", date) like :date ORDER BY date', { "date": '%{}%'.format(date)})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, vessel_prefix, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker, fishing_port_registration_number FROM arrivals WHERE strftime("%d-%m-%Y", date) like :date ORDER BY date', { "date": '%{}%'.format(date)})
 
 	return rows
 
 def getEntriesForYear(year):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker, fishing_port_registration_number FROM arrivals WHERE strftime("%Y", date) = :year ORDER BY date', { "year":year})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, vessel_prefix, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker, fishing_port_registration_number FROM arrivals WHERE strftime("%Y", date) = :year ORDER BY date', { "year":year})
 
 	return rows
 
 def getEntriesAfterYear(year):
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker, fishing_port_registration_number FROM arrivals WHERE strftime("%Y", date) > :year ORDER BY date', { "year":year})
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, vessel_prefix, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker, fishing_port_registration_number FROM arrivals WHERE strftime("%Y", date) > :year ORDER BY date', { "year":year})
 
 	return rows
 
 def getEntriesWithTranscriberNotes():
-	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker, fishing_port_registration_number, transcriber_notes FROM arrivals WHERE transcriber_notes <> "" ORDER BY date')
+	rows = db.select('SELECT strftime("%d-%m-%Y", date) as formated_date, vessel, vessel_prefix, number, registered_port, master, registered_tonnage, from_port, cargo, activity, checker, fishing_port_registration_number, transcriber_notes FROM arrivals WHERE transcriber_notes <> "" ORDER BY date')
 
 	return rows
 

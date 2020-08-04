@@ -2,6 +2,7 @@
 	<table class="dataframe">
 		<tr>
 			<th>Date</th>
+			<th></th>
 			<th>Vessel</th>
 			<th>Number</th>
 			<th style="text-align: center">Registered Port</th>
@@ -14,9 +15,9 @@
 			<th>Checked</th>
 		</tr>
 	{% for entry in entries %}
-		{% if entry[11] %}
+		{% if entry[12] %}
 			<tr>
-				<td colspan="11" style="background-color: #00000040;"><strong>Transcriber note for following entry:</strong> {{ entry[10] }}</td>
+				<td colspan="12" style="background-color: #00000040;"><strong>Transcriber note for following entry:</strong> {{ entry[12] }}</td>
 			</tr>
 		{% endif %}
 		<tr>
@@ -27,17 +28,18 @@
 					{{ entry[0] }}
 				{% endif %}
 			</td>
+			<td>{{ entry[2] }}</td>
 			<td nowrap><a href="/vessel/{{ entry[1] }}" class="link">{{ entry[1] }}</a></td>
-			<td style="text-align: right;">{{ entry[2] }}</td>
-			<td style="text-align: center"><a href="/registered_port/{{ entry[3] }}" class="link">{{ entry[3] }}</a></td>
-			<td><a href="/master/{{ entry[4] }}" class="link">{{ entry[4] }}</a></td>
-			<td style="text-align: right;">{{ entry[5] }}</td>
-			<td><a href="/from_port/{{ entry[6] }}" class="link">{{ entry[6] }}</a></td>
-			<td><a href="/cargo/{{ entry[7] }}" class="link">{{ entry[7] }}</a></td>
-			<td nowrap><a href="/activity/{{ entry[8] }}" class="link">{{ entry[8] }}</a></td>
-			<td><a href="/fishing_port_registration_number/{{ entry[10] }}" class="link">{{ entry[10] }}</a></td>
+			<td style="text-align: right;">{{ entry[3] }}</td>
+			<td style="text-align: center"><a href="/registered_port/{{ entry[4] }}" class="link">{{ entry[4] }}</a></td>
+			<td><a href="/master/{{ entry[5] }}" class="link">{{ entry[5] }}</a></td>
+			<td style="text-align: right;">{{ entry[6] }}</td>
+			<td><a href="/from_port/{{ entry[7] }}" class="link">{{ entry[7] }}</a></td>
+			<td><a href="/cargo/{{ entry[8] }}" class="link">{{ entry[8] }}</a></td>
+			<td nowrap><a href="/activity/{{ entry[9] }}" class="link">{{ entry[9] }}</a></td>
+			<td><a href="/fishing_port_registration_number/{{ entry[11] }}" class="link">{{ entry[11] }}</a></td>
 			<td style="text-align: center">
-				{% if entry[9] == '' %}
+				{% if entry[10] == '' %}
 				{% else %}
 					Yes
 				{% endif %}
