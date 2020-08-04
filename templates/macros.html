@@ -78,14 +78,17 @@
 {% macro grouped_entries(title, detail_page, entries) %}
 	<h2>{{ title }} ({{ entries|length }} unique)</h2>
 	<div style="text-align: left">
+		<ul>
 		{% set ns = namespace(letter = ' ') %}
 		{% for entry in entries %}
 			{% if entry[0] != ns.letter %}
 				{% set ns.letter = entry[0] %}
+				</ul>
 				<h3>{{ ns.letter }}</h3>
-				
+				<ul>	
 			{% endif %}
-			<a href = {{ url_for(detail_page, filter=entry)}} class="link">{{ entry }}</a>, 
+			<li><a href = {{ url_for(detail_page, filter=entry)}} class="link">{{ entry }}</a></li>
 		{% endfor %}
+		</ul>
 	</div>
 {% endmacro %}
