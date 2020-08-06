@@ -1,0 +1,27 @@
+HMSL:His Majesty’s Small Launch
+HMTB:Torpedo Boat
+HMQS:Q Ship, used as decoy to engage u boats, masqueraded as unarmed. When u boat surfaced they could fight back.
+HMT:Hired Military Transport
+HMTS:Hired Military Transport (maybe mis type)
+HMW:His Majesty’s Whaler
+HMY:Hired or requisitioned yacht
+HMML:Mine layer
+HMO:His Majesty’s Oiler. Fuel oil carrier
+HML:Mine layer
+HMC:Collier. Coal for ship bunkers, sometimes they carried general stores or goods
+HM Col:Collier. Coal for ship bunkers, sometimes they carried general stores or goods
+HMS:His Majesty’s Ship. Regular naval vessel
+HMMS:Minesweeper
+HMBD:Boom defence vessel. Trawlers, drifters and fishermen ideal for handling torpedo nets etc used in defence of port entrances and large capital ships
+HMAS:Armed sloop
+HMSS:Submarine
+HM Des:Destroyer
+HMMB:Motor boat
+HMP:Patrol vessel
+HDML:Harbour defence motor launch
+HML:Motor launch
+HMRT:Rescue tug
+HM Tug:Admiralty or hired tug
+HMGB:Motor Gun Boat
+HMSML:Small motor launch
+HMHS: Hospital ship
