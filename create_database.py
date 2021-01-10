@@ -19,15 +19,13 @@ if __name__ == '__main__':
 		except Error as e:
 				print(e)
 
-
 		# new function to save errors - NEEDS a new directory called "errors" to save them to		
 		def write_out(name, dframe):
 				file_path = "errors/"+ name + ".csv"
 				dframe.to_csv(file_path)
 
-
 		# Import transcribed records
-		google_sheet_url = 'https://docs.google.com/spreadsheets/d/120KGS0oRFby5so-4_QVtaJWgAzuFEsnq86C1EgZW0-A/export#gid=0?format=csv'
+		google_sheet_url = 'https://docs.google.com/spreadsheets/d/120KGS0oRFby5so-4_QVtaJWgAzuFEsnq86C1EgZW0-A/export?format=xlsx'
 
 		df = pd.DataFrame()
 
@@ -36,11 +34,28 @@ if __name__ == '__main__':
 		# this is used to trace broken dates
 		import_nrows = None
 
-		for year in range(1914, 1921):
-			dfnew=pd.read_excel(google_sheet_url, sheet_name=str(year), nrows=import_nrows, header=1, dtype={1:'str', 2:'str', 6:'str', 7:'string', 8:'string',13:'string', 14:'string'}, parse_dates=[0], na_values=['(blank)', '(Blank)','Blank','blank', '-',''])
+		first_year = 1914
+		last_year = 1920
+
+		for year in range(first_year, last_year + 1):
+			dfnew=pd.read_excel(google_sheet_url,
+				sheet_name=str(year),
+				nrows=import_nrows,
+				#header=1,
+				dtype={
+					1:'str', 2:'str', 6:'str', 7:'string', 8:'string',
+					9:'string', 10: 'string',
+					13:'string', 14:'string'},
+				parse_dates=[1],
+				usecols = 'A:O',
+				na_values=['(blank)', '(Blank)','Blank','blank', '-','']
+				)
 
 			# Remap spreadsheet column names into more meaningful internal names
-			dfnew.columns = ['uuid', 'date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
+			dfnew.columns = ['uuid', 'date','number','vessel','registered_port',
+				'master','registered_tonnage','from_port','cargo_transcribed',
+				'weather','notes', 'transcriber_notes', 'transcriber', 'checker',
+				'transcriber_queries']
 
 			# Set the date range to filter by
 			# it should be just for dates in <year>
@@ -97,10 +112,19 @@ if __name__ == '__main__':
 			df.to_sql('arrivals_temp', con, if_exists='replace', index = False)
 			con.close()
 
-		df.columns = ['uuid', 'date','number','vessel','registered_port','master','registered_tonnage','from_port','cargo_transcribed','weather','notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
+		df.columns = [
+			'uuid', 'date','number','vessel','registered_port','master',
+			'registered_tonnage','from_port','cargo_transcribed','weather',
+			'notes', 'transcriber_notes', 'transcriber', 'checker',
+			'transcriber_queries'
+			]
 
 		# Fix missing data issues and clean out whitespace
-		columns = ['number', 'cargo_transcribed', 'master', 'registered_port', 'registered_tonnage', 'from_port', 'vessel', 'weather', 'notes', 'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries']
+		columns = [
+			'number', 'cargo_transcribed', 'master', 'registered_port',
+			'registered_tonnage', 'from_port', 'vessel', 'weather', 'notes',
+			'transcriber_notes', 'transcriber', 'checker', 'transcriber_queries'
+			]
 
 		for column in columns:
 			df[column] = df[column].fillna('').str.strip()
