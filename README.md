@@ -28,6 +28,14 @@ There is also an API for downloading all the data as CSV or JSON. Also for downl
 
 The dashboard is written in Python3 and uses Flask as a webserver.
 
+
+## Using requirements
+Running the following should install the required components:
+
+```
+pip install -r requirements.txt
+```
+
 The prototype version of this was originally run on a Raspberry Pi running Buster and the installation instructions are for that platform.
 
 ## Raspberry Pi
