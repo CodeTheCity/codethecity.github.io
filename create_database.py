@@ -44,7 +44,6 @@ if __name__ == '__main__':
 				#header=1,
 				dtype={
 					1:'str', 2:'str', 6:'str', 7:'string', 8:'string',
-					9:'string', 10: 'string',
 					13:'string', 14:'string'},
 				parse_dates=[1],
 				usecols = 'A:O',
